@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NeuroBubble{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="main-header">
+        <h1>NeuroBubble</h1>
+    </header>
+    <nav class="sidebar">
+        <ul>
+            <li><a href="/home">Inicio</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/perfil_usuario">Perfil</a></li>
+            <li><a href="/chat_ia">Chat</a></li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        <footer>
+            <p>&copy; 2025 NeuroBubble. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,3 +1,251 @@
 *{
     background-color: white
 }
+
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Home page styles */
+.home-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff5733;
+    margin-bottom: 20px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.feature {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 30%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.feature:hover {
+    background-color: #ffefef;
+    border-color: #ff5733;
+}
+
+/* Admin page styles */
+.admin-container {
+    background-color: #f1f1f1;
+}
+
+.admin-header {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Dashboard page styles */
+.dashboard-container {
+    padding: 20px;
+    background-color: #e9ecef;
+}
+
+.dashboard-header {
+    font-size: 26px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Login page styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.login-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Profile page styles */
+.profile-container {
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+.profile-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-details img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.profile-details .info {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Chat page styles */
+.chat-container {
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.chat-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.chat-box div {
+    margin-bottom: 15px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.chat-input button {
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background-color: #218838;
+}
+
+/* Updated styles for header and sidebar */
+.main-header {
+    background-color: red;
+    color: black;
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header h1 {
+    margin: 0;
+}
+
+.main-header .login-icon {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.sidebar {
+    background-color: red;
+    color: black;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+}
