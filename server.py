@@ -1,4 +1,7 @@
-from flask import Flask, render_template
+from flask_app import app
+import os
+from flask_app.controllers import usuarios_controller
+from flask_app.controllers import autentication
 
 app = Flask(__name__)
 
