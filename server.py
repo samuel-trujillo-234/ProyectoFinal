@@ -1,7 +1,7 @@
 from flask_app import app
 import os
 from flask_app.controllers import usuarios_controller
-from flask_app.controllers import autentication
+from flask_app.controllers import autentication_controller
 
 app = Flask(__name__)
 
