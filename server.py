@@ -1,9 +1,6 @@
+from flask import Flask, render_template
 from flask_app import app
-import os
-from flask_app.controllers import usuarios_controller
-from flask_app.controllers import autentication_controller
 
-app = Flask(__name__)
 
 @app.route('/')
 def home():
