@@ -280,43 +280,63 @@ main {
 }
 
 .nav-link:hover {
-    background-color: rgba(255,255,255,0.1) !important;
+    background: rgba(26, 79, 99, 0.3) !important;
+    transform: translateX(5px);
 }
 
-/* Estilos del dropdown de usuario */
+.nav-link svg {
+    fill: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover svg {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%) !important;
+    box-shadow: 0 4px 15px rgba(26, 79, 99, 0.3);
+}
+
+/* Estilos del menú de usuario */
+.dropdown-toggle {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.dropdown-toggle .fa-user-circle {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.dropdown-toggle:hover .fa-user-circle {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)) brightness(1.2);
+}
+
 .dropdown-menu {
-    background: linear-gradient(135deg, #2c3e50 0%, #1a4f63 100%);
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
     border: none;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transform-origin: top;
     animation: dropdownAnimation 0.3s ease-out forwards;
-    display: block;
-    opacity: 0;
-    transform: scaleY(0);
+    padding: 0.5rem;
 }
 
-.dropdown.show .dropdown-menu {
-    opacity: 1;
-    transform: scaleY(1);
-}
-
-@keyframes dropdownAnimation {
-    0% {
-        opacity: 0;
-        transform: scaleY(0);
-    }
-    100% {
-        opacity: 1;
-        transform: scaleY(1);
-    }
-}
-
-/* Animación para los items del dropdown */
 .dropdown-item {
     color: white;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     position: relative;
-    padding-left: 1.5rem;
+    padding: 0.7rem 1rem;
+    margin: 2px 0;
+    border-radius: 8px;
 }
 
 .dropdown-item:before {
@@ -326,9 +346,10 @@ main {
     top: 0;
     height: 100%;
     width: 3px;
-    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.5) 100%);
     transform: scaleY(0);
     transition: transform 0.2s ease;
+    border-radius: 3px;
 }
 
 .dropdown-item:hover:before {
@@ -336,17 +357,36 @@ main {
 }
 
 .dropdown-item:hover {
-    padding-left: 2rem;
     background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    padding-left: 1.5rem;
 }
 
-/* Animación para el ícono de usuario */
-.dropdown-toggle .fa-user-circle {
-    transition: transform 0.3s ease;
+.dropdown-item .fas {
+    color: #ffffff;
+    transition: all 0.3s ease;
+    margin-right: 8px;
 }
 
-.dropdown-toggle:hover .fa-user-circle {
-    transform: scale(1.1);
+.dropdown-item:hover .fas {
+    transform: scale(1.2) rotate(5deg);
+    filter: brightness(1.2);
+}
+
+.dropdown-divider {
+    border-color: rgba(255,255,255,0.1);
+    margin: 0.5rem 0;
+}
+
+@keyframes dropdownAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scaleY(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
 }
 
 /* Estilos para las notificaciones */
@@ -411,6 +451,35 @@ main {
 .tag:hover::before {
     width: 200px;
     height: 200px;
+}
+
+/* Estilos para los botones de etiquetas */
+.btn.bg-dark {
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    z-index: 1;
+}
+
+.btn.bg-dark:hover {
+    background-color: #343a40 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn.bg-dark:active {
+    transform: scale(0.95);
+}
+
+.tag-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative;
+    z-index: 2;
+}
+
+.tag-btn:hover {
+    opacity: 1 !important;
 }
 
 /* Contador de interacciones */
@@ -482,7 +551,7 @@ main {
     flex-wrap: wrap;
     gap: 8px;
     padding: 15px;
-    background: #ffffff;
+    background: rgba(26, 79, 99, 0.05);
     border-radius: 8px;
     margin-top: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -505,6 +574,22 @@ main {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+}
+
+.action-btn i {
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover i {
+    color: white !important;
+    transform: scale(1.2);
+}
+
+.action-btn:hover {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a4f63 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(26, 79, 99, 0.2);
 }
 
 /* Estados activos de los botones */
@@ -534,6 +619,17 @@ main {
 
 .action-btn.voices.active {
     background: #1abc9c;
+}
+
+.action-btn.like.active i,
+.action-btn.dislike.active i,
+.action-btn.favorite.active i,
+.action-btn.report.active i,
+.action-btn.repost.active i,
+.action-btn.bubble.active i,
+.action-btn.voices.active i,
+.action-btn.preferences.active i {
+    color: white !important;
 }
 
 /* Resto de estilos de botones */
@@ -662,4 +758,188 @@ main {
     width: 100%;
     height: 2px;
     background: linear-gradient(135deg, #ffffff 0%, transparent 100%);
+}
+
+/* Estilos para la sección de organización */
+.organization-section {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(26, 79, 99, 0.1);
+    box-shadow: 0 4px 15px rgba(26, 79, 99, 0.1);
+    transition: all 0.3s ease;
+}
+
+.organization-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(26, 79, 99, 0.2);
+}
+
+.organization-group {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(26, 79, 99, 0.1);
+}
+
+.organization-group:hover {
+    background: rgba(26, 79, 99, 0.05);
+    transform: translateX(5px);
+    border-color: #1a4f63;
+}
+
+.organization-group .fas {
+    color: #1a4f63;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.organization-group:hover .fas {
+    transform: scale(1.2) rotate(5deg);
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.playfair-font {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-select {
+    background: #ffffff;
+    border: 1px solid rgba(26, 79, 99, 0.2);
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.form-select:hover {
+    border-color: #1a4f63;
+    box-shadow: 0 0 0 0.25rem rgba(26, 79, 99, 0.1);
+}
+
+.form-select:focus {
+    border-color: #1a4f63;
+    box-shadow: 0 0 0 0.25rem rgba(26, 79, 99, 0.2);
+    outline: none;
+}
+
+.form-select option {
+    background: #ffffff;
+    color: #2c3e50;
+    padding: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.form-select option:hover,
+.form-select option:focus {
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    color: white;
+}
+
+.form-select option:checked {
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    color: white;
+}
+
+.active-filters {
+    min-height: 40px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.active-filters .badge {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.active-filters .badge:hover {
+    transform: translateY(-2px);
+}
+
+.active-filters .btn-close {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+}
+
+.active-filters .btn-close:hover {
+    transform: rotate(90deg);
+}
+
+/* Animaciones para los iconos */
+.organization-section .fas {
+    transition: transform 0.3s ease;
+}
+
+.organization-section .fas:hover {
+    transform: scale(1.2);
+}
+
+.organization-section select {
+    background-color: transparent;
+    border: 1px solid rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+}
+
+/* Estilos globales para fuentes */
+h1, h2, h3, h4, h5, h6,
+.nav-link,
+.brand-title,
+.main-title,
+.news-title,
+.comments-title,
+.dropdown-item,
+.btn,
+.organization-section select,
+.form-select {
+    font-family: 'Playfair Display', serif;
+}
+
+.news-content,
+.news-meta,
+p,
+.comment-text,
+.action-btn {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Estilos para el contenedor de búsqueda */
+.input-group {
+    position: relative;
+    z-index: 3;
+}
+
+.input-group .form-control {
+    position: relative;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.input-group .form-control:hover,
+.input-group .form-control:focus {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: none;
+}
+
+.input-group .btn {
+    position: relative;
+    z-index: 3;
+}
+
+/* Asegurar que los elementos de búsqueda permanezcan visibles */
+.search-container {
+    position: relative;
+    z-index: 1000;
 }
