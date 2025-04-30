@@ -16,3 +16,153 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => handleFavorite(button));
     });
 });
+
+// Funciones para la página de configuración
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener referencias a los elementos de configuración
+    const profileForm = document.querySelector('#profileForm');
+    const themeRadios = document.querySelectorAll('input[name="theme"]');
+    const notificationSwitches = document.querySelectorAll('.form-check-input[type="checkbox"]');
+    const privacySelect = document.querySelector('#visibility');
+    const passwordForm = document.querySelector('#securityForm');
+
+    // Cargar configuraciones guardadas
+    loadSavedSettings();
+
+    // Event listeners para cambios en la configuración
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveProfileChanges();
+        });
+    }
+
+    themeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            applyTheme(this.id === 'darkTheme' ? 'dark' : 'light');
+        });
+    });
+
+    notificationSwitches.forEach(switch_ => {
+        switch_.addEventListener('change', function() {
+            saveNotificationSettings();
+        });
+    });
+
+    if (privacySelect) {
+        privacySelect.addEventListener('change', function() {
+            savePrivacySettings();
+        });
+    }
+
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            changePassword();
+        });
+    }
+});
+
+function loadSavedSettings() {
+    // Cargar tema
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+    document.querySelector(`#${savedTheme}Theme`).checked = true;
+
+    // Cargar notificaciones
+    const notifications = JSON.parse(localStorage.getItem('notifications') || '{}');
+    Object.keys(notifications).forEach(id => {
+        const element = document.querySelector(`#${id}`);
+        if (element) element.checked = notifications[id];
+    });
+
+    // Cargar configuración de privacidad
+    const privacy = localStorage.getItem('privacy');
+    if (privacy && privacySelect) {
+        privacySelect.value = privacy;
+    }
+}
+
+function applyTheme(theme) {
+    const body = document.body;
+    if (theme === 'dark') {
+        body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+function saveProfileChanges() {
+    const username = document.querySelector('#username').value;
+    const email = document.querySelector('#email').value;
+
+    fetch('/update_profile', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            toastr.success('Perfil actualizado correctamente');
+        } else {
+            toastr.error('Error al actualizar el perfil');
+        }
+    })
+    .catch(error => {
+        toastr.error('Error de conexión');
+    });
+}
+
+function saveNotificationSettings() {
+    const notifications = {};
+    document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox => {
+        notifications[checkbox.id] = checkbox.checked;
+    });
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+    toastr.success('Configuración de notificaciones guardada');
+}
+
+function savePrivacySettings() {
+    const privacy = document.querySelector('#visibility').value;
+    localStorage.setItem('privacy', privacy);
+    toastr.success('Configuración de privacidad guardada');
+}
+
+function changePassword() {
+    const currentPassword = document.querySelector('#currentPassword').value;
+    const newPassword = document.querySelector('#newPassword').value;
+    const confirmPassword = document.querySelector('#confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        toastr.error('Las contraseñas no coinciden');
+        return;
+    }
+
+    fetch('/change_password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            currentPassword,
+            newPassword
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            toastr.success('Contraseña actualizada correctamente');
+            document.querySelector('#passwordForm').reset();
+        } else {
+            toastr.error(data.message || 'Error al actualizar la contraseña');
+        }
+    })
+    .catch(error => {
+        toastr.error('Error de conexión');
+    });
+}
