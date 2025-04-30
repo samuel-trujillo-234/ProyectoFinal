@@ -97,8 +97,9 @@ class Usuario:
         password_regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$')
         if len(usuario['nombre']) <= 2 or len(usuario['apellido']) <= 2:
             flash("Nombre y apellido deben tener mas de dos caracteres.", "error")
+            print("Nombre y apellido deben tener mas de dos caracteres.", "error")
             valido = False
-        if usuario['password'] != usuario['confirmacao_password']:
+        if usuario['password'] != usuario['confirmacion_password']:
             flash("Las contraseñas informadas no coinciden.", "error")
             valido = False
         if not email_regex.match(usuario['email']):

@@ -2,7 +2,7 @@
 ## Final project
 ## Wavely
 
- 
+
 from flask_app import app
 from flask import render_template, request, redirect, session, flash
 from flask_app.models.usuario_model import Usuario
@@ -12,9 +12,6 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 today = date.today()
 
-@app.route("/")
-def registro():
-    return render_template("/usuarios/registro.html")
 
 
 @app.route('/registrar_usuario', methods=['POST'])
@@ -25,7 +22,7 @@ def registrar_usuario():
         'email': request.form['email'],
         'password': request.form['password'],
         'confirmacion_password': request.form['confirmacion_password'],
-        'categoria': "general"
+        'categoria': "user"
         }
     if Usuario.validar_usuario(data) == True:
         data.pop('confirmacion_password', None)
@@ -36,5 +33,7 @@ def registrar_usuario():
     return redirect("/")
 
 
-
+@app.route('/logar_usuario')
+def logar_usuario():
+    return render_template("/home.html", usuario=session['nombre'])
 
