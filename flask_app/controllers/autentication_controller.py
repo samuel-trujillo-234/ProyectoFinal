@@ -25,8 +25,7 @@ def login_usuario():
     session['nombre'] = usuario.nombre
     session['apellido'] = usuario.apellido
     session['categoria'] = usuario.categoria
-    return redirect("/visitas")
-
+    return redirect("/logar_usuario")
 
 @app.route('/close_session')
 def close_session():
