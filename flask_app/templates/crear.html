@@ -243,7 +243,7 @@
     </symbol>
     <symbol id="gear" viewBox="0 0 16 16">
       <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-      <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 1.79 1.79 2.318 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.872l-.1-.34z"/>
+      <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 1.79 1.79 2.318 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.311a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.872l-.1-.34z"/>
     </symbol>
     <symbol id="star" viewBox="0 0 16 16">
       <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
@@ -311,7 +311,7 @@
       <hr>
       <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
-          data-bs-toggle="dropdown" aria-expanded="false">
+            data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-user-circle fa-2x me-2"></i>
           <strong>Usuario</strong>
         </a>
@@ -323,207 +323,72 @@
       </div>
     </div>
 
-    <div class="b-example-divider"></div>
-    
-    <!-- Contenido principal -->
-    <div class="container-fluid p-3">
-        <h1 class="mb-4 text-center main-title">Últimas Noticias</h1>
-        
-        <div class="news-container" style="height: calc(100vh - 100px); overflow-y: auto;">
-            <!-- Noticia Individual -->
-            <div class="card mb-4">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded" alt="Noticia periodismo">
-                        <div class="action-buttons">
-                            <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                <i class="fas fa-heart"></i>
-                                Like
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                <i class="fas fa-star"></i>
-                                Favoritos
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                <i class="fas fa-heart-broken"></i>
-                                Dislike
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn report">
-                                <i class="fas fa-flag"></i>
-                                Report
-                            </button>
-                            <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                <i class="fas fa-retweet"></i>
-                                Repost
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn bubble">
-                                <i class="fas fa-comment-dots"></i>
-                                Rompe burbujas
-                            </button>
-                            <button class="action-btn voices">
-                                <i class="fas fa-microphone-alt"></i>
-                                Múltiples voces
-                            </button>
-                            <button class="action-btn preferences">
-                                <i class="fas fa-sliders-h"></i>
-                                Preferencias
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h2 class="card-title news-title">Título de la Noticia</h2>
-                            <div class="tags-container mb-3">
-                                <span class="tag">Política</span>
-                                <span class="tag">Internacional</span>
-                                <span class="tag">Economía</span>
-                            </div>
-                            <div class="reading-time mb-3">
-                                <i class="fas fa-user"></i>
-                                <span>Por Juan Pérez</span>
-                            </div>
-                            <p class="card-text news-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p class="card-text"><small class="text-muted news-meta">Última actualización hace 3 minutos</small></p>
-                            
-                            <!-- Sección de Comentarios -->
-                            <div class="mt-4 comments-container">
-                                <h5 class="comments-title">Comentarios</h5>
-                                <div class="mb-3">
-                                    <textarea class="form-control" rows="3" placeholder="Escribe un comentario..."></textarea>
-                                    <button class="btn btn-primary mt-2">Enviar Comentario</button>
-                                </div>
-                                <!-- Lista de Comentarios -->
-                                <div class="comments-section">
-                                    <div class="comment border-bottom py-2">
-                                        <p class="mb-1"><strong>Usuario1</strong></p>
-                                        <p class="mb-1">Excelente noticia, muy informativa.</p>
-                                        <small class="text-muted">Hace 1 hora</small>
-                                    </div>
-                                    <div class="comment border-bottom py-2">
-                                        <p class="mb-1"><strong>Usuario2</strong></p>
-                                        <p class="mb-1">Interesante perspectiva sobre el tema.</p>
-                                        <small class="text-muted">Hace 2 horas</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Contenido Principal -->
+    <div class="container-fluid p-4">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h2 class="mb-4 main-title">Crear Nueva Noticia</h2>
+          
+          <!-- Formulario para crear noticia -->
+          <div class="card shadow">
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="titulo" class="form-label">Título</label>
+                  <input type="text" class="form-control" id="titulo" name="titulo" required>
                 </div>
-            </div>
+                
+                <div class="mb-3">
+                  <label for="subtitulo" class="form-label">Subtítulo</label>
+                  <input type="text" class="form-control" id="subtitulo" name="subtitulo">
+                </div>
 
-            <!-- Segunda Noticia -->
-            <div class="card mb-4">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded" alt="Noticia tecnología">
-                        <div class="action-buttons">
-                            <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                <i class="fas fa-heart"></i>
-                                Like
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                <i class="fas fa-star"></i>
-                                Favoritos
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                <i class="fas fa-heart-broken"></i>
-                                Dislike
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn report">
-                                <i class="fas fa-flag"></i>
-                                Report
-                            </button>
-                            <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                <i class="fas fa-retweet"></i>
-                                Repost
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn bubble">
-                                <i class="fas fa-comment-dots"></i>
-                                Rompe burbujas
-                            </button>
-                            <button class="action-btn voices">
-                                <i class="fas fa-microphone-alt"></i>
-                                Múltiples voces
-                            </button>
-                            <button class="action-btn preferences">
-                                <i class="fas fa-sliders-h"></i>
-                                Preferencias
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h2 class="card-title news-title">Otra Noticia Importante</h2>
-                            <div class="tags-container mb-3">
-                                <span class="tag">Tecnología</span>
-                                <span class="tag">Innovación</span>
-                            </div>
-                            <div class="reading-time mb-3">
-                                <i class="fas fa-user"></i>
-                                <span>Por María González</span>
-                            </div>
-                            <p class="card-text news-content">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-                            <p class="card-text"><small class="text-muted news-meta">Última actualización hace 1 hora</small></p>
-                            
-                            <!-- Sección de Comentarios -->
-                            <div class="mt-4 comments-container">
-                                <h5 class="comments-title">Comentarios</h5>
-                                <div class="mb-3">
-                                    <textarea class="form-control" rows="3" placeholder="Escribe un comentario..."></textarea>
-                                    <button class="btn btn-primary mt-2">Enviar Comentario</button>
-                                </div>
-                                <!-- Lista de Comentarios -->
-                                <div class="comments-section">
-                                    <div class="comment border-bottom py-2">
-                                        <p class="mb-1"><strong>Usuario3</strong></p>
-                                        <p class="mb-1">Me gustaría ver más contenido como este.</p>
-                                        <small class="text-muted">Hace 30 minutos</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                  <label for="contenido" class="form-label">Contenido</label>
+                  <textarea class="form-control" id="contenido" name="contenido" rows="6" required></textarea>
                 </div>
+
+                <div class="mb-3">
+                  <label for="imagen" class="form-label">Imagen</label>
+                  <input type="file" class="form-control" id="imagen" name="imagen">
+                </div>
+
+                <div class="mb-3">
+                  <label for="categoria" class="form-label">Categoría</label>
+                  <select class="form-select" id="categoria" name="categoria" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="deportes">Deportes</option>
+                    <option value="politica">Política</option>
+                    <option value="entretenimiento">Entretenimiento</option>
+                    <option value="ciencia">Ciencia</option>
+                    <option value="cultura">Cultura</option>
+                    <option value="economia">Economía</option>
+                    <option value="salud">Salud</option>
+                    <option value="internacional">Internacional</option>
+                    <option value="nacional">Nacional</option>
+                    <option value="musica">Música</option>
+                    <option value="arte">Arte</option>
+                    <option value="cine">Cine</option>
+                    <option value="literatura">Literatura</option>
+                    <option value="educacion">Educación</option>
+                    <option value="medio_ambiente">Medio Ambiente</option>
+                    <option value="gastronomia">Gastronomía</option>
+                    <option value="viajes">Viajes</option>
+                    <option value="innovacion">Innovación</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Publicar Noticia</button>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
   </main>
 
-  <!-- Scripts -->
-  <script>
-    function updateCounter(button, action) {
-      const counter = button.querySelector('.counter');
-      let count = parseInt(counter.textContent);
-      counter.textContent = count + 1;
-      button.classList.add('active');
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      // Manejar clics en los enlaces del sidebar
-      const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-          navLinks.forEach(l => {
-            l.classList.remove('active');
-            l.classList.add('text-white');
-          });
-          this.classList.add('active');
-          this.classList.remove('text-white');
-        });
-      });
-    });
-  </script>
-
-  <!-- Bootstrap Bundle with Popper -->
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
