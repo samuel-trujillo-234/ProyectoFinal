@@ -74,7 +74,21 @@ class Usuario:
             "categoria": usuario.categoria,
             }
         return connectToMySQL().query_db(query, data)
-    
+
+
+    @classmethod
+    def update_categoria(cls, user_id, categoria):
+        """
+        Actualiza solo la categoría de un usuario.
+        Retorna True si la actualización fue exitosa, False en caso contrario.
+        """
+        query = "UPDATE usuarios SET categoria = %(categoria)s, updated_at = NOW() WHERE id = %(id)s"
+        data = {
+            "id": user_id,
+            "categoria": categoria
+        }
+        return connectToMySQL().query_db(query, data)
+
 
     @classmethod
     def check_email(cls, email):

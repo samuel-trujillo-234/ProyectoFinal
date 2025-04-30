@@ -1,0 +1,22 @@
+<!-- Toastr JS and CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
+<script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+
+<!-- Flash messages with Toastr -->
+<script>
+    $(document).ready(function () {
+        {% with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "5000"
+        };
+        toastr["{{ category }}"]("{{ message }}");
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    });
+</script>
