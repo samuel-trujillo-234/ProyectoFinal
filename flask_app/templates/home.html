@@ -149,6 +149,19 @@
       font-family: 'Playfair Display', serif;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
+
+    /* Estilos para el botón de favoritos */
+    .action-btn.favorite.active {
+      color: #ffd700; /* Color amarillo */
+    }
+    
+    .action-btn.favorite.active i {
+      color: #ffd700 !important;
+    }
+    
+    .action-btn.favorite:hover i {
+      color: #ffd700 !important;
+    }
   </style>
 </head>
 
@@ -261,7 +274,7 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <a href="#" class="nav-link active" aria-current="page">
+          <a href="/" class="nav-link active" aria-current="page">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#home" />
             </svg>
@@ -269,7 +282,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/noticias" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#collection" />
             </svg>
@@ -277,7 +290,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/favoritos" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#star" />
             </svg>
@@ -285,15 +298,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#newspaper" />
-            </svg>
-            Boletín
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/crear" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#plus-circle" />
             </svg>
@@ -301,7 +306,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/settings" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#gear" />
             </svg>
@@ -511,6 +516,12 @@
       let count = parseInt(counter.textContent);
       counter.textContent = count + 1;
       button.classList.add('active');
+      
+      // Cambiar el color del ícono si es el botón de favoritos
+      if (action === 'favorite') {
+        const icon = button.querySelector('i');
+        icon.style.color = '#ffd700';
+      }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -532,26 +543,20 @@
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Toaster to display alerts -->
+  <!-- jQuery y Toastr -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+  
+  <!-- Script principal -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
   <script>
-    $(document).ready(function () {
-        {% with messages = get_flashed_messages(with_categories = true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "timeOut": "5000"
-        };
-        toastr["{{ category }}"]("{{ message }}");
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+    document.addEventListener('DOMContentLoaded', function() {
+      // Aplicar tema guardado al cargar la página
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
     });
-</script>
+  </script>
 
   <!-- Registro Modal -->
   {% include 'registro_modal.html' %}

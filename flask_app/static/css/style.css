@@ -133,10 +133,12 @@ main {
     overflow: hidden;
     background: #ffffff;
     margin-bottom: 30px;
+    transition: transform 0.2s ease;
 }
 
 .card:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 
 .card img {
@@ -942,4 +944,64 @@ p,
 .search-container {
     position: relative;
     z-index: 1000;
+}
+
+/* Estilos para el tema oscuro */
+.dark-theme {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+.dark-theme .bg-light {
+    background-color: #2a2a2a !important;
+}
+
+.dark-theme .card {
+    background-color: #333333;
+    border-color: #444444;
+}
+
+.dark-theme .card-body {
+    color: #ffffff;
+}
+
+.dark-theme .form-control {
+    background-color: #444444;
+    border-color: #555555;
+    color: #ffffff;
+}
+
+.dark-theme .text-dark {
+    color: #ffffff !important;
+}
+
+/* Estilos para los switches de configuración */
+.form-check-input {
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: #1a4f63;
+    border-color: #1a4f63;
+}
+
+/* Animaciones para los cambios de configuración */
+.btn-dark {
+    background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(26, 79, 99, 0.3);
+}
+
+/* Estilos para los íconos en la configuración */
+.card-header i {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-header i {
+    transform: scale(1.2);
 }

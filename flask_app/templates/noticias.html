@@ -270,73 +270,71 @@
     <h1 class="visually-hidden">Sidebars examples</h1>
 
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center justify-content-center mb-4 text-white text-decoration-none">
+      <a href="/" class="d-flex align-items-center justify-content-center mb-4 text-white text-decoration-none">
         <span class="brand-title">Wavely</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
+      </a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
+          <a href="/" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#home" />
+              <use xlink:href="#home" />
             </svg>
             Home
-        </a>
+          </a>
         </li>
         <li>
-        <a href="#" class="nav-link text-white">
+          <a href="/noticias" class="nav-link active" aria-current="page">
             <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#collection" />
+              <use xlink:href="#collection" />
             </svg>
             Noticias
-        </a>
+          </a>
         </li>
         <li>
-        <a href="#" class="nav-link text-white">
+          <a href="/favoritos" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#star" />
+              <use xlink:href="#star" />
             </svg>
             Favoritos
-        </a>
+          </a>
         </li>
         <li>
-        <a href="#" class="nav-link text-white">
+          <a href="/crear" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#newspaper" />
-            </svg>
-            Boletín
-        </a>
-        </li>
-        <li>
-        <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#plus-circle" />
+              <use xlink:href="#plus-circle" />
             </svg>
             Crear
-        </a>
+          </a>
         </li>
         <li>
-        <a href="#" class="nav-link text-white">
+          <a href="/settings" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#gear" />
+              <use xlink:href="#gear" />
             </svg>
             Settings
-        </a>
+          </a>
         </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
+      </ul>
+      <hr>
+      <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-user-circle fa-2x me-2"></i>
-        <strong>Usuario</strong>
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-circle fa-2x me-2"></i>
+          <strong>{{usuario | default('Usuario') }}</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+          {% if usuario is not defined %}
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal"><i class="fas fa-user me-2"></i>Registro</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user me-2"></i>Login</a></li>
+          <li><hr class="dropdown-divider"></li>
+          {% endif %}
+          {% if usuario is defined %}
+          <li><a class="dropdown-item" href="/close_session"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+          {% endif %}
         </ul>
-    </div>
+      </div>
     </div>
 
     <div class="container-fluid p-4">
@@ -472,6 +470,68 @@
         </div>
     </div>
 </main>
+
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label for="email_login" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email_login" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_login" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password_login" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registroModalLabel">Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/registro" method="POST">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script>
