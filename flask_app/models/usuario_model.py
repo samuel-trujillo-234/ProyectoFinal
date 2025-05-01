@@ -27,6 +27,7 @@ class Usuario:
         self.tamano_fuente = data.get('tamano_fuente', 'normal')
         self.cuenta_activa = data.get('cuenta_activa', 1)
 
+
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM usuarios;"
@@ -36,12 +37,14 @@ class Usuario:
             usuarios.append(cls(usuario))
         return usuarios
 
+
     @classmethod
     def get_one(cls, id):
         query = "SELECT * FROM usuarios WHERE id = %(id)s;"
         data = { "id": id }
         usuario = connectToMySQL().query_db(query, data)
         return cls(usuario[0])
+
 
     @classmethod
     def get_by_email(cls, email):
@@ -52,6 +55,7 @@ class Usuario:
             return None
         usuario_recuperado = cls(resultados[0])
         return usuario_recuperado
+
 
     @classmethod
     def save(cls, data):
@@ -69,6 +73,7 @@ class Usuario:
         """
         return connectToMySQL().query_db(query, data)
 
+
     @classmethod
     def update(cls, data):
         query = """
@@ -82,6 +87,7 @@ class Usuario:
             WHERE id = %(id)s
         """
         return connectToMySQL().query_db(query, data)
+
 
     @classmethod
     def update_config(cls, data):
@@ -99,18 +105,19 @@ class Usuario:
         """
         return connectToMySQL().query_db(query, data)
 
+
     @classmethod
     def delete(cls, id):
         query = "DELETE FROM usuarios WHERE id = %(id)s;"
         data = { "id": id }
         return connectToMySQL().query_db(query, data)
 
+
     @classmethod
     def desactivar(cls, id):
         query = "UPDATE usuarios SET cuenta_activa = 0 WHERE id = %(id)s;"
         data = { "id": id }
         return connectToMySQL().query_db(query, data)
-
 
 
     @classmethod
@@ -127,7 +134,6 @@ class Usuario:
         return connectToMySQL().query_db(query, data)
 
 
-
     @classmethod
     def check_email(cls, email):
         query = "SELECT COUNT(*) as count FROM usuarios WHERE email = %(email)s;"
@@ -135,16 +141,15 @@ class Usuario:
         result = connectToMySQL().query_db(query, data)
         return result[0]['count'] > 0
 
+
     @staticmethod
     def validar_usuario(usuario):
         valido = True
         email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+.[a-zA-Z]+$')
         password_regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$')
-        
         if len(usuario['nombre']) <= 2 or len(usuario['apellido']) <= 2:
             flash("Nombre y apellido deben tener más de dos caracteres.", "error")
             valido = False
-        
         if 'password' in usuario and usuario.get('confirmacion_password'):
             if usuario['password'] != usuario['confirmacion_password']:
                 flash("Las contraseñas no coinciden.", "error")
@@ -152,9 +157,7 @@ class Usuario:
             if not password_regex.match(usuario['password']):
                 flash("La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.", "error")
                 valido = False
-        
         if not email_regex.match(usuario['email']):
             flash("Dirección de correo electrónico inválida.", "error")
             valido = False
-            
         return valido
