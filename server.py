@@ -3,6 +3,7 @@ from flask_app import app
 
 from flask_app.controllers import usuarios_controller
 from flask_app.controllers import autentication_controller
+from flask_app.controllers import administrador_controller
 
 @app.route('/')
 def home():
