@@ -303,7 +303,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Include Toastr Messages Component -->
             {% include 'components/_toastr_messages.html' %}
 
@@ -337,26 +337,28 @@
             <div class="row">
                 <div class="col-12">
                     <div class="news-container" style="height: 600px; overflow-y: auto;">
+
                         <!-- Noticia Individual -->
+
+                        {% for noticia in noticias %}
                         <div class="card mb-3 shadow-sm">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=600"
-                                        class="img-fluid rounded-start" alt="Tecnología"
+                                    <img src="{{ noticia.foto_video }}" class="img-fluid rounded-start" alt=""
                                         style="object-fit: cover; height: 100%; width: 100%;">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title news-title">Avances en Inteligencia Artificial</h5>
-                                        <p class="card-text news-content">Los últimos desarrollos en IA están
-                                            transformando la manera en que interactuamos con la tecnología. Nuevos
-                                            modelos de lenguaje muestran capacidades sin precedentes.</p>
-                                        <p class="card-text news-meta"><small class="text-muted">Publicado hace 3
-                                                minutos • Por Juan Pérez</small></p>
+                                        <h5 class="card-title news-title">{{noticia.titulo}}</h5>
+                                        <p class="card-text news-content">{{noticia.noticia}}</p>
+                                        <p class="card-text news-meta"><small class="text-muted">Publicado en {{noticia.created_at}} • Por {{noticia.nombre_usuario}}</small></p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-sm btn-outline-dark">Leer
                                                     más</button>
+                                                {% if noticia.usuario_id == id %}
+                                                <button type="button" class="btn btn-sm btn-outline-dark">Editar notícia</button>
+                                                {% endif %}
                                                 <button type="button" class="btn btn-sm btn-outline-dark"><i
                                                         class="fas fa-heart"></i></button>
                                             </div>
@@ -367,137 +369,12 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Segunda Noticia -->
-                        <div class="card mb-3 shadow-sm">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=600"
-                                        class="img-fluid rounded-start" alt="Ciencia"
-                                        style="object-fit: cover; height: 100%; width: 100%;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title news-title">Descubrimientos en Física Cuántica</h5>
-                                        <p class="card-text news-content">Científicos logran un avance significativo en
-                                            computación cuántica, abriendo nuevas posibilidades para el procesamiento de
-                                            información del futuro.</p>
-                                        <p class="card-text news-meta"><small class="text-muted">Publicado hace 1 hora •
-                                                Por María González</small></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-dark">Leer
-                                                    más</button>
-                                                <button type="button" class="btn btn-sm btn-outline-dark"><i
-                                                        class="fas fa-heart"></i></button>
-                                            </div>
-                                            <small class="text-muted"><i class="fas fa-comments me-1"></i>15
-                                                comentarios</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tercera Noticia -->
-                        <div class="card mb-3 shadow-sm">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=600"
-                                        class="img-fluid rounded-start" alt="Medio Ambiente"
-                                        style="object-fit: cover; height: 100%; width: 100%;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title news-title">Iniciativas para Combatir el Cambio Climático
-                                        </h5>
-                                        <p class="card-text news-content">Nuevas políticas ambientales y tecnologías
-                                            verdes prometen reducir significativamente las emisiones de carbono en los
-                                            próximos años.</p>
-                                        <p class="card-text news-meta"><small class="text-muted">Publicado hace 2 horas
-                                                • Por Carlos Ruiz</small></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-dark">Leer
-                                                    más</button>
-                                                <button type="button" class="btn btn-sm btn-outline-dark"><i
-                                                        class="fas fa-heart"></i></button>
-                                            </div>
-                                            <small class="text-muted"><i class="fas fa-comments me-1"></i>32
-                                                comentarios</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </main>
-
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/login" method="POST">
-                        <div class="mb-3">
-                            <label for="email_login" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email_login" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password_login" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password_login" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Registro -->
-    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registroModalLabel">Registro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/registro" method="POST">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <script>
