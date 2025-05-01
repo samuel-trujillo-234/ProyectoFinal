@@ -11,9 +11,29 @@ from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
 from datetime import date
 from flask_app.utils.decoradores import login_required
+import os
+import uuid
+from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 
+# Cargar variables de entorno
+load_dotenv()
 
 today = date.today()
+
+# Configurar carpeta de subidas desde variables de entorno
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                            os.getenv('UPLOAD_FOLDER'))
+
+# Convertir cadena separada por comas a conjunto
+ALLOWED_EXTENSIONS = set(os.getenv('ALLOWED_EXTENSIONS').split(','))
+
+# Crear directorio de subidas si no existe
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/noticias')
 @login_required
@@ -30,10 +50,6 @@ def mostrar_noticias():
 @login_required
 def adicionar_noticia():
     usuarios=Usuario.get_all()
-    print()
-    print("########################################")
-    print()
-    print("########################################")
     return render_template("/adicionar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia="")
 
 
@@ -42,10 +58,23 @@ def adicionar_noticia():
 def criar_noticia():
     hechos = ""
     sesgo = ""
+    file_path = ""
+    if 'archivo_multimedia' in request.files:
+        file = request.files['archivo_multimedia']
+        if file and file.filename != '' and allowed_file(file.filename):
+            # Generar un nombre de archivo único para evitar sobrescribir
+            filename = secure_filename(file.filename)
+            unique_filename = f"{uuid.uuid4()}_{filename}"
+            file_save_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+            # Guardar el archivo
+            file.save(file_save_path)
+            # Establecer la ruta del archivo para almacenarla en la base de datos (ruta relativa para URL)
+            file_path = f"/static/uploads/{unique_filename}"
+    
     data = {
         'titulo': request.form['titulo'],
         'noticia': request.form['noticia'],
-        'foto_video': request.form['foto_video'],
+        'foto_video': request.form['foto_video'] if not file_path else file_path,
         'tags': request.form['tags'],
         'revisada': request.form.get('revisada', 0),
         'keywords': request.form['keywords'],
@@ -77,11 +106,26 @@ def editar_noticia(id):
 @app.route("/update_noticia", methods=['POST'])
 @login_required
 def atualizar_noticia():
+    file_path = ""
+    
+    # Manejar la subida de archivo si existe
+    if 'archivo_multimedia' in request.files:
+        file = request.files['archivo_multimedia']
+        if file and file.filename != '' and allowed_file(file.filename):
+            # Generar un nombre de archivo único para evitar sobrescribir
+            filename = secure_filename(file.filename)
+            unique_filename = f"{uuid.uuid4()}_{filename}"
+            file_save_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+            # Guardar el archivo
+            file.save(file_save_path)
+            # Establecer la ruta del archivo para almacenarla en la base de datos (ruta relativa para URL)
+            file_path = f"/static/uploads/{unique_filename}"
+    
     data = {
         'id': request.form['id'],
         'titulo': request.form['titulo'],
         'noticia': request.form['noticia'],
-        'foto_video': request.form['foto_video'],
+        'foto_video': request.form['foto_video'] if not file_path else file_path,
         'tags': request.form['tags'],
         'revisada': request.form.get('revisada', 0),
         'keywords': request.form['keywords'],

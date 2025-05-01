@@ -33,7 +33,7 @@ class Noticia:
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
                noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
-               noticias.usuario_id AS usuario_id, usuarios.nome AS nombre_usuario
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario
         FROM noticias
         LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id;
         """
@@ -49,7 +49,7 @@ class Noticia:
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
                noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
-               noticias.usuario_id AS usuario_id, usuarios.nome AS nombre_usuario
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario
         FROM noticias
         LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
         WHERE noticias.id = %(id)s;
