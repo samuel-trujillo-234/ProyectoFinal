@@ -41,6 +41,8 @@ def registrar_usuario():
 
 @app.route('/logar_usuario')
 def logar_usuario():
+    if 'nombre' not in session or 'categoria' not in session:
+        return redirect('/')
     return render_template("/home.html", usuario=session['nombre'], role=session['categoria'])
 
 
