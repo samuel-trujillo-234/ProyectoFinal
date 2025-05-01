@@ -301,7 +301,8 @@
   <main>
     <h1 class="visually-hidden">Sidebars examples</h1>
 
-    {% include '_menu_lateral.html' %}
+    <!-- Include Menu Lateral -->
+    {% include 'components/_menu_lateral.html' %}
 
     <div class="b-example-divider"></div>
 
@@ -454,10 +455,12 @@
 
   <!-- jQuery y Toastr -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
   
   <!-- Script principal -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  <!-- Include Toastr Messages Component -->
+  {% include 'components/_toastr_messages.html' %}
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -477,12 +480,6 @@
       });
     });
   </script>
-
-  <!-- Registro Modal -->
-  {% include 'registro_modal.html' %}
-  
-  <!-- Login Modal -->
-  {% include 'login_modal.html' %}
 
 </body>
 </html>
