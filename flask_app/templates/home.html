@@ -274,8 +274,9 @@
 
   <main>
     <h1 class="visually-hidden">Sidebars examples</h1>
-
-    {% include '_menu_lateral.html' %}
+    
+    <!-- Include Menu Lateral -->
+    {% include 'components/_menu_lateral.html' %}
 
     <div class="b-example-divider"></div>
 
@@ -499,23 +500,10 @@
   <!-- Script principal -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-  <script>
-    $(document).ready(function () {
-      {% with messages = get_flashed_messages(with_categories = true) %}
-      {% if messages %}
-      {% for category, message in messages %}
-      toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "5000"
-      };
-      toastr["{{ category }}"]("{{ message }}");
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
-    });
+  <!-- Include Toastr Messages Component -->
+  {% include 'components/_toastr_messages.html' %}
 
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Aplicar tema guardado al cargar la página
       const savedTheme = localStorage.getItem('theme') || 'light';
@@ -524,10 +512,10 @@
   </script>
 
   <!-- Registro Modal -->
-  {% include 'registro_modal.html' %}
+  {% include 'modals/registro_modal.html' %}
 
   <!-- Login Modal -->
-  {% include 'login_modal.html' %}
+  {% include 'modals/login_modal.html' %}
 
 
 </body>

@@ -278,7 +278,8 @@
     <main>
         <h1 class="visually-hidden">Sidebars examples</h1>
 
-        {% include '_menu_lateral.html' %}
+        <!-- Include Menu Lateral -->
+        {% include 'components/_menu_lateral.html' %}
 
         <div class="b-example-divider"></div>
 
@@ -302,6 +303,9 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Include Toastr Messages Component -->
+            {% include 'components/_toastr_messages.html' %}
 
             <!-- Hashtags -->
             <div class="row justify-content-center mb-4">
