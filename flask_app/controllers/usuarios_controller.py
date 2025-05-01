@@ -6,6 +6,7 @@
 from flask_app import app
 from flask import render_template, request, redirect, session, flash
 from flask_app.models.usuario_model import Usuario
+from flask_app.utils.decoradores import login_required
 from datetime import date
 from flask_bcrypt import Bcrypt
 import os
@@ -13,6 +14,10 @@ import os
 bcrypt = Bcrypt(app)
 today = date.today()
 
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 
 @app.route('/registrar_usuario', methods=['POST'])

@@ -301,209 +301,146 @@
   <main>
     <h1 class="visually-hidden">Sidebars examples</h1>
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
-      <a href="/" class="d-flex align-items-center justify-content-center mb-4 text-white text-decoration-none">
-        <span class="brand-title">Wavely</span>
-      </a>
-      <hr>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="/logar_usuario" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#home" />
-            </svg>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="/noticias" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#collection" />
-            </svg>
-            Noticias
-          </a>
-        </li>
-        <li>
-          <a href="/favoritos" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#star" />
-            </svg>
-            Favoritos
-          </a>
-        </li>
-        <li>
-          <a href="/crear" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#plus-circle" />
-            </svg>
-            Crear
-          </a>
-        </li>
-        <li>
-          <a href="/settings" class="nav-link active" aria-current="page">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#gear" />
-            </svg>
-            Settings
-          </a>
-        </li>
-      </ul>
-      <hr>
-      <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-user-circle fa-2x me-2"></i>
-          <strong>{{usuario | default('Usuario') }}</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-          {% if usuario is not defined %}
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal"><i class="fas fa-user me-2"></i>Registro</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user me-2"></i>Login</a></li>
-          <li><hr class="dropdown-divider"></li>
-          {% endif %}
-          {% if usuario is defined %}
-          <li><a class="dropdown-item" href="/close_session"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
+    {% include '_menu_lateral.html' %}
 
-    <!-- Contenido principal de configuración -->
-    <div class="content-wrapper">
-      <div class="container py-4">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <h2 class="text-dark mb-4 text-center" style="font-size: 2.5rem; font-family: 'Playfair Display', serif; font-weight: 700;">Configuración</h2>
-            
-            <!-- Perfil -->
-            <div class="card mb-4 shadow">
-              <div class="card-header bg-dark text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Perfil</h5>
+    <div class="b-example-divider"></div>
+
+    <div class="container-fluid p-4">
+      <div class="content-wrapper">
+        <div class="container py-4">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <h2 class="text-dark mb-4 text-center" style="font-size: 2.5rem; font-family: 'Playfair Display', serif; font-weight: 700;">Configuración</h2>
+              
+              <!-- Perfil -->
+              <div class="card mb-4 shadow">
+                <div class="card-header bg-dark text-white py-3">
+                  <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Perfil</h5>
+                </div>
+                <div class="card-body p-4">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="username" class="form-label">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="username" value="{{usuario}}">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Guardar cambios</button>
+                  </form>
+                </div>
               </div>
-              <div class="card-body p-4">
-                <form>
+
+              <!-- Notificaciones -->
+              <div class="card mb-4 shadow">
+                <div class="card-header bg-dark text-white py-3">
+                  <h5 class="mb-0"><i class="fas fa-bell me-2"></i>Notificaciones</h5>
+                </div>
+                <div class="card-body p-4">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="emailNotif">
+                        <label class="form-check-label" for="emailNotif">Notificaciones por correo</label>
+                      </div>
+                      <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="newsNotif">
+                        <label class="form-check-label" for="newsNotif">Noticias destacadas</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="commentsNotif">
+                        <label class="form-check-label" for="commentsNotif">Respuestas a comentarios</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Privacidad -->
+              <div class="card mb-4 shadow">
+                <div class="card-header bg-dark text-white py-3">
+                  <h5 class="mb-0"><i class="fas fa-lock me-2"></i>Privacidad</h5>
+                </div>
+                <div class="card-body p-4">
                   <div class="row">
                     <div class="col-md-6 mb-3">
-                      <label for="username" class="form-label">Nombre de usuario</label>
-                      <input type="text" class="form-control" id="username" value="{{usuario}}">
+                      <label for="visibility" class="form-label">Visibilidad del perfil</label>
+                      <select class="form-select" id="visibility">
+                        <option value="public">Público</option>
+                        <option value="friends">Solo amigos</option>
+                        <option value="private">Privado</option>
+                      </select>
                     </div>
                     <div class="col-md-6 mb-3">
-                      <label for="email" class="form-label">Correo electrónico</label>
-                      <input type="email" class="form-control" id="email">
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-dark">Guardar cambios</button>
-                </form>
-              </div>
-            </div>
-
-            <!-- Notificaciones -->
-            <div class="card mb-4 shadow">
-              <div class="card-header bg-dark text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-bell me-2"></i>Notificaciones</h5>
-              </div>
-              <div class="card-body p-4">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-check form-switch mb-3">
-                      <input class="form-check-input" type="checkbox" id="emailNotif">
-                      <label class="form-check-label" for="emailNotif">Notificaciones por correo</label>
-                    </div>
-                    <div class="form-check form-switch mb-3">
-                      <input class="form-check-input" type="checkbox" id="newsNotif">
-                      <label class="form-check-label" for="newsNotif">Noticias destacadas</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="commentsNotif">
-                      <label class="form-check-label" for="commentsNotif">Respuestas a comentarios</label>
+                      <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" id="showEmail">
+                        <label class="form-check-label" for="showEmail">
+                          Mostrar correo electrónico en el perfil
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Privacidad -->
-            <div class="card mb-4 shadow">
-              <div class="card-header bg-dark text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-lock me-2"></i>Privacidad</h5>
-              </div>
-              <div class="card-body p-4">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="visibility" class="form-label">Visibilidad del perfil</label>
-                    <select class="form-select" id="visibility">
-                      <option value="public">Público</option>
-                      <option value="friends">Solo amigos</option>
-                      <option value="private">Privado</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <div class="form-check mt-4">
-                      <input class="form-check-input" type="checkbox" id="showEmail">
-                      <label class="form-check-label" for="showEmail">
-                        Mostrar correo electrónico en el perfil
-                      </label>
+              <!-- Temas -->
+              <div class="card mb-4 shadow">
+                <div class="card-header bg-dark text-white py-3">
+                  <h5 class="mb-0"><i class="fas fa-palette me-2"></i>Temas</h5>
+                </div>
+                <div class="card-body p-4">
+                  <div class="mb-3">
+                    <label class="form-label">Modo de visualización</label>
+                    <div class="d-flex gap-4">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="theme" id="lightTheme" checked>
+                        <label class="form-check-label" for="lightTheme">
+                          Claro
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="theme" id="darkTheme">
+                        <label class="form-check-label" for="darkTheme">
+                          Oscuro
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Temas -->
-            <div class="card mb-4 shadow">
-              <div class="card-header bg-dark text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-palette me-2"></i>Temas</h5>
-              </div>
-              <div class="card-body p-4">
-                <div class="mb-3">
-                  <label class="form-label">Modo de visualización</label>
-                  <div class="d-flex gap-4">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="theme" id="lightTheme" checked>
-                      <label class="form-check-label" for="lightTheme">
-                        Claro
-                      </label>
+              <!-- Seguridad -->
+              <div class="card mb-4 shadow">
+                <div class="card-header bg-dark text-white py-3">
+                  <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Seguridad</h5>
+                </div>
+                <div class="card-body p-4">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-12 mb-3">
+                        <label for="currentPassword" class="form-label">Contraseña actual</label>
+                        <input type="password" class="form-control" id="currentPassword">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="newPassword" class="form-label">Nueva contraseña</label>
+                        <input type="password" class="form-control" id="newPassword">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="confirmPassword" class="form-label">Confirmar nueva contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword">
+                      </div>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="theme" id="darkTheme">
-                      <label class="form-check-label" for="darkTheme">
-                        Oscuro
-                      </label>
-                    </div>
-                  </div>
+                    <button type="submit" class="btn btn-dark">Cambiar contraseña</button>
+                  </form>
                 </div>
               </div>
-            </div>
 
-            <!-- Seguridad -->
-            <div class="card mb-4 shadow">
-              <div class="card-header bg-dark text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Seguridad</h5>
-              </div>
-              <div class="card-body p-4">
-                <form>
-                  <div class="row">
-                    <div class="col-md-12 mb-3">
-                      <label for="currentPassword" class="form-label">Contraseña actual</label>
-                      <input type="password" class="form-control" id="currentPassword">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="newPassword" class="form-label">Nueva contraseña</label>
-                      <input type="password" class="form-control" id="newPassword">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="confirmPassword" class="form-label">Confirmar nueva contraseña</label>
-                      <input type="password" class="form-control" id="confirmPassword">
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-dark">Cambiar contraseña</button>
-                </form>
-              </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -549,4 +486,3 @@
 
 </body>
 </html>
-``` 

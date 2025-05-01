@@ -5,7 +5,7 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash, jsonify
 from flask_app.models.usuario_model import Usuario
-
+from flask_app.utils.decoradores import login_required
 
 # Function para verificar se es administrador
 # Retorna True if admin, False otherwise
