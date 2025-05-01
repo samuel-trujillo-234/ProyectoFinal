@@ -4,23 +4,12 @@ from flask_app import app
 from flask_app.controllers import usuarios_controller
 from flask_app.controllers import autentication_controller
 from flask_app.controllers import administrador_controller
+from flask_app.controllers import noticias_controller
 
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-@app.route('/noticias')
-def noticias():
-    return render_template('noticias.html')
 
 @app.route('/favoritos')
 def favoritos():
     return render_template('favoritos.html')
-
-
-@app.route('/crear')
-def crear():
-    return render_template('crear.html')
 
 @app.route('/settings')
 def settings():

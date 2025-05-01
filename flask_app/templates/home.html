@@ -275,90 +275,7 @@
   <main>
     <h1 class="visually-hidden">Sidebars examples</h1>
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-      <a href="/" class="d-flex align-items-center justify-content-center mb-4 text-white text-decoration-none">
-        <span class="brand-title">Wavely</span>
-      </a>
-      <hr>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="/" class="nav-link active" aria-current="page">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#home"/>
-            </svg>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="/noticias" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#collection" />
-            </svg>
-            Noticias
-          </a>
-        </li>
-        <li>
-          <a href="/favoritos" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#star" />
-            </svg>
-            Favoritos
-          </a>
-        </li>
-        <li>
-          <a href="/crear" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#plus-circle" />
-            </svg>
-            Crear
-          </a>
-        </li>
-        <li>
-          <a href="/settings" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#gear" />
-            </svg>
-            Settings
-          </a>
-        </li>
-        {% if role == "admin" %}
-        <li>
-          <a href="/administrar_usuarios" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#gear" />
-            </svg>
-            Administrar usuarios
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-      <hr>
-      <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-user-circle fa-2x me-2"></i>
-          <strong>{{usuario | default('Usuario') }}</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-          {% if usuario is not defined %}
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal"><i
-                class="fas fa-user me-2"></i>Registro</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i
-                class="fas fa-user me-2"></i>Login</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          {% endif %}
-          {% if usuario is defined %}
-          <li><a class="dropdown-item" href="/close_session"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
+    {% include '_menu_lateral.html' %}
 
     <div class="b-example-divider"></div>
 
@@ -583,7 +500,6 @@
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
   <script>
-
     $(document).ready(function () {
       {% with messages = get_flashed_messages(with_categories = true) %}
       {% if messages %}
@@ -598,12 +514,12 @@
       {% endfor %}
       {% endif %}
       {% endwith %}
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
       // Aplicar tema guardado al cargar la página
       const savedTheme = localStorage.getItem('theme') || 'light';
       document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-
     });
   </script>
 
