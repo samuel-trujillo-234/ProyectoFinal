@@ -17,15 +17,15 @@ class Usuario:
         self.categoria = data['categoria']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        # Nuevos campos para configuraciones
-        self.notificaciones_email = data.get('notificaciones_email', 0)
-        self.notificaciones_nuevas = data.get('notificaciones_nuevas', 0)
-        self.notificaciones_comentarios = data.get('notificaciones_comentarios', 0)
-        self.perfil_publico = data.get('perfil_publico', 0)
-        self.mostrar_email = data.get('mostrar_email', 0)
-        self.tema = data.get('tema', 'claro')
-        self.tamano_fuente = data.get('tamano_fuente', 'normal')
-        self.cuenta_activa = data.get('cuenta_activa', 1)
+        # Campos para configuraciones
+        self.notificaciones_email = data['notificaciones_email'] if 'notificaciones_email' in data else 0
+        self.notificaciones_nuevas = data['notificaciones_nuevas'] if 'notificaciones_nuevas' in data else 0
+        self.notificaciones_comentarios = data['notificaciones_comentarios'] if 'notificaciones_comentarios' in data else 0
+        self.perfil_publico = data['perfil_publico'] if 'perfil_publico' in data else 0
+        self.mostrar_email = data['mostrar_email'] if 'mostrar_email' in data else 0
+        self.tema = data['tema'] if 'tema' in data else 'claro'
+        self.tamano_fuente = data['tamano_fuente'] if 'tamano_fuente' in data else 'normal'
+        self.cuenta_activa = data['cuenta_activa'] if 'cuenta_activa' in data else 1
 
 
     @classmethod

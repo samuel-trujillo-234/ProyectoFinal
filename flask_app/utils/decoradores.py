@@ -10,21 +10,21 @@ def login_required(funcion):
     @wraps(funcion)
     def wrapper(*args, **kwargs):
         if 'email' not in session:
-            flash("Você não está logado", "error")
+            flash("No has iniciado sesión", "error")
             return redirect("/")
         return funcion(*args, **kwargs)
     return wrapper
 
 
-def tem_permissao(role):
-    def wrapper_permissao_main(funcion):
+def tiene_permiso(role):
+    def wrapper_permiso_main(funcion):
         @wraps(funcion)
-        def wrapper_permissao(*args, **kwargs):
+        def wrapper_permiso(*args, **kwargs):
             
             if session['usuario']['role'] != role:
-                flash("Você não é administrador.", "error")
+                flash("No eres administrador.", "error")
                 return redirect("/")
             
             return funcion(*args, **kwargs)
-        return wrapper_permissao
-    return wrapper_permisao_main
+        return wrapper_permiso
+    return wrapper_permiso_main
