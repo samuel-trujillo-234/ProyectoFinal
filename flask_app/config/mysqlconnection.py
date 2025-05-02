@@ -23,25 +23,27 @@ class MySQLConnection:
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
             try:
-                query = cursor.mogrify(query, data)
+                # Print the query for debugging
                 print("Running Query:", query)
-
-                executable = cursor.execute(query, data)
+                
+                if data:
+                    executable = cursor.execute(query, data)
+                else:
+                    executable = cursor.execute(query)
+                    
                 if query.lower().find("insert") >= 0:
                     self.connection.commit()
                     return cursor.lastrowid
                 elif query.lower().find("select") >= 0:
-                    
                     result = cursor.fetchall()
                     return result
                 else:
-
                     self.connection.commit()
             except Exception as e:
                 print("Something went wrong", e)
                 return False
             finally:
-                self.connection.close() 
+                self.connection.close()
 
 def connectToMySQL():
     return MySQLConnection()
