@@ -32,7 +32,9 @@ ALLOWED_EXTENSIONS = set(os.getenv('ALLOWED_EXTENSIONS').split(','))
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    if '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
+        return True
+    return False
 
 
 @app.route('/noticias')
@@ -156,3 +158,7 @@ def mostrar_noticia(id):
     comentarios=Comentario.select(id)
     return render_template("/mostrar_noticia.html", id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios)
 
+
+@app.route('/favoritos')
+def favoritos():
+    return render_template('favoritos.html')

@@ -44,13 +44,6 @@ def registrar_usuario():
     return redirect("/")
 
 
-@app.route('/logar_usuario')
-def logar_usuario():
-    if 'nombre' not in session or 'categoria' not in session:
-        return redirect('/')
-    return render_template("/home.html", usuario=session['nombre'], role=session['categoria'])
-
-
 @app.route('/actualizar_perfil', methods=['POST'])
 def actualizar_perfil():
     if 'id' not in session:
@@ -148,3 +141,7 @@ def eliminar_cuenta():
         flash("Error al eliminar la cuenta", "error")
     return redirect('/')
 
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
