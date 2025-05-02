@@ -150,13 +150,13 @@ def eliminar_noticia(id):
     return redirect ('/noticias')
 
 
-@app.route("/mostrar_noticia/<int:id>")
+@app.route("/noticia/<int:id>")
 @login_required
 def mostrar_noticia(id):
     usuarios=Usuario.get_all()
     noticia=Noticia.get_one(id)
-    comentarios=Comentario.select(id)
-    return render_template("/mostrar_noticia.html", id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios)
+    comentarios=Comentario.select_noticia(id)
+    return render_template("/mostrar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios)
 
 
 @app.route('/favoritos')
