@@ -357,7 +357,8 @@
                                                 <a href="/noticia/{{noticia.id}}" class="btn btn-sm btn-outline-dark">Leer más</a>
                                                 {% if noticia.usuario_id == id %}
                                                 <a href="/editar_noticia/{{noticia.id}}" class="btn btn-sm btn-outline-dark">Editar noticia</a>
-                                                <a href="/eliminar_noticia/{{noticia.id}}" class="btn btn-sm btn-outline-dark">Eliminar noticia</a>                                                {% endif %}
+                                                <button type="button" class="btn btn-sm btn-outline-danger delete-btn" data-id="{{noticia.id}}">Eliminar noticia</button>
+                                                {% endif %}
                                                 <button type="button" class="btn btn-sm btn-outline-dark"><i
                                                         class="fas fa-heart"></i></button>
                                             </div>
@@ -374,6 +375,9 @@
             </div>
         </div>
     </main>
+
+    <!-- Include Delete Confirmation Modal -->
+    {% include 'modals/confirmacion_eliminacion_noticia_modal.html' %}
 
     <!-- Scripts -->
     <script>
@@ -412,6 +416,21 @@
 
                     // Dar foco a la barra de búsqueda
                     searchInput.focus();
+                });
+            });
+
+            // Código para la eliminación de noticias
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            const deleteForm = document.getElementById('deleteNoticiaForm');
+            const deleteNoticiaId = document.getElementById('deleteNoticiaId');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const noticiaId = this.getAttribute('data-id');
+                    deleteNoticiaId.value = noticiaId;
+                    deleteForm.action = `/eliminar_noticia/${noticiaId}`;
+                    deleteModal.show();
                 });
             });
         });
