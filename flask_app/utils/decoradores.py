@@ -20,11 +20,9 @@ def tiene_permiso(role):
     def wrapper_permiso_main(funcion):
         @wraps(funcion)
         def wrapper_permiso(*args, **kwargs):
-            
             if session['usuario']['role'] != role:
                 flash("No eres administrador.", "error")
                 return redirect("/")
-            
             return funcion(*args, **kwargs)
         return wrapper_permiso
     return wrapper_permiso_main

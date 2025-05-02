@@ -9,6 +9,8 @@ from flask_app.utils.decoradores import login_required
 
 # Function para verificar se es administrador
 # Retorna True if admin, False otherwise
+
+
 def verificar_admin():
     if 'categoria' not in session or session['categoria'] != 'admin':
         flash("Acceso restringido. Debes ser administrador para acceder a esta página.", "error")
