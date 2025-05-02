@@ -104,8 +104,9 @@ def editar_noticia(id):
 @app.route("/update_noticia", methods=['POST'])
 @login_required
 def atualizar_noticia():
+    hechos = ""
+    sesgo = ""
     file_path = ""
-    
     # Manejar la subida de archivo si existe
     if 'archivo_multimedia' in request.files:
         file = request.files['archivo_multimedia']
@@ -118,7 +119,6 @@ def atualizar_noticia():
             file.save(file_save_path)
             # Establecer la ruta del archivo para almacenarla en la base de datos (ruta relativa para URL)
             file_path = f"/static/uploads/{unique_filename}"
-    
     data = {
         'id': request.form['id'],
         'titulo': request.form['titulo'],
@@ -127,8 +127,8 @@ def atualizar_noticia():
         'tags': request.form['tags'],
         'revisada': request.form.get('revisada', 0),
         'keywords': request.form['keywords'],
-        'hechos': request.form['hechos'],
-        'sesgo': request.form['sesgo'],
+        'hechos': hechos,
+        'sesgo': sesgo,
         'usuario_id': session['id']
     }
     if Noticia.validar_noticia(data, request.form['id']) != True:
@@ -142,7 +142,7 @@ def atualizar_noticia():
 @app.route("/eliminar_noticia/<int:id>")
 @login_required
 def eliminar_noticia(id):
-    Comentario.delete_comentarios_noticia(id)
+    # Comentario.delete_comentarios_noticia(id)
     Noticia.delete(id)
     flash(f"La noticia y todos los comentarios asociados a ella han sido eliminados.", "warning")
     return redirect ('/noticias')
