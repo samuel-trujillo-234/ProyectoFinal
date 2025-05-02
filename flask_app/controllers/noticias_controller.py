@@ -70,7 +70,6 @@ def criar_noticia():
             file.save(file_save_path)
             # Establecer la ruta del archivo para almacenarla en la base de datos (ruta relativa para URL)
             file_path = f"/static/uploads/{unique_filename}"
-    
     data = {
         'titulo': request.form['titulo'],
         'noticia': request.form['noticia'],
@@ -93,11 +92,10 @@ def criar_noticia():
 @app.route("/editar_noticia/<int:id>")
 @login_required
 def editar_noticia(id):
-    usuarios=Usuario.get_all()
     noticia=Noticia.get_one(id)
     noticia_conteudo=noticia.noticia
     if noticia.usuario_id == session['id']:
-        return render_template("/noticias/editar_noticia.html", nombre=session['nombre'], sobrenombre=session['sobrenombre'], id=session['id'], usuarios=usuarios, noticia=noticia, noticia_conteudo=noticia_conteudo)
+        return render_template("/editar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticia=noticia)
     else:
         flash(f'Solo el usuario que creó la noticia puede editarla', "error")
     return redirect("/noticias")

@@ -62,9 +62,15 @@ class Noticia:
     def save(cls, data):
         query = """
         INSERT INTO noticias (titulo, noticia, foto_video, tags, revisada, keywords, hechos, sesgo, created_at, updated_at, usuario_id)
-        VALUES (%(titulo)s, %(noticia)s, %(foto_video)s, %(tags)s, %(revisada)s, %(keywords)s, %(hechos)s, %(sesgo)s, NOW(), NOW(), %(usuario_id)s);
+        VALUES (%(titulo)s, %(noticia)s, %(foto_video)s, %(tags)s, %(revisada)s, %(keywords)s, %(hechos)s, %(sesgo)s, %(created_at)s, %(updated_at)s, %(usuario_id)s);
         """
-        return connectToMySQL().query_db(query, data)
+        # Add current timestamp for created_at and updated_at
+        data_with_dates = data.copy()
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        data_with_dates['created_at'] = current_time
+        data_with_dates['updated_at'] = current_time
+        
+        return connectToMySQL().query_db(query, data_with_dates)
 
     @classmethod
     def delete(cls, id):

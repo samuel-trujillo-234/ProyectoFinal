@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Editar notícia
-    
-  </title>
+  <title>Editar noticia</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -263,7 +261,7 @@
 
     <div class="container-fluid p-4">
         <div class="text-center mb-4">
-            <h1 class="main-title">Crear Noticia</h1>
+            <h1 class="main-title">Editar Noticia</h1>
         </div>
 
         <div class="row justify-content-center">
@@ -272,12 +270,12 @@
                     <div class="card-body news-container" style="height: calc(100vh - 200px); overflow-y: auto;">
                         <form action="/crear_noticia" method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
-                                <label for="titulo" class="form-label">Título de la Noticia</label>
-                                <input type="text" class="form-control" id="titulo" name="titulo" required>
+                                <label for="titulo" class="form-label" >Título de la Noticia</label>
+                                <input type="text" class="form-control" id="titulo" value="{{noticia.titulo}}" name="titulo" required>
                             </div>
                             <div class="mb-3">
                                 <label for="noticia" class="form-label">Contenido de la Noticia</label>
-                                <textarea class="form-control" id="noticia" name="noticia" rows="6" required></textarea>
+                                <textarea class="form-control" id="noticia" name="noticia" rows="10" required>{{noticia.noticia}}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Multimedia</label>
@@ -289,7 +287,7 @@
                                         <span>O</span>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <input type="text" class="form-control" id="foto_video" name="foto_video" placeholder="URL de imagen o video">
+                                        <input type="text" class="form-control" id="foto_video" name="foto_video" placeholder="URL de imagen o video" value="{{noticia.foto_video}}">
                                     </div>
                                 </div>
                                 <small class="text-muted">Sube un archivo o proporciona una URL</small>
@@ -308,11 +306,11 @@
                                     <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Internacional">Internacional</button>
                                     <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Medio Ambiente">Medio Ambiente</button>
                                 </div>
-                                <input type="text" class="form-control" id="tags" name="tags" placeholder="Etiquetas seleccionadas" readonly>
+                                <input type="text" class="form-control" id="tags" name="tags" placeholder="Etiquetas seleccionadas" value="{{noticia.tags}}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="keywords" class="form-label">Palabras Clave (separadas por coma)</label>
-                                <input type="text" class="form-control" id="keywords" name="keywords">
+                                <input type="text" class="form-control" id="keywords" name="keywords" value="{{noticia.keywords}}">
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">Publicar Noticia</button>
@@ -320,68 +318,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/login" method="POST">
-                        <div class="mb-3">
-                            <label for="email_login" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email_login" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password_login" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password_login" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Registro -->
-    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registroModalLabel">Registro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/registro" method="POST">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-                    </form>
                 </div>
             </div>
         </div>
