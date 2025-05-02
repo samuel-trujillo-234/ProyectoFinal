@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ noticia.titulo }}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Toaster -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
+  <style>
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    /* Estilos para el sidebar */
+    main {
+      display: flex;
+      flex-wrap: nowrap;
+      height: 100vh;
+      max-height: 100vh;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .b-example-divider {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      pointer-events: none;
+      fill: currentColor;
+    }
+
+    .main-title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .news-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .news-content {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .news-meta {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .comments-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .comment {
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      padding: 1rem 0;
+    }
+
+    .comment-author {
+      font-weight: bold;
+    }
+
+    .tag-btn {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 20px;
+      background-color: rgba(26, 79, 99, 0.8);
+      transition: all 0.3s ease;
+    }
+
+    .tag-btn:hover {
+      background-color: #1a4f63;
+    }
+
+    .media-container {
+      margin: 2rem 0;
+      text-align: center;
+      max-height: 500px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .media-container img {
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    /* Estilos para el sidebar y sus botones */
+    .nav-link {
+      border-radius: 10px;
+      margin: 5px 0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link:hover {
+      background: rgba(26, 79, 99, 0.3) !important;
+      transform: translateX(5px);
+    }
+
+    .nav-link svg {
+      fill: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover svg {
+      transform: scale(1.2);
+      filter: brightness(1.2);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%) !important;
+      box-shadow: 0 4px 15px rgba(26, 79, 99, 0.3);
+    }
+
+    .action-btn i {
+      color: #1a4f63;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover i {
+      color: #2c3e50;
+      transform: scale(1.2);
+    }
+
+    .action-buttons {
+      background: rgba(26, 79, 99, 0.05);
+    }
+
+    .dropdown-menu {
+      background: linear-gradient(135deg, #1a4f63 0%, #2c3e50 100%);
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .dropdown-item .fas {
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover .fas {
+      transform: scale(1.2);
+      color: #ffffff;
+    }
+
+    /* Estilo para el logo */
+    .brand-title {
+      font-size: 2rem;
+      font-weight: bold;
+      font-family: 'Playfair Display', serif;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- SVG icons (hidden) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <!-- ... existing SVG symbols ... -->
+  </svg>
+
+  <main>
+    <h1 class="visually-hidden">Sidebars examples</h1>
+
+    <!-- Include Menu Lateral -->
+    {% include 'components/_menu_lateral.html' %}
+
+    <div class="b-example-divider"></div>
+
+    <div class="container-fluid p-4">
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <!-- Barra de navegación y acciones -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/noticias" class="text-decoration-none">Noticias</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ noticia.titulo }}</li>
+              </ol>
+            </nav>
+            {% if noticia.usuario_id == id %}
+            <div>
+              <a href="/editar_noticia/{{noticia.id}}" class="btn btn-outline-dark btn-sm me-2"><i class="fas fa-edit me-1"></i> Editar</a>
+              <a href="/eliminar_noticia/{{noticia.id}}" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás seguro que deseas eliminar esta noticia?');"><i class="fas fa-trash-alt me-1"></i> Eliminar</a>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="card shadow">
+            <div class="card-body news-container" style="height: calc(100vh - 150px); overflow-y: auto;">
+              <!-- Título de la noticia -->
+              <h1 class="news-title">{{ noticia.titulo }}</h1>
+              
+              <!-- Metadatos de la noticia -->
+              <div class="news-meta d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <span class="text-muted">Publicado el {{ noticia.created_at.strftime('%d/%m/%Y') }}</span> • 
+                  <span class="text-muted">Por {{ noticia.nombre_usuario }}</span>
+                </div>
+              </div>
+              
+              <!-- Etiquetas -->
+              <div class="mb-4">
+                {% set tags = noticia.tags.split(',') %}
+                {% for tag in tags %}
+                  {% if tag.strip() %}
+                  <span class="tag-btn text-white">{{ tag.strip() }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              
+              <!-- Imagen o video -->
+              {% if noticia.foto_video %}
+              <div class="media-container mb-4">
+                {% if noticia.foto_video.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')) %}
+                  <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
+                {% elif noticia.foto_video.lower().endswith(('.mp4', '.webm', '.ogg')) %}
+                  <video controls class="img-fluid rounded">
+                    <source src="{{ noticia.foto_video }}" type="video/{{ noticia.foto_video.split('.')[-1] }}">
+                    Tu navegador no soporta el elemento de video.
+                  </video>
+                {% elif 'youtube.com' in noticia.foto_video or 'youtu.be' in noticia.foto_video %}
+                  <div class="ratio ratio-16x9">
+                    <iframe 
+                      src="{{ noticia.foto_video.replace('watch?v=', 'embed/') if 'watch?v=' in noticia.foto_video else noticia.foto_video }}" 
+                      title="{{ noticia.titulo }}" 
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                {% else %}
+                  <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
+                {% endif %}
+              </div>
+              {% endif %}
+              
+              <!-- Contenido de la noticia -->
+              <div class="news-content mb-5">
+                {{ noticia.noticia }}
+              </div>
+              
+              <!-- Palabras clave -->
+              {% if noticia.keywords %}
+              <div class="mb-4">
+                <h6 class="fw-bold">Palabras clave:</h6>
+                <p class="text-muted">{{ noticia.keywords }}</p>
+              </div>
+              {% endif %}
+              
+              <!-- Sección de comentarios -->
+              <div class="comments-section mt-5">
+                <h3 class="comments-title mb-4">Comentarios</h3>
+                
+                <!-- Formulario para añadir comentario -->
+                <form action="/crear_comentario" method="POST" class="mb-4">
+                  <div class="mb-3">
+                    <label for="comentario" class="form-label">Deja tu comentario</label>
+                    <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+                    <input type="hidden" name="noticia_id" value="{{ noticia.id }}">
+                  </div>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-dark">Publicar comentario</button>
+                  </div>
+                </form>
+                
+                <!-- Lista de comentarios -->
+                {% if comentarios %}
+                  {% for comentario in comentarios %}
+                  <div class="comment">
+                    <div class="d-flex justify-content-between">
+                      <p class="comment-author mb-1">{{ comentario.nombre_usuario }}</p>
+                      <small class="text-muted">{{ comentario.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                    </div>
+                    <p class="mb-0">{{ comentario.comentario }}</p>
+                  </div>
+                  {% endfor %}
+                {% else %}
+                <div class="text-center text-muted py-5">
+                  <i class="fas fa-comments fa-3x mb-3"></i>
+                  <p>Aún no hay comentarios. ¡Sé el primero en opinar!</p>
+                </div>
+                {% endif %}
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Include Toastr Messages Component -->
+  {% include 'components/_toastr_messages.html' %}
+
+</body>
+</html>
