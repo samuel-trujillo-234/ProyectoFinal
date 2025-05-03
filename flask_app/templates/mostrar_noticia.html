@@ -169,6 +169,33 @@
 
     .action-buttons {
       background: rgba(26, 79, 99, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Estilos para los botones individuales */
+    .action-btn.like.active i {
+      color: #e74c3c !important; /* rojo para like */
+    }
+    
+    .action-btn.like:hover i {
+      color: #e74c3c !important;
+    }
+    
+    .action-btn.dislike.active i {
+      color: #3498db !important; /* azul para dislike */
+    }
+    
+    .action-btn.dislike:hover i {
+      color: #3498db !important;
+    }
+    
+    .action-btn.report:hover i {
+      color: #e67e22 !important; /* naranja para report */
     }
 
     .dropdown-menu {
@@ -196,6 +223,26 @@
       font-weight: bold;
       font-family: 'Playfair Display', serif;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Estilos para el botón de favoritos */
+    .action-btn.favorite.active {
+      color: #ffd700; /* Color amarillo */
+    }
+    
+    .action-btn.favorite.active i {
+      color: #ffd700 !important;
+    }
+    
+    .action-btn.favorite:hover i {
+      color: #ffd700 !important;
+    }
+    
+    .counter {
+      background-color: rgba(26, 79, 99, 0.1);
+      padding: 0 6px;
+      border-radius: 10px;
+      font-size: 0.8rem;
     }
   </style>
 </head>
@@ -244,6 +291,29 @@
                   <span class="text-muted">Publicado el {{ noticia.created_at.strftime('%d/%m/%Y') }}</span> • 
                   <span class="text-muted">Por {{ noticia.nombre_usuario }}</span>
                 </div>
+              </div>
+              
+              <!-- Botones de acción -->
+              <div class="action-buttons">
+                <button class="action-btn like" onclick="updateCounter(this, 'like')">
+                  <i class="fas fa-heart"></i>
+                  Like
+                  <span class="counter">0</span>
+                </button>
+                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
+                  <i class="fas fa-star"></i>
+                  Favoritos
+                  <span class="counter">0</span>
+                </button>
+                <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
+                  <i class="fas fa-heart-broken"></i>
+                  Dislike
+                  <span class="counter">0</span>
+                </button>
+                <button class="action-btn report">
+                  <i class="fas fa-flag"></i>
+                  Report
+                </button>
               </div>
               
               <!-- Etiquetas -->
@@ -342,6 +412,21 @@
 
   <!-- Include Toastr Messages Component -->
   {% include 'components/_toastr_messages.html' %}
+
+  <script>
+    function updateCounter(button, action) {
+      const counter = button.querySelector('.counter');
+      let count = parseInt(counter.textContent);
+      counter.textContent = count + 1;
+      button.classList.add('active');
+      
+      // Cambiar el color del ícono si es el botón de favoritos
+      if (action === 'favorite') {
+        const icon = button.querySelector('i');
+        icon.style.color = '#ffd700';
+      }
+    }
+  </script>
 
 </body>
 </html>
