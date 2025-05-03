@@ -4,6 +4,7 @@ body {
     min-height: -webkit-fill-available;
     margin: 0;
     background-color: #ffffff !important;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 html {
@@ -602,6 +603,15 @@ main {
 
 .action-btn.favorite.active {
     background: #f1c40f;
+    color: #ffd700;
+}
+
+.action-btn.favorite.active i {
+    color: #ffd700 !important;
+}
+
+.action-btn.favorite:hover i {
+    color: #ffd700 !important;
 }
 
 .action-btn.dislike.active {
@@ -1005,4 +1015,19 @@ p,
 
 .card:hover .card-header i {
     transform: scale(1.2);
+}
+
+/* Placeholder Images */
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
 }
