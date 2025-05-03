@@ -18,6 +18,8 @@
   <!-- Toaster -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
   
+  {% block extra_css %}{% endblock %}
+  
   <style>
     body {
       font-family: 'Source Sans Pro', sans-serif;
@@ -165,13 +167,10 @@
     .action-btn.favorite:hover i {
       color: #ffd700 !important;
     }
-    
-    {% block extra_css %}{% endblock %}
   </style>
 </head>
 
 <body>
-
   {% include 'components/_svg_symbols.html' %}
 
   <main>
@@ -247,7 +246,6 @@
   {% include 'modals/login_modal.html' %}
 
   {% block extra_scripts %}{% endblock %}
-
 </body>
 
 </html>
