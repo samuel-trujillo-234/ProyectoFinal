@@ -106,6 +106,7 @@ main {
 /* Estilos para las noticias */
 .news-container {
     padding-right: 15px;
+    padding-bottom: 60px;
 }
 
 .news-container::-webkit-scrollbar {

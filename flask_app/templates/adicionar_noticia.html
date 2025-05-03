@@ -384,42 +384,25 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <!-- Include Toastr Messages Component -->
-    {% include 'components/_toastr_messages.html' %}
-    
-    <script>
-        // Manejar la selección de etiquetas
-        document.querySelectorAll('.tag-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                this.classList.toggle('active');
-                this.classList.toggle('fw-bold');
-                
-                // Actualizar el campo de etiquetas
-                const selectedTags = Array.from(document.querySelectorAll('.tag-btn.active'))
-                    .map(btn => btn.dataset.tag);
-                document.getElementById('tags').value = selectedTags.join(', ');
-            });
-        });
 
-        // Vista previa de imagen/video
-        document.getElementById('archivo_multimedia').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('foto_video').value = ''; // Limpiar URL si hay archivo
-            }
-        });
+<!-- Script principal -->
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-        document.getElementById('foto_video').addEventListener('input', function(e) {
-            if (e.target.value) {
-                document.getElementById('archivo_multimedia').value = ''; // Limpiar archivo si hay URL
-            }
-        });
-    </script>
+<!-- Script creación de notícias -->
+<script src="{{ url_for('static', filename='js/crear_noticia.js') }}"></script>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery y Toastr -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+
+<!-- Include Toastr Messages Component -->
+{% include 'components/_toastr_messages.html' %}
+
+
+
 </body>
 </html>
