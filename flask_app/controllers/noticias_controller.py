@@ -87,7 +87,7 @@ def criar_noticia():
     }
     if Noticia.validar_noticia(data, 0) != True:
         return redirect ("/adicionar_noticia")
-    Noticia.save(data)
+    Noticia.save(data)   
     flash(f'Nueva noticia añadida con éxito: "{data["titulo"]}".', "success")
     session['noticia']=""
     return redirect("/noticias")
@@ -146,7 +146,6 @@ def atualizar_noticia():
 @app.route("/eliminar_noticia/<int:id>")
 @login_required
 def eliminar_noticia(id):
-    # Comentario.delete_comentarios_noticia(id)
     Noticia.delete(id)
     flash(f"La noticia y todos los comentarios asociados a ella han sido eliminados.", "warning")
     return redirect ('/noticias')

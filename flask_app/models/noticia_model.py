@@ -8,6 +8,8 @@ from datetime import date
 from datetime import datetime
 from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
+from flask_app.models.favorito_model import Favorito
+from flask_app.models.report_noticia_model import ReportNoticia
 
 today = date.today()
 
@@ -106,6 +108,8 @@ class Noticia:
     @classmethod
     def delete(cls, id):
         Comentario.delete_por_noticia(id)
+        Favorito.delete_por_noticia(id)
+        ReportNoticia.delete_por_noticia(id)
         query = "DELETE FROM noticias WHERE id = %(id)s;"
         data = {"id": id}
         return connectToMySQL().query_db(query, data)
@@ -138,8 +142,6 @@ class Noticia:
     def validar_noticia(noticia, noticia_id):
         valido = True
         session['noticia'] = noticia['noticia']
-        # Suponiendo que la fecha de la noticia está en noticia['created_at'] y es opcional
-        # Si hay campo de fecha de publicación, ajustar aquí
         if len(noticia['titulo']) <= 3:
             flash("El título de la noticia debe tener más de dos caracteres.", "error")
             valido = False
