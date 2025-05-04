@@ -85,7 +85,7 @@
                   Favoritos
                   <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
                 </button>
-                <button class="action-btn report {% if usuario_ha_reportado %}active{% endif %}" data-id="{{noticia.id}}" {% if usuario_ha_reportado %}data-report-id="{{report_id}}"{% endif %}>
+                <button class="action-btn report {% if usuario_ha_reportado %}active{% endif %}" data-id="{{noticia.id}}">
                   <i class="fas fa-flag" {% if usuario_ha_reportado %}style="color: #ff4136;"{% endif %}></i>
                   Report
                   <span class="counter">{{ reports_count if reports_count else 0 }}</span>

@@ -161,9 +161,7 @@ def mostrar_noticia(id):
     favoritos_count = Favorito.get_count_by_noticia(id)
     usuario_ha_favorito = Favorito.check_if_favorited(session['id'], id)
     reports_count = ReportNoticia.get_count_by_noticia(id) 
-    report_data = ReportNoticia.get_by_usuario_and_noticia(session['id'], id)
-    usuario_ha_reportado = report_data is not None
-    report_id = report_data.id if report_data else None
+    usuario_ha_reportado = ReportNoticia.check_if_reported(session['id'], id)
     return render_template("/mostrar_noticia.html", 
                           nombre=session['nombre'], 
                           apellido=session['apellido'], 
@@ -175,7 +173,7 @@ def mostrar_noticia(id):
                           usuario_ha_favorito=usuario_ha_favorito,
                           reports_count=reports_count,
                           usuario_ha_reportado=usuario_ha_reportado,
-                          report_id=report_id)
+                          )
 
 
 @app.route('/favoritos')
