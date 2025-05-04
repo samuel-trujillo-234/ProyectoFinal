@@ -15,7 +15,6 @@ class DenunciaComentario:
 
     def __init__(self, data):
         self.id = data['id']
-        self.explicacion = data['explicacion']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']

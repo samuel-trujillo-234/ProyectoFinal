@@ -87,186 +87,44 @@
 
             <!-- Contenedor de noticias con scroll -->
             <div class="news-container" style="height: calc(100vh - 200px); overflow-y: auto;">
+
                 <!-- Noticia Individual -->
-                <div class="card mb-4">
+                {% for noticia in noticias %}
+                <div class="card mb-3 shadow-sm">
                     <div class="row g-0">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                class="img-fluid rounded" alt="Noticia periodismo">
-                            <div class="action-buttons">
-                                <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                    <i class="fas fa-heart"></i>
-                                    Like
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                    <i class="fas fa-star"></i>
-                                    Favoritos
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                    <i class="fas fa-heart-broken"></i>
-                                    Dislike
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn report">
-                                    <i class="fas fa-flag"></i>
-                                    Report
-                                </button>
-                                <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                    <i class="fas fa-retweet"></i>
-                                    Repost
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn bubble">
-                                    <i class="fas fa-comment-dots"></i>
-                                    Rompe burbujas
-                                </button>
-                                <button class="action-btn voices">
-                                    <i class="fas fa-microphone-alt"></i>
-                                    Múltiples voces
-                                </button>
-                                <button class="action-btn preferences">
-                                    <i class="fas fa-sliders-h"></i>
-                                    Preferencias
-                                </button>
-                            </div>
+                        <div class="col-md-4">
+                            <img src="{{ noticia.foto_video }}" class="img-fluid rounded-start" alt=""
+                                style="object-fit: cover; height: 100%; width: 100%;">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="card-body">
-                                <h2 class="card-title news-title">Avances en Inteligencia Artificial</h2>
-                                <div class="tags-container mb-3">
-                                    <span class="tag">Tecnología</span>
-                                    <span class="tag">Innovación</span>
-                                    <span class="tag">Ciencia</span>
-                                </div>
-                                <div class="reading-time mb-3">
-                                    <i class="fas fa-user"></i>
-                                    <span>Por Ana Martínez</span>
-                                </div>
-                                <p class="card-text news-content">Los últimos desarrollos en IA están transformando la
-                                    manera en que interactuamos con la tecnología. Nuevos modelos de lenguaje muestran
-                                    capacidades sin precedentes.</p>
-                                <p class="card-text"><small class="text-muted news-meta">Última actualización hace 2
-                                        horas</small></p>
-
-                                <!-- Sección de Comentarios -->
-                                <div class="mt-4 comments-container">
-                                    <h5 class="comments-title">Comentarios</h5>
-                                    <div class="mb-3">
-                                        <textarea class="form-control" rows="3"
-                                            placeholder="Escribe un comentario..."></textarea>
-                                        <button class="btn btn-primary mt-2">Enviar Comentario</button>
+                                <h5 class="card-title news-title">{{noticia.titulo}}</h5>
+                                <p class="card-text news-content">{{noticia.noticia}}</p>
+                                <p class="card-text news-meta"><small class="text-muted">Publicado en
+                                        {{noticia.created_at}} • Por {{noticia.nombre_usuario}}</small></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="/noticia/{{noticia.id}}" class="btn btn-sm btn-outline-dark">Leer
+                                            más</a>
+                                        {% if noticia.usuario_id == id %}
+                                        <a href="/editar_noticia/{{noticia.id}}"
+                                            class="btn btn-sm btn-outline-dark">Editar noticia</a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-btn"
+                                            data-id="{{noticia.id}}">Eliminar noticia</button>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-sm btn-outline-dark"><i
+                                                class="fas fa-heart"></i></button>
                                     </div>
-                                    <!-- Lista de Comentarios -->
-                                    <div class="comments-section">
-                                        <div class="comment border-bottom py-2">
-                                            <p class="mb-1"><strong>Usuario1</strong></p>
-                                            <p class="mb-1">Excelente artículo sobre IA.</p>
-                                            <small class="text-muted">Hace 1 hora</small>
-                                        </div>
-                                        <div class="comment border-bottom py-2">
-                                            <p class="mb-1"><strong>Usuario2</strong></p>
-                                            <p class="mb-1">Muy interesante perspectiva sobre el futuro de la
-                                                tecnología.</p>
-                                            <small class="text-muted">Hace 2 horas</small>
-                                        </div>
-                                    </div>
+                                    <small class="text-muted"><i
+                                            class="fas fa-comments me-1"></i>{{noticia.comentarios_count}}
+                                        comentarios</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
 
-                <!-- Segunda Noticia -->
-                <div class="card mb-4">
-                    <div class="row g-0">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                class="img-fluid rounded" alt="Noticia medioambiente">
-                            <div class="action-buttons">
-                                <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                    <i class="fas fa-heart"></i>
-                                    Like
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                    <i class="fas fa-star"></i>
-                                    Favoritos
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                    <i class="fas fa-heart-broken"></i>
-                                    Dislike
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn report">
-                                    <i class="fas fa-flag"></i>
-                                    Report
-                                </button>
-                                <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                    <i class="fas fa-retweet"></i>
-                                    Repost
-                                    <span class="counter">0</span>
-                                </button>
-                                <button class="action-btn bubble">
-                                    <i class="fas fa-comment-dots"></i>
-                                    Rompe burbujas
-                                </button>
-                                <button class="action-btn voices">
-                                    <i class="fas fa-microphone-alt"></i>
-                                    Múltiples voces
-                                </button>
-                                <button class="action-btn preferences">
-                                    <i class="fas fa-sliders-h"></i>
-                                    Preferencias
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-body">
-                                <h2 class="card-title news-title">Iniciativas para Combatir el Cambio Climático</h2>
-                                <div class="tags-container mb-3">
-                                    <span class="tag">Medio Ambiente</span>
-                                    <span class="tag">Sostenibilidad</span>
-                                    <span class="tag">Clima</span>
-                                </div>
-                                <div class="reading-time mb-3">
-                                    <i class="fas fa-user"></i>
-                                    <span>Por Carlos Ruiz</span>
-                                </div>
-                                <p class="card-text news-content">Nuevas políticas ambientales y tecnologías verdes
-                                    prometen reducir significativamente las emisiones de carbono en los próximos años.
-                                </p>
-                                <p class="card-text"><small class="text-muted news-meta">Última actualización hace 3
-                                        horas</small></p>
-
-                                <!-- Sección de Comentarios -->
-                                <div class="mt-4 comments-container">
-                                    <h5 class="comments-title">Comentarios</h5>
-                                    <div class="mb-3">
-                                        <textarea class="form-control" rows="3"
-                                            placeholder="Escribe un comentario..."></textarea>
-                                        <button class="btn btn-primary mt-2">Enviar Comentario</button>
-                                    </div>
-                                    <!-- Lista de Comentarios -->
-                                    <div class="comments-section">
-                                        <div class="comment border-bottom py-2">
-                                            <p class="mb-1"><strong>Usuario3</strong></p>
-                                            <p class="mb-1">Es urgente tomar medidas contra el cambio climático.</p>
-                                            <small class="text-muted">Hace 30 minutos</small>
-                                        </div>
-                                        <div class="comment border-bottom py-2">
-                                            <p class="mb-1"><strong>Usuario4</strong></p>
-                                            <p class="mb-1">Excelentes iniciativas para cuidar nuestro planeta.</p>
-                                            <small class="text-muted">Hace 1 hora</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>

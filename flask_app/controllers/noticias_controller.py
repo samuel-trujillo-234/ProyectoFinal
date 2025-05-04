@@ -1,5 +1,5 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
 
 
@@ -9,6 +9,7 @@ from functools import wraps
 from flask_app.models.noticia_model import Noticia
 from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
+from flask_app.models.favorito_model import Favorito
 from datetime import date
 from flask_app.utils.decoradores import login_required
 import os
@@ -156,10 +157,13 @@ def mostrar_noticia(id):
     usuarios=Usuario.get_all()
     noticia=Noticia.get_one(id)
     comentarios=Comentario.select_noticia(id)
-    return render_template("/mostrar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios)
+    favoritos_count = Favorito.get_count_by_noticia(id)
+    usuario_ha_favorito = Favorito.check_if_favorited(session['id'], id)
+    return render_template("/mostrar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios, favoritos_count=favoritos_count, usuario_ha_favorito=usuario_ha_favorito)
 
 
 @app.route('/favoritos')
 @login_required
 def favoritos():
-    return render_template('favoritos.html')
+    noticias=Noticia.get_favoritas()
+    return render_template("/favoritos.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticias=noticias, today=today)

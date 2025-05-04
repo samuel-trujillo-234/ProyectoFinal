@@ -75,10 +75,11 @@
                   Like
                   <span class="counter">0</span>
                 </button>
-                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                  <i class="fas fa-star"></i>
+
+                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}" data-id="{{noticia.id}}">
+                  <i class="fas fa-star" {% if usuario_ha_favorito %}style="color: #ffd700;"{% endif %}></i>
                   Favoritos
-                  <span class="counter">0</span>
+                  <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
                 </button>
                 <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
                   <i class="fas fa-heart-broken"></i>
@@ -190,6 +191,9 @@
 
   <!-- Script manipulación etiquetas y eliminación de notícias -->
   <script src="{{ url_for('static', filename='js/manipular_noticias.js') }}"></script>
+
+<!-- Script para atualización de likes y favoritos -->
+<script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

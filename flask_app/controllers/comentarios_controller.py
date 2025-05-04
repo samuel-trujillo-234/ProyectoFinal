@@ -8,11 +8,7 @@ from flask_app.models.usuario_model import Usuario
 from flask_app.models.noticia_model import Noticia
 from flask_app.models.comentario_model import Comentario
 from datetime import date
-from flask_bcrypt import Bcrypt
 from flask_app.utils.decoradores import login_required
-
-bcrypt = Bcrypt(app)
-today = date.today()
 
 
 @app.route("/crear_comentario", methods=['POST'])
