@@ -11,7 +11,7 @@ function handleReport(button) {
     
     if (button.classList.contains('active')) {
         // Cancelar report
-        fetch(`/cancelar_report/${button.getAttribute('data-report-id')}`, {
+        fetch(`/cancelar_report/${noticiaId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
