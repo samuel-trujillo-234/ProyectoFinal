@@ -46,9 +46,6 @@ class Noticia:
         noticias = []
         for noticia in results:
             noticias.append(cls(noticia))
-            print()
-            print("#######################################")
-            print("noticia: ", cls(noticia).id, "  |  Comentatios: ", cls(noticia).comentarios_count)
         return noticias
 
     @classmethod
@@ -68,6 +65,29 @@ class Noticia:
         data = {"id": id}
         result = connectToMySQL().query_db(query, data)
         return cls(result[0]) if result else None
+
+
+    @classmethod
+    def get_favoritas(cls):
+        query = """
+        SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
+               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
+               noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
+               COUNT(comentarios.id) AS comentarios_count
+        FROM favoritos
+        JOIN noticias ON favoritos.noticia_id = noticias.id
+        LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
+        LEFT JOIN comentarios ON noticias.id = comentarios.noticia_id
+        WHERE favoritos.usuario_id = %(usuario_id)s
+        GROUP BY noticias.id;
+        """
+        data = {"usuario_id": session['id']}
+        results = connectToMySQL().query_db(query, data)
+        noticias = []
+        for noticia in results:
+            noticias.append(cls(noticia))
+        return noticias
 
     @classmethod
     def save(cls, data):

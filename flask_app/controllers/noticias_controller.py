@@ -157,20 +157,13 @@ def mostrar_noticia(id):
     usuarios=Usuario.get_all()
     noticia=Noticia.get_one(id)
     comentarios=Comentario.select_noticia(id)
-    # Contar total de favoritos para esta noticia
     favoritos_count = Favorito.get_count_by_noticia(id)
-    print()
-    print("#################################################")
-    print("Quantidade de favoritos: ", favoritos_count)
-    # Verificar si el usuario actual ha marcado esta noticia como favorita
     usuario_ha_favorito = Favorito.check_if_favorited(session['id'], id)
-    print()
-    print("#################################################") 
-    print("E favorito do usuario: ", favoritos_count)   
     return render_template("/mostrar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios, favoritos_count=favoritos_count, usuario_ha_favorito=usuario_ha_favorito)
 
 
 @app.route('/favoritos')
 @login_required
 def favoritos():
-    return render_template('favoritos.html')
+    noticias=Noticia.get_favoritas()
+    return render_template("/favoritos.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticias=noticias, today=today)

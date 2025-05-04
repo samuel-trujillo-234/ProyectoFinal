@@ -1,9 +1,8 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
 
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask import flash
 
 class Favorito:
 
@@ -14,12 +13,8 @@ class Favorito:
 
     @classmethod
     def save(cls, usuario_id, noticia_id):
-        # First check if this favorite already exists
         if cls.check_if_favorited(usuario_id, noticia_id):
-            # Already exists, no need to insert
             return True
-            
-        # If it doesn't exist, insert it
         query = """
             INSERT INTO favoritos (usuario_id, noticia_id)
             VALUES (%(usuario_id)s, %(noticia_id)s);
