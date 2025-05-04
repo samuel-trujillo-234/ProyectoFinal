@@ -85,6 +85,7 @@ class Noticia:
 
     @classmethod
     def delete(cls, id):
+        Comentario.delete_por_noticia(id)
         query = "DELETE FROM noticias WHERE id = %(id)s;"
         data = {"id": id}
         return connectToMySQL().query_db(query, data)
