@@ -15,7 +15,6 @@ class DenunciaNoticia:
 
     def __init__(self, data):
         self.id = data['id']
-        self.explicacion = data['explicacion']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']
@@ -24,7 +23,7 @@ class DenunciaNoticia:
     @classmethod
     def get_all(cls):
         query = """
-        SELECT denuncias_noticias.id AS id, denuncias_noticias.explicacions AS explicacions,
+        SELECT denuncias_noticias.id AS id,
                denuncias_noticias.created_at AS created_at, denuncias_noticias.updated_at AS updated_at,
                denuncias_noticias.usuario_id AS usuario_id, denuncias_noticias.noticia_id AS noticia_id,
                usuarios.nome AS nombre_usuario,
@@ -42,7 +41,7 @@ class DenunciaNoticia:
     @classmethod
     def get_one(cls, id):
         query = """
-        SELECT denuncias_noticias.id AS id, denuncias_noticias.explicacions AS explicacions,
+        SELECT denuncias_noticias.id AS id,
                denuncias_noticias.created_at AS created_at, denuncias_noticias.updated_at AS updated_at,
                denuncias_noticias.usuario_id AS usuario_id, denuncias_noticias.noticia_id AS noticia_id,
                usuarios.nome AS nombre_usuario,
@@ -59,8 +58,8 @@ class DenunciaNoticia:
     @classmethod
     def save(cls, data):
         query = """
-        INSERT INTO denuncias_noticias (explicacions, created_at, updated_at, usuario_id, noticia_id)
-        VALUES (%(explicacions)s, NOW(), NOW(), %(usuario_id)s, %(noticia_id)s);
+        INSERT INTO denuncias_noticias (created_at, updated_at, usuario_id, noticia_id)
+        VALUES (NOW(), NOW(), %(usuario_id)s, %(noticia_id)s);
         """
         return connectToMySQL().query_db(query, data)
 
@@ -74,22 +73,10 @@ class DenunciaNoticia:
     def update(cls, data):
         query = """
         UPDATE denuncias_noticias
-        SET explicacions = %(explicacions)s, updated_at = NOW()
+        SET updated_at = NOW()
         WHERE id = %(id)s;
         """
         return connectToMySQL().query_db(query, data)
-
-    @staticmethod
-    def validar_explicacions(denuncia, denuncia_id):
-        valido = True
-        session['explicacions'] = denuncia['explicacions']
-        if len(denuncia['explicacions']) <= 3:
-            flash("La explicación debe tener más de dos caracteres.", "error")
-            valido = False
-        if len(denuncia['explicacions']) > 300:
-            flash("El tamaño máximo de la explicación es de 300 caracteres. Ajuste el texto e intente nuevamente.", "error")
-            valido = False
-        return valido
 
     @classmethod
     def delete_denuncias_by_noticia(cls, noticia_id):
