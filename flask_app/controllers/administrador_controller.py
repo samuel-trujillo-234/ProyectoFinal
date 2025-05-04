@@ -19,6 +19,7 @@ def verificar_admin():
 
 
 @app.route('/administrar_usuarios')
+@login_required
 def admin_usuarios():
     if not verificar_admin():
         return redirect('/')
@@ -27,6 +28,7 @@ def admin_usuarios():
 
 
 @app.route('/update_user_categoria', methods=['POST'])
+@login_required
 def update_user_categoria():
     if not verificar_admin():
         return redirect('/')
@@ -38,6 +40,7 @@ def update_user_categoria():
 
 
 @app.route('/delete_user', methods=['POST'])
+@login_required
 def delete_user():
     if not verificar_admin():
         return redirect('/')

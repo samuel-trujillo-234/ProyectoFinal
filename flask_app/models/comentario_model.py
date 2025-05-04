@@ -7,7 +7,6 @@ from flask import flash, session
 from datetime import date
 from datetime import datetime
 from flask_app.models.usuario_model import Usuario
-from flask_app.models.noticia_model import Noticia
 
 today = date.today()
 
@@ -20,7 +19,7 @@ class Comentario:
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']
         self.noticia_id = data['noticia_id']
-        self.nombre_usuario = data.get('nombre_usuario')  # Optional, if joined
+        self.nombre_usuario = data['nombre_usuario']
 
 
     @classmethod
@@ -29,7 +28,7 @@ class Comentario:
         SELECT comentarios.id AS id, comentarios.comentario AS comentario,
                comentarios.created_at AS created_at, comentarios.updated_at AS updated_at,
                comentarios.usuario_id AS usuario_id, comentarios.noticia_id AS noticia_id,
-               usuarios.nome AS nombre_usuario,
+               usuarios.nombre AS nombre_usuario,
                noticias.titulo AS titulo_noticia
         FROM comentarios
         LEFT JOIN usuarios ON comentarios.usuario_id = usuarios.id
@@ -48,7 +47,7 @@ class Comentario:
         SELECT comentarios.id AS id, comentarios.comentario AS comentario,
                comentarios.created_at AS created_at, comentarios.updated_at AS updated_at,
                comentarios.usuario_id AS usuario_id, comentarios.noticia_id AS noticia_id,
-               usuarios.nome AS nombre_usuario,
+               usuarios.nombre AS nombre_usuario,
                noticias.titulo AS titulo_noticia
         FROM comentarios
         LEFT JOIN usuarios ON comentarios.usuario_id = usuarios.id
@@ -66,16 +65,21 @@ class Comentario:
         SELECT comentarios.id AS id, comentarios.comentario AS comentario,
                comentarios.created_at AS created_at, comentarios.updated_at AS updated_at,
                comentarios.usuario_id AS usuario_id, comentarios.noticia_id AS noticia_id,
-               usuarios.nome AS nombre_usuario,
+               usuarios.nombre AS nombre_usuario,
                noticias.titulo AS titulo_noticia
         FROM comentarios
         LEFT JOIN usuarios ON comentarios.usuario_id = usuarios.id
         LEFT JOIN noticias ON comentarios.noticia_id = noticias.id
-        WHERE noticias.id = %(id)s;
+        WHERE noticias.id = %(id)s
+        ORDER BY comentarios.created_at DESC;
         """
         data = {"id": id}
-        result = connectToMySQL().query_db(query, data)
-        return cls(result[0]) if result else None
+        results = connectToMySQL().query_db(query, data)
+        comentarios = []
+        if results:  # Check if results is not None or False
+            for comentario in results:
+                comentarios.append(cls(comentario))
+        return comentarios
 
 
     @classmethod

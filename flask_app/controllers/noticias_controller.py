@@ -160,5 +160,6 @@ def mostrar_noticia(id):
 
 
 @app.route('/favoritos')
+@login_required
 def favoritos():
     return render_template('favoritos.html')
