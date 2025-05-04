@@ -45,6 +45,7 @@ def registrar_usuario():
 
 
 @app.route('/actualizar_perfil', methods=['POST'])
+@login_required
 def actualizar_perfil():
     if 'id' not in session:
         return redirect('/')
@@ -67,6 +68,7 @@ def actualizar_perfil():
 
 
 @app.route('/cambiar_password', methods=['POST'])
+@login_required
 def cambiar_password():
     if 'id' not in session:
         return redirect('/')
@@ -94,6 +96,7 @@ def cambiar_password():
 
 
 @app.route('/actualizar_notificaciones', methods=['POST'])
+@login_required
 def actualizar_notificaciones():
     if 'id' not in session:
         return redirect('/')
@@ -103,6 +106,7 @@ def actualizar_notificaciones():
 
 
 @app.route('/actualizar_privacidad', methods=['POST'])
+@login_required
 def actualizar_privacidad():
     if 'id' not in session:
         return redirect('/')
@@ -112,6 +116,7 @@ def actualizar_privacidad():
 
 
 @app.route('/actualizar_tema', methods=['POST'])
+@login_required
 def actualizar_tema():
     if 'id' not in session:
         return redirect('/')
@@ -121,6 +126,7 @@ def actualizar_tema():
 
 
 @app.route('/desactivar_cuenta', methods=['POST'])
+@login_required
 def desactivar_cuenta():
     if 'id' not in session:
         return redirect('/')
@@ -131,6 +137,7 @@ def desactivar_cuenta():
 
 
 @app.route('/eliminar_cuenta', methods=['POST'])
+@login_required
 def eliminar_cuenta():
     if 'id' not in session:
         return redirect('/')
@@ -143,5 +150,6 @@ def eliminar_cuenta():
 
 
 @app.route('/settings')
+@login_required
 def settings():
     return render_template('settings.html')

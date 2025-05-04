@@ -7,6 +7,7 @@ from flask import flash, session
 from datetime import date
 from datetime import datetime
 from flask_app.models.usuario_model import Usuario
+from flask_app.models.comentario_model import Comentario
 
 today = date.today()
 
@@ -26,6 +27,7 @@ class Noticia:
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']
         self.nombre_usuario = data['nombre_usuario']
+        self.comentarios_count = data.get('comentarios_count', 0)  # Default to 0 if not provided
 
     @classmethod
     def get_all(cls):
@@ -33,14 +35,20 @@ class Noticia:
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
                noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
-               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
+               COUNT(comentarios.id) AS comentarios_count
         FROM noticias
-        LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id;
+        LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
+        LEFT JOIN comentarios ON noticias.id = comentarios.noticia_id
+        GROUP BY noticias.id;
         """
         results = connectToMySQL().query_db(query)
         noticias = []
         for noticia in results:
             noticias.append(cls(noticia))
+            print()
+            print("#######################################")
+            print("noticia: ", cls(noticia).id, "  |  Comentatios: ", cls(noticia).comentarios_count)
         return noticias
 
     @classmethod
@@ -49,10 +57,13 @@ class Noticia:
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
                noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
-               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
+               COUNT(comentarios.id) AS comentarios_count
         FROM noticias
         LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
-        WHERE noticias.id = %(id)s;
+        LEFT JOIN comentarios ON noticias.id = comentarios.noticia_id
+        WHERE noticias.id = %(id)s
+        GROUP BY noticias.id;
         """
         data = {"id": id}
         result = connectToMySQL().query_db(query, data)
