@@ -9,21 +9,23 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
     rel="stylesheet">
+
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
   <!-- Toaster -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
 </head>
 
 <body>
-  <!-- SVG icons (hidden) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <!-- ... existing SVG symbols ... -->
-  </svg>
+
+  <!-- Include SVG Icons Component -->
+  {% include 'components/_svg_icons.html' %}
 
   <main>
 
@@ -31,10 +33,10 @@
     {% include 'components/_menu_lateral.html' %}
 
     <div class="b-example-divider"></div>
-
     <div class="container-fluid p-4">
       <div class="row justify-content-center">
         <div class="col-md-10">
+
           <!-- Barra de navegación y acciones -->
           <div class="d-flex justify-content-between align-items-center mb-4">
             <nav aria-label="breadcrumb">
@@ -45,25 +47,27 @@
             </nav>
             {% if noticia.usuario_id == id %}
             <div>
-              <a href="/editar_noticia/{{noticia.id}}" class="btn btn-outline-dark btn-sm me-2"><i class="fas fa-edit me-1"></i> Editar</a>
-              <a href="/eliminar_noticia/{{noticia.id}}" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás seguro que deseas eliminar esta noticia?');"><i class="fas fa-trash-alt me-1"></i> Eliminar</a>
+              <a href="/editar_noticia/{{noticia.id}}" class="btn btn-outline-dark btn-sm me-2"><i
+                  class="fas fa-edit me-1"></i> Editar</a>
+              <button type="button" class="btn btn-sm btn-outline-danger delete-btn" data-id="{{noticia.id}}"><i
+                  class="fas fa-trash-alt me-1"></i> Eliminar</button>
             </div>
             {% endif %}
           </div>
-
           <div class="card shadow">
             <div class="card-body news-container" style="height: calc(100vh - 150px); overflow-y: auto;">
+
               <!-- Título de la noticia -->
               <h1 class="news-title">{{ noticia.titulo }}</h1>
-              
+
               <!-- Metadatos de la noticia -->
               <div class="news-meta d-flex justify-content-between align-items-center mb-3">
                 <div>
-                  <span class="text-muted">Publicado el {{ noticia.created_at.strftime('%d/%m/%Y') }}</span> • 
+                  <span class="text-muted">Publicado el {{ noticia.created_at.strftime('%d/%m/%Y') }}</span> •
                   <span class="text-muted">Por {{ noticia.nombre_usuario }}</span>
                 </div>
               </div>
-              
+
               <!-- Botones de acción -->
               <div class="action-buttons">
                 <button class="action-btn like" onclick="updateCounter(this, 'like')">
@@ -86,46 +90,45 @@
                   Report
                 </button>
               </div>
-              
+
               <!-- Etiquetas -->
               <div class="mb-4">
                 {% set tags = noticia.tags.split(',') %}
                 {% for tag in tags %}
-                  {% if tag.strip() %}
-                  <span class="tag-btn text-white">{{ tag.strip() }}</span>
-                  {% endif %}
+                {% if tag.strip() %}
+                <span class="tag-btn text-white">{{ tag.strip() }}</span>
+                {% endif %}
                 {% endfor %}
               </div>
-              
+
               <!-- Imagen o video -->
               {% if noticia.foto_video %}
               <div class="media-container mb-4">
                 {% if noticia.foto_video.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')) %}
-                  <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
+                <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
                 {% elif noticia.foto_video.lower().endswith(('.mp4', '.webm', '.ogg')) %}
-                  <video controls class="img-fluid rounded">
-                    <source src="{{ noticia.foto_video }}" type="video/{{ noticia.foto_video.split('.')[-1] }}">
-                    Tu navegador no soporta el elemento de video.
-                  </video>
+                <video controls class="img-fluid rounded">
+                  <source src="{{ noticia.foto_video }}" type="video/{{ noticia.foto_video.split('.')[-1] }}">
+                  Tu navegador no soporta el elemento de video.
+                </video>
                 {% elif 'youtube.com' in noticia.foto_video or 'youtu.be' in noticia.foto_video %}
-                  <div class="ratio ratio-16x9">
-                    <iframe 
-                      src="{{ noticia.foto_video.replace('watch?v=', 'embed/') if 'watch?v=' in noticia.foto_video else noticia.foto_video }}" 
-                      title="{{ noticia.titulo }}" 
-                      allowfullscreen>
-                    </iframe>
-                  </div>
+                <div class="ratio ratio-16x9">
+                  <iframe
+                    src="{{ noticia.foto_video.replace('watch?v=', 'embed/') if 'watch?v=' in noticia.foto_video else noticia.foto_video }}"
+                    title="{{ noticia.titulo }}" allowfullscreen>
+                  </iframe>
+                </div>
                 {% else %}
-                  <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
+                <img src="{{ noticia.foto_video }}" alt="Imagen: {{ noticia.titulo }}" class="img-fluid rounded">
                 {% endif %}
               </div>
               {% endif %}
-              
+
               <!-- Contenido de la noticia -->
               <div class="news-content mb-5">
                 {{ noticia.noticia }}
               </div>
-              
+
               <!-- Palabras clave -->
               {% if noticia.keywords %}
               <div class="mb-4">
@@ -133,11 +136,11 @@
                 <p class="text-muted">{{ noticia.keywords }}</p>
               </div>
               {% endif %}
-              
+
               <!-- Sección de comentarios -->
               <div class="comments-section mt-5">
                 <h3 class="comments-title mb-4">Comentarios</h3>
-                
+
                 <!-- Formulario para añadir comentario -->
                 <form action="/crear_comentario" method="POST" class="mb-4">
                   <div class="mb-3">
@@ -149,18 +152,18 @@
                     <button type="submit" class="btn btn-dark">Publicar comentario</button>
                   </div>
                 </form>
-                
+
                 <!-- Lista de comentarios -->
                 {% if comentarios %}
-                  {% for comentario in comentarios %}
-                  <div class="comment">
-                    <div class="d-flex justify-content-between">
-                      <p class="comment-author mb-1">{{ comentario.nombre_usuario }}</p>
-                      <small class="text-muted">{{ comentario.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
-                    </div>
-                    <p class="mb-0">{{ comentario.comentario }}</p>
+                {% for comentario in comentarios %}
+                <div class="comment">
+                  <div class="d-flex justify-content-between">
+                    <p class="comment-author mb-1">{{ comentario.nombre_usuario }}</p>
+                    <small class="text-muted">{{ comentario.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
                   </div>
-                  {% endfor %}
+                  <p class="mb-0">{{ comentario.comentario }}</p>
+                </div>
+                {% endfor %}
                 {% else %}
                 <div class="text-center text-muted py-5">
                   <i class="fas fa-comments fa-3x mb-3"></i>
@@ -168,7 +171,7 @@
                 </div>
                 {% endif %}
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -176,8 +179,17 @@
     </div>
   </main>
 
+  <!-- Include Delete Confirmation Modal -->
+  {% include 'modals/confirmacion_eliminacion_noticia_modal.html' %}
+
+  <!-- Include Toastr Messages Component -->
+  {% include 'components/_toastr_messages.html' %}
+
   <!-- Script principal -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  <!-- Script manipulación etiquetas y eliminación de notícias -->
+  <script src="{{ url_for('static', filename='js/manipular_noticias.js') }}"></script>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -186,9 +198,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
 
-  <!-- Include Toastr Messages Component -->
-  {% include 'components/_toastr_messages.html' %}
-  
+
+
 
 </body>
+
 </html>
