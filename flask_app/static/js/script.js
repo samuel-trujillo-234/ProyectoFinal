@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
     favoriteButtons.forEach(button => {
         button.addEventListener('click', () => handleFavorite(button));
     });
+    
+    // Inicializar los botones de reportes
+    const reportButtons = document.querySelectorAll('.action-btn.report');
+    reportButtons.forEach(button => {
+        button.addEventListener('click', () => handleReport(button));
+    });
 
     // Obtener referencias a los elementos de configuración
     const profileForm = document.querySelector('#profileForm');
@@ -174,6 +180,29 @@ function changePassword() {
             document.querySelector('#passwordForm').reset();
         } else {
             toastr.error(data.message || 'Error al actualizar la contraseña');
+        }
+    })
+    .catch(error => {
+        toastr.error('Error de conexión');
+    });
+}
+
+function handleReport(button) {
+    const reportId = button.dataset.reportId;
+
+    fetch('/report', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reportId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            toastr.success('Reporte enviado correctamente');
+        } else {
+            toastr.error('Error al enviar el reporte');
         }
     })
     .catch(error => {

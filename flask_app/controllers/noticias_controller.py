@@ -10,6 +10,7 @@ from flask_app.models.noticia_model import Noticia
 from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
 from flask_app.models.favorito_model import Favorito
+from flask_app.models.report_noticia_model import ReportNoticia
 from datetime import date
 from flask_app.utils.decoradores import login_required
 import os
@@ -159,7 +160,22 @@ def mostrar_noticia(id):
     comentarios=Comentario.select_noticia(id)
     favoritos_count = Favorito.get_count_by_noticia(id)
     usuario_ha_favorito = Favorito.check_if_favorited(session['id'], id)
-    return render_template("/mostrar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia=noticia, comentarios=comentarios, favoritos_count=favoritos_count, usuario_ha_favorito=usuario_ha_favorito)
+    reports_count = ReportNoticia.get_count_by_noticia(id) 
+    report_data = ReportNoticia.get_by_usuario_and_noticia(session['id'], id)
+    usuario_ha_reportado = report_data is not None
+    report_id = report_data.id if report_data else None
+    return render_template("/mostrar_noticia.html", 
+                          nombre=session['nombre'], 
+                          apellido=session['apellido'], 
+                          id=session['id'], 
+                          usuarios=usuarios, 
+                          noticia=noticia, 
+                          comentarios=comentarios, 
+                          favoritos_count=favoritos_count, 
+                          usuario_ha_favorito=usuario_ha_favorito,
+                          reports_count=reports_count,
+                          usuario_ha_reportado=usuario_ha_reportado,
+                          report_id=report_id)
 
 
 @app.route('/favoritos')

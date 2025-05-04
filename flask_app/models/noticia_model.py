@@ -1,5 +1,5 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
 
 from flask_app.config.mysqlconnection import connectToMySQL
@@ -27,7 +27,7 @@ class Noticia:
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']
         self.nombre_usuario = data['nombre_usuario']
-        self.comentarios_count = data.get('comentarios_count', 0)  # Default to 0 if not provided
+        self.comentarios_count = data.get('comentarios_count', 0)  # Valor predeterminado 0 si no se proporciona
 
     @classmethod
     def get_all(cls):
@@ -95,7 +95,7 @@ class Noticia:
         INSERT INTO noticias (titulo, noticia, foto_video, tags, revisada, keywords, hechos, sesgo, created_at, updated_at, usuario_id)
         VALUES (%(titulo)s, %(noticia)s, %(foto_video)s, %(tags)s, %(revisada)s, %(keywords)s, %(hechos)s, %(sesgo)s, %(created_at)s, %(updated_at)s, %(usuario_id)s);
         """
-        # Add current timestamp for created_at and updated_at
+        # Añadir marca de tiempo actual para created_at y updated_at
         data_with_dates = data.copy()
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         data_with_dates['created_at'] = current_time
@@ -138,7 +138,7 @@ class Noticia:
     def validar_noticia(noticia, noticia_id):
         valido = True
         session['noticia'] = noticia['noticia']
-        # Supondo que la fecha de la noticia está en noticia['created_at'] y es opcional
+        # Suponiendo que la fecha de la noticia está en noticia['created_at'] y es opcional
         # Si hay campo de fecha de publicación, ajustar aquí
         if len(noticia['titulo']) <= 3:
             flash("El título de la noticia debe tener más de dos caracteres.", "error")

@@ -75,20 +75,20 @@
                   Like
                   <span class="counter">0</span>
                 </button>
-
-                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}" data-id="{{noticia.id}}">
-                  <i class="fas fa-star" {% if usuario_ha_favorito %}style="color: #ffd700;"{% endif %}></i>
-                  Favoritos
-                  <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
-                </button>
                 <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
                   <i class="fas fa-heart-broken"></i>
                   Dislike
                   <span class="counter">0</span>
                 </button>
-                <button class="action-btn report">
-                  <i class="fas fa-flag"></i>
+                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}" data-id="{{noticia.id}}">
+                  <i class="fas fa-star" {% if usuario_ha_favorito %}style="color: #ffd700;"{% endif %}></i>
+                  Favoritos
+                  <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
+                </button>
+                <button class="action-btn report {% if usuario_ha_reportado %}active{% endif %}" data-id="{{noticia.id}}" {% if usuario_ha_reportado %}data-report-id="{{report_id}}"{% endif %}>
+                  <i class="fas fa-flag" {% if usuario_ha_reportado %}style="color: #ff4136;"{% endif %}></i>
                   Report
+                  <span class="counter">{{ reports_count if reports_count else 0 }}</span>
                 </button>
               </div>
 
@@ -186,24 +186,24 @@
   <!-- Include Toastr Messages Component -->
   {% include 'components/_toastr_messages.html' %}
 
+  <!-- jQuery first, then Bootstrap Bundle with Popper -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Toastr -->
+  <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+
   <!-- Script principal -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
   <!-- Script manipulación etiquetas y eliminación de notícias -->
   <script src="{{ url_for('static', filename='js/manipular_noticias.js') }}"></script>
 
-<!-- Script para atualización de likes y favoritos -->
-<script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
+  <!-- Script para atualización de likes y favoritos -->
+  <script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
 
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- jQuery y Toastr -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
-
-
-
+  <!-- Script para manejar reportes de noticias -->
+  <script src="{{ url_for('static', filename='js/atualizar_reports.js') }}"></script>
 
 </body>
 
