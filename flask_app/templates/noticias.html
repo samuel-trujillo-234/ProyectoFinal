@@ -159,9 +159,6 @@
     <!-- Include Delete Confirmation Modal -->
     {% include 'modals/confirmacion_eliminacion_noticia_modal.html' %}
 
-    <!-- Include Toastr Messages Component -->
-    {% include 'components/_toastr_messages.html' %}
-
     <!-- Script principal -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
@@ -173,11 +170,6 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- jQuery y Toastr -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
-
 
 
 </body>

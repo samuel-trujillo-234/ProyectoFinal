@@ -37,7 +37,7 @@ class Favorito:
 
 
     @classmethod
-    def delete_all_for_noticia(cls, noticia_id):
+    def delete_por_noticia(cls, noticia_id):
         query = "DELETE FROM favoritos WHERE noticia_id = %(noticia_id)s;"
         data = {"noticia_id": noticia_id}
         return connectToMySQL().query_db(query, data)
