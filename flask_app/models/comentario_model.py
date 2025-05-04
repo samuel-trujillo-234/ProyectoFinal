@@ -1,5 +1,5 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
 
 from flask_app.config.mysqlconnection import connectToMySQL
@@ -76,7 +76,7 @@ class Comentario:
         data = {"id": id}
         results = connectToMySQL().query_db(query, data)
         comentarios = []
-        if results:  # Check if results is not None or False
+        if results:  # Verificar si results no es None o False
             for comentario in results:
                 comentarios.append(cls(comentario))
         return comentarios
