@@ -97,6 +97,11 @@ class Comentario:
         data = {"id": id}
         return connectToMySQL().query_db(query, data)
 
+    @classmethod
+    def delete_por_noticia(cls, id):
+        query = "DELETE FROM comentarios WHERE noticia_id = %(id)s;"
+        data = {"id": id}
+        return connectToMySQL().query_db(query, data)
 
     @classmethod
     def update(cls, data):
