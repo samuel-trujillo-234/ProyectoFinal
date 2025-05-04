@@ -75,10 +75,11 @@
                   Like
                   <span class="counter">0</span>
                 </button>
-                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                  <i class="fas fa-star"></i>
+
+                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}" data-id="{{noticia.id}}">
+                  <i class="fas fa-star" {% if usuario_ha_favorito %}style="color: #ffd700;"{% endif %}></i>
                   Favoritos
-                  <span class="counter">0</span>
+                  <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
                 </button>
                 <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
                   <i class="fas fa-heart-broken"></i>

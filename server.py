@@ -11,6 +11,7 @@ from flask_app.controllers import autentication_controller
 from flask_app.controllers import administrador_controller
 from flask_app.controllers import noticias_controller
 from flask_app.controllers import comentarios_controller
+from flask_app.controllers import favoritos_controller
 
 if __name__ == '__main__':
     app.run(debug=True)
