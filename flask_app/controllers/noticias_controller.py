@@ -24,11 +24,14 @@ load_dotenv()
 today = date.today()
 
 # Configurar carpeta de subidas desde variables de entorno
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                            os.getenv('UPLOAD_FOLDER'))
+UPLOAD_FOLDER = os.path.join(
+    os.path.dirname(os.path.dirname(__file__)), 
+    os.getenv('UPLOAD_FOLDER', 'uploads')  # valor por defecto si no existe
+)
 
 # Convertir cadena separada por comas a conjunto
-ALLOWED_EXTENSIONS = set(os.getenv('ALLOWED_EXTENSIONS').split(','))
+extensiones = os.getenv('ALLOWED_EXTENSIONS', 'jpg,jpeg,png,gif')  # valor por defecto
+ALLOWED_EXTENSIONS = set(extensiones.split(','))
 
 # Crear directorio de subidas si no existe
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
