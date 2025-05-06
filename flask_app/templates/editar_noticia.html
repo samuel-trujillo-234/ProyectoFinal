@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editar noticia</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Toaster -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
+</head>
+
+<body>
+
+  <!-- Include SVG Icons Component -->
+  {% include 'components/_svg_icons.html' %}
+
+  <main>
+
+    <!-- Include Menu Lateral -->
+    {% include 'components/_menu_lateral.html' %}
+
+    <div class="b-example-divider"></div>
+
+    <div class="container-fluid p-4">
+      <div class="text-center mb-4">
+        <h1 class="main-title">Editar Noticia</h1>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow">
+            <div class="card-body news-container" style="height: calc(100vh - 200px); overflow-y: auto;">
+              <form action="/update_noticia" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="titulo" class="form-label">Título de la Noticia</label>
+                  <input type="text" class="form-control" id="titulo" value="{{noticia.titulo}}" name="titulo" required>
+                </div>
+                <div class="mb-3">
+                  <label for="noticia" class="form-label">Contenido de la Noticia</label>
+                  <textarea class="form-control" id="noticia" name="noticia" rows="10"
+                    required>{{noticia.noticia}}</textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Multimedia</label>
+                  <div class="d-flex gap-3">
+                    <div class="flex-grow-1">
+                      <input type="file" class="form-control" id="archivo_multimedia" name="archivo_multimedia"
+                        accept="image/*,video/*">
+                    </div>
+                    <div class="text-center">
+                      <span>O</span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <input type="text" class="form-control" id="foto_video" name="foto_video"
+                        placeholder="URL de imagen o video" value="{{noticia.foto_video}}">
+                    </div>
+                  </div>
+                  <small class="text-muted">Sube un archivo o proporciona una URL</small>
+                </div>
+                <div class="mb-3">
+                  <label for="tags" class="form-label">Etiquetas</label>
+                  <div class="tags-container mb-2">
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Tecnología">Tecnología</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Deportes">Deportes</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Política">Política</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Entretenimiento">Entretenimiento</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Ciencia">Ciencia</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Cultura">Cultura</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Economía">Economía</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Salud">Salud</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn"
+                      data-tag="Internacional">Internacional</button>
+                    <button type="button" class="btn bg-dark text-white m-1 tag-btn" data-tag="Medio Ambiente">Medio
+                      Ambiente</button>
+                  </div>
+                  <input type="text" class="form-control" id="tags" name="tags" placeholder="Etiquetas seleccionadas"
+                    value="{{noticia.tags}}" readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="keywords" class="form-label">Palabras Clave (separadas por coma)</label>
+                  <input type="text" class="form-control" id="keywords" name="keywords" value="{{noticia.keywords}}">
+                </div>
+                <input type="hidden" name="id" value="{{noticia.id}}">
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary">Publicar Noticia</button>
+                  <a href="/noticias" class="btn btn-secondary">Cancelar</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Toastr Messages Component -->
+    {% include 'components/_toastr_messages.html' %}
+
+    <!-- Script principal -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- Script creación de notícias -->
+    <script src="{{ url_for('static', filename='js/crear_noticia.js') }}"></script>
+
+    <!-- Script edición de notícias (manejo de tarjetas) -->
+    <script src="{{ url_for('static', filename='js/editar_noticia.js') }}"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

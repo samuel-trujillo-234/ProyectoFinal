@@ -1,5 +1,5 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
 
 from flask_app.config.mysqlconnection import connectToMySQL

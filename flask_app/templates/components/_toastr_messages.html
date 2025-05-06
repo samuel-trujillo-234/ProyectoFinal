@@ -1,19 +1,24 @@
 <!-- Toastr JS and CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
+
+<!-- jQuery must be included before Toastr JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
 
 <!-- Flash messages with Toastr -->
 <script>
     $(document).ready(function () {
-        {% with messages = get_flashed_messages(with_categories = true) %}
-        {% if messages %}
-        {% for category, message in messages %}
+        // Set toastr options globally once
         toastr.options = {
             "closeButton": true,
             "progressBar": true,
             "positionClass": "toast-top-right",
-            "timeOut": "5000"
+            "timeOut": "1500"
         };
+        
+        {% with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages %}
+        {% for category, message in messages %}
         toastr["{{ category }}"]("{{ message }}");
         {% endfor %}
         {% endif %}

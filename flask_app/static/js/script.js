@@ -1,24 +1,37 @@
-// Función para manejar los favoritos
-function handleFavorite(button) {
-    if (button.classList.contains('active')) {
-        button.classList.remove('active');
-        // Aquí puedes agregar la lógica para eliminar de favoritos
-    } else {
-        button.classList.add('active');
-        // Aquí puedes agregar la lógica para agregar a favoritos
-    }
-}
+// Coding Dojo - Python Bootcamp Jan 2025
+// Final project
+// Wavely - Scripts Java
 
-// Inicializar los botones de favoritos
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    // Aplicar tema guardado al cargar la página
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    
+    // Manejar clics en los enlaces del sidebar
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            navLinks.forEach(l => {
+                l.classList.remove('active');
+                l.classList.add('text-white');
+            });
+            this.classList.add('active');
+            this.classList.remove('text-white');
+        });
+    });
+
+    // Inicializar los botones de favoritos
     const favoriteButtons = document.querySelectorAll('.action-btn.favorite');
     favoriteButtons.forEach(button => {
         button.addEventListener('click', () => handleFavorite(button));
     });
-});
+    
+    // Inicializar los botones de reportes
+    const reportButtons = document.querySelectorAll('.action-btn.report');
+    reportButtons.forEach(button => {
+        button.addEventListener('click', () => handleReport(button));
+    });
 
-// Funciones para la página de configuración
-document.addEventListener('DOMContentLoaded', function() {
     // Obtener referencias a los elementos de configuración
     const profileForm = document.querySelector('#profileForm');
     const themeRadios = document.querySelectorAll('input[name="theme"]');
@@ -62,6 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+//
+// Funciones para la página de configuración
 
 function loadSavedSettings() {
     // Cargar tema
@@ -133,6 +150,9 @@ function savePrivacySettings() {
     toastr.success('Configuración de privacidad guardada');
 }
 
+
+// Roberto's comment: creo que debemos usar otra manera de utualizar password
+
 function changePassword() {
     const currentPassword = document.querySelector('#currentPassword').value;
     const newPassword = document.querySelector('#newPassword').value;
@@ -160,6 +180,29 @@ function changePassword() {
             document.querySelector('#passwordForm').reset();
         } else {
             toastr.error(data.message || 'Error al actualizar la contraseña');
+        }
+    })
+    .catch(error => {
+        toastr.error('Error de conexión');
+    });
+}
+
+function handleReport(button) {
+    const reportId = button.dataset.reportId;
+
+    fetch('/report', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reportId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            toastr.success('Reporte enviado correctamente');
+        } else {
+            toastr.error('Error al enviar el reporte');
         }
     })
     .catch(error => {

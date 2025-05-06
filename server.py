@@ -1,3 +1,8 @@
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
+## Wavely
+
+
 from flask import Flask, render_template
 from flask_app import app
 
@@ -5,16 +10,9 @@ from flask_app.controllers import usuarios_controller
 from flask_app.controllers import autentication_controller
 from flask_app.controllers import administrador_controller
 from flask_app.controllers import noticias_controller
-
-
-@app.route('/favoritos')
-def favoritos():
-    return render_template('favoritos.html')
-
-@app.route('/settings')
-def settings():
-    return render_template('settings.html')
-
+from flask_app.controllers import comentarios_controller
+from flask_app.controllers import favoritos_controller
+from flask_app.controllers import report_noticias_controller
 
 if __name__ == '__main__':
     app.run(debug=True)

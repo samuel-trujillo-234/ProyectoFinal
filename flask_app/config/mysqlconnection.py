@@ -1,5 +1,5 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Final project
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
 ## Wavely
  
 import pymysql.cursors 
@@ -18,30 +18,37 @@ class MySQLConnection:
             autocommit=True,
         )
         self.connection = connection 
-
-
+        
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
             try:
-                query = cursor.mogrify(query, data)
+                # Imprimir la query para depuración
                 print("Running Query:", query)
-
-                executable = cursor.execute(query, data)
+                
+                if data:
+                    executable = cursor.execute(query, data)
+                else:
+                    executable = cursor.execute(query)
+                    
                 if query.lower().find("insert") >= 0:
+                    # Si es INSERT, devolver el ID del último row insertado
                     self.connection.commit()
                     return cursor.lastrowid
                 elif query.lower().find("select") >= 0:
-                    
+                    # Si es SELECT, devolver los resultados como diccionario
                     result = cursor.fetchall()
                     return result
                 else:
-
+                    # Si es UPDATE o DELETE, devolver nada
                     self.connection.commit()
             except Exception as e:
+                # Si la query falla, imprimir error y devolver False
                 print("Something went wrong", e)
                 return False
             finally:
-                self.connection.close() 
+                # Cerrar la conexión
+                self.connection.close()
 
 def connectToMySQL():
+    # Función para crear una instancia de la conexión
     return MySQLConnection()
