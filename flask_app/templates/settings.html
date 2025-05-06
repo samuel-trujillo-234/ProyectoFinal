@@ -18,6 +18,7 @@
   <style>
     body {
       font-family: 'Source Sans Pro', sans-serif;
+      overflow-x: hidden; /* Prevenir scroll horizontal */
     }
 
     .bd-placeholder-img {
@@ -40,14 +41,14 @@
       flex-wrap: nowrap;
       height: 100vh;
       max-height: 100vh;
-      overflow-x: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .content-wrapper {
       flex: 1;
-      margin-left: 280px;
+      margin-left: 0;
       width: calc(100% - 280px);
-      min-height: 100vh;
       overflow-y: auto;
       padding: 0;
       background-color: #f8f9fa;
@@ -55,9 +56,9 @@
 
     .container {
       width: 100%;
-      max-width: none;
-      padding: 2rem 4rem;
-      margin: 0;
+      max-width: 1140px;
+      padding: 2rem 15px;
+      margin: 0 auto;
     }
 
     .row {
@@ -66,20 +67,15 @@
     }
 
     .col-lg-8 {
-      flex: 0 0 100%;
-      max-width: 100%;
-      padding: 0;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
     .card {
       width: 100%;
-      margin-bottom: 2rem;
-    }
-
-    @media (min-width: 1200px) {
-      .container {
-        padding: 2rem 6rem;
-      }
+      margin-bottom: 1.5rem;
     }
 
     .sidebar {
@@ -99,6 +95,7 @@
       border: solid rgba(0, 0, 0, .15);
       border-width: 1px 0;
       box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      display: none; /* Ocultar el divisor */
     }
 
     .bi {
@@ -195,6 +192,13 @@
       font-weight: bold;
       font-family: 'Playfair Display', serif;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Estilos para el contenedor de configuración */
+    .settings-container {
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding: 20px;
     }
   </style>
 </head>
@@ -304,15 +308,13 @@
     <!-- Include Menu Lateral -->
     {% include 'components/_menu_lateral.html' %}
 
-    <div class="b-example-divider"></div>
-
-    <div class="container-fluid p-4">
-      <div class="content-wrapper">
-        <div class="container py-4">
-          <div class="row justify-content-center">
-            <div class="col-lg-8">
-              <h2 class="text-dark mb-4 text-center" style="font-size: 2.5rem; font-family: 'Playfair Display', serif; font-weight: 700;">Configuración</h2>
-              
+    <div class="content-wrapper">
+      <div class="container py-4">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="text-dark mb-4 text-center" style="font-size: 2.5rem; font-family: 'Playfair Display', serif; font-weight: 700;">Configuración</h2>
+            
+            <div class="settings-container">
               <!-- Perfil -->
               <div class="card mb-4 shadow">
                 <div class="card-header bg-dark text-white py-3">
@@ -389,32 +391,6 @@
                 </div>
               </div>
 
-              <!-- Temas -->
-              <div class="card mb-4 shadow">
-                <div class="card-header bg-dark text-white py-3">
-                  <h5 class="mb-0"><i class="fas fa-palette me-2"></i>Temas</h5>
-                </div>
-                <div class="card-body p-4">
-                  <div class="mb-3">
-                    <label class="form-label">Modo de visualización</label>
-                    <div class="d-flex gap-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="theme" id="lightTheme" checked>
-                        <label class="form-check-label" for="lightTheme">
-                          Claro
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="theme" id="darkTheme">
-                        <label class="form-check-label" for="darkTheme">
-                          Oscuro
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <!-- Seguridad -->
               <div class="card mb-4 shadow">
                 <div class="card-header bg-dark text-white py-3">
@@ -440,8 +416,8 @@
                   </form>
                 </div>
               </div>
-
             </div>
+
           </div>
         </div>
       </div>
@@ -461,25 +437,6 @@
 
   <!-- Include Toastr Messages Component -->
   {% include 'components/_toastr_messages.html' %}
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Aplicar tema guardado al cargar la página
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-      document.querySelector(`#${savedTheme}Theme`).checked = true;
-
-      // Escuchar cambios en los radio buttons de tema
-      document.querySelectorAll('input[name="theme"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          const theme = this.id === 'darkTheme' ? 'dark' : 'light';
-          document.body.classList.toggle('dark-theme', theme === 'dark');
-          localStorage.setItem('theme', theme);
-          toastr.success(`Tema ${theme === 'dark' ? 'oscuro' : 'claro'} aplicado`);
-        });
-      });
-    });
-  </script>
 
 </body>
 </html>

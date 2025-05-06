@@ -1,4 +1,5 @@
 flask
 mypysql
 bycript
-OpenAI
+os
+uuid
