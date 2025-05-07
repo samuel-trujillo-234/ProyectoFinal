@@ -11,7 +11,7 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700family=Source+Sans+Pro:wght@400;600display=swap"
         rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -39,11 +39,49 @@
                 {% for noticia in noticias %}
                 <div class="card mb-3 shadow-sm">
                     <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{{ noticia.foto_video }}" class="img-fluid rounded-start" alt=""
-                                style="object-fit: cover; height: 100%; width: 100%;">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                class="img-fluid rounded" alt="Noticia periodismo">
+                            <div class="action-buttons">
+                                <button class="action-btn like" onclick="updateCounter(this, 'like')">
+                                    <i class="fas fa-heart"></i>
+                                    Like
+                                    <span class="counter">0</span>
+                                </button>
+                                <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
+                                    <i class="fas fa-star"></i>
+                                    Favoritos
+                                    <span class="counter">0</span>
+                                </button>
+                                <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
+                                    <i class="fas fa-heart-broken"></i>
+                                    Dislike
+                                    <span class="counter">0</span>
+                                </button>
+                                <button class="action-btn report">
+                                    <i class="fas fa-flag"></i>
+                                    Report
+                                </button>
+                                <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
+                                    <i class="fas fa-retweet"></i>
+                                    Repost
+                                    <span class="counter">0</span>
+                                </button>
+                                <button class="action-btn bubble">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Rompe burbujas
+                                </button>
+                                <button class="action-btn voices">
+                                    <i class="fas fa-microphone-alt"></i>
+                                    Múltiples voces
+                                </button>
+                                <button class="action-btn preferences">
+                                    <i class="fas fa-sliders-h"></i>
+                                    Preferencias
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <div class="card-body">
                                 <h5 class="card-title news-title">{{noticia.titulo}}</h5>
                                 <p class="card-text news-content">{{noticia.noticia}}</p>
