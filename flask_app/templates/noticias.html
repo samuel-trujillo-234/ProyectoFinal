@@ -132,7 +132,7 @@
                                             <div class="btn-group">
                                                 <a href="/noticia/{{noticia.id}}"
                                                     class="btn btn-sm btn-outline-dark">Leer más</a>
-                                                {% if noticia.usuario_id == id %}
+                                                {% if noticia.usuario_id == id or role == 'admin' %}
                                                 <a href="/editar_noticia/{{noticia.id}}"
                                                     class="btn btn-sm btn-outline-dark">Editar noticia</a>
                                                 <button type="button" class="btn btn-sm btn-outline-danger delete-btn"

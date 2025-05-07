@@ -25,6 +25,7 @@ def crear_comentario():
         return redirect(f"/noticia/{request.form['noticia_id']}")
         
     Comentario.save(data)
+    flash("Comentario creado", "success")
     return redirect(f"/noticia/{request.form['noticia_id']}")
 
 
@@ -32,6 +33,7 @@ def crear_comentario():
 @login_required
 def deletar_comentario(noticia_id, id):
     Comentario.delete(id)
+    flash("Comentario eliminado", "warning")
     return redirect(f"/noticia/{noticia_id}")
 
 
@@ -49,7 +51,6 @@ def atualizar_comentario():
         'id': request.form['id'],
         'comentario': request.form['comentario']
     }
-    
     # Validate the comment before updating
     if not Comentario.validar_comentario(data, request.form['id']):
         return redirect(f"/editar_comentario/{request.form['id']}")
