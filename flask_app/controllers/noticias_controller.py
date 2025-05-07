@@ -42,17 +42,24 @@ def allowed_file(filename):
 @app.route('/noticias')
 @login_required
 def mostrar_noticias():
-    session['noticia']=""
+    if 'email' not in session:
+        flash("No has iniciado sesión", "error")
+        return redirect("/")
+    session['noticia'] = ""
     nombre = session['nombre']
     if nombre is None:
         return redirect('/') 
-    noticias=Noticia.get_all()
-    return render_template("/noticias.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticias=noticias, today=today)
+    noticias = Noticia.get_all()
+    return render_template("/noticias.html", nombre=session['nombre'], apellido=session['apellido'], 
+                            id=session['id'], noticias=noticias, today=today)
 
 
 @app.route("/adicionar_noticia")
 @login_required
 def adicionar_noticia():
+    if 'email' not in session:
+        flash("No has iniciado sesión", "error")
+        return redirect("/")
     usuarios=Usuario.get_all()
     return render_template("/adicionar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia="")
 
@@ -178,5 +185,8 @@ def mostrar_noticia(id):
 @app.route('/favoritos')
 @login_required
 def favoritos():
+    if 'email' not in session:
+        flash("No has iniciado sesión", "error")
+        return redirect("/")
     noticias=Noticia.get_favoritas()
     return render_template("/favoritos.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticias=noticias, today=today)
