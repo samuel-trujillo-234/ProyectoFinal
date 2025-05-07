@@ -28,75 +28,6 @@
     <!-- Include Menu Lateral -->
     {% include 'components/_menu_lateral.html' %}
 
-
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-      <a href="/" class="d-flex align-items-center justify-content-center mb-4 text-white text-decoration-none">
-        <span class="brand-title">Wavely</span>
-      </a>
-      <hr>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="/" class="nav-link active" aria-current="page">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#home" />
-            </svg>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="/noticias" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#collection" />
-            </svg>
-            Noticias
-          </a>
-        </li>
-        <li>
-          <a href="/favoritos" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#star" />
-            </svg>
-            Favoritos
-          </a>
-        </li>
-        <li>
-          <a href="/crear" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#plus-circle" />
-            </svg>
-            Crear
-          </a>
-        </li>
-        <li>
-          <a href="/settings" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16">
-              <use xlink:href="#gear" />
-            </svg>
-            Settings
-          </a>
-        </li>
-      </ul>
-      <hr>
-      <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-user-circle fa-2x me-2"></i>
-          <strong>{{usuario | default('Usuario') }}</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-          {% if usuario is not defined %}
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal"><i class="fas fa-user me-2"></i>Registro</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user me-2"></i>Login</a></li>
-          <li><hr class="dropdown-divider"></li>
-          {% endif %}
-          {% if usuario is defined %}
-          <li><a class="dropdown-item" href="/close_session"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-
     <div class="b-example-divider"></div>
     
     <!-- Contenido principal -->
@@ -104,6 +35,7 @@
         <h1 class="mb-4 text-center main-title">Últimas Noticias</h1>
         
         <div class="news-container" style="height: calc(100vh - 100px); overflow-y: auto;">
+
             <!-- Noticia Individual -->
             <div class="card mb-4">
                 <div class="row g-0">
@@ -163,68 +95,6 @@
                             <p class="card-text news-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             <p class="card-text"><small class="text-muted news-meta">Última actualización hace 3 minutos</small></p>
                             
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Segunda Noticia -->
-            <div class="card mb-4">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded" alt="Noticia tecnología">
-                        <div class="action-buttons">
-                            <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                <i class="fas fa-heart"></i>
-                                Like
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                <i class="fas fa-star"></i>
-                                Favoritos
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                <i class="fas fa-heart-broken"></i>
-                                Dislike
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn report">
-                                <i class="fas fa-flag"></i>
-                                Report
-                            </button>
-                            <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                <i class="fas fa-retweet"></i>
-                                Repost
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn bubble">
-                                <i class="fas fa-comment-dots"></i>
-                                Rompe burbujas
-                            </button>
-                            <button class="action-btn voices">
-                                <i class="fas fa-microphone-alt"></i>
-                                Múltiples voces
-                            </button>
-                            <button class="action-btn preferences">
-                                <i class="fas fa-sliders-h"></i>
-                                Preferencias
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h2 class="card-title news-title">Otra Noticia Importante</h2>
-                            <div class="tags-container mb-3">
-                                <span class="tag">Tecnología</span>
-                                <span class="tag">Innovación</span>
-                            </div>
-                            <div class="reading-time mb-3">
-                                <i class="fas fa-user"></i>
-                                <span>Por María González</span>
-                            </div>
-                            <p class="card-text news-content">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-                            <p class="card-text"><small class="text-muted news-meta">Última actualización hace 1 hora</small></p>
                         </div>
                     </div>
                 </div>
