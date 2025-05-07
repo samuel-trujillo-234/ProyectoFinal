@@ -24,8 +24,8 @@
 
     <main>
 
-        <!-- Include Menu Lateral -->
-        {% include 'components/_menu_lateral.html' %}
+    <!-- Include Menu Lateral -->
+    {% include 'components/_menu_lateral.html' %}
 
         <div class="b-example-divider"></div>
 
@@ -62,11 +62,6 @@
                                     <i class="fas fa-flag"></i>
                                     Report
                                 </button>
-                                <button class="action-btn repost" onclick="updateCounter(this, 'repost')">
-                                    <i class="fas fa-retweet"></i>
-                                    Repost
-                                    <span class="counter">0</span>
-                                </button>
                                 <button class="action-btn bubble">
                                     <i class="fas fa-comment-dots"></i>
                                     Rompe burbujas
@@ -74,10 +69,6 @@
                                 <button class="action-btn voices">
                                     <i class="fas fa-microphone-alt"></i>
                                     Múltiples voces
-                                </button>
-                                <button class="action-btn preferences">
-                                    <i class="fas fa-sliders-h"></i>
-                                    Preferencias
                                 </button>
                             </div>
                         </div>
@@ -122,6 +113,9 @@
 
     <!-- Script mostrar favoritos -->
     <script src="{{ url_for('static', filename='js/mostrar_favoritos.js') }}"></script>
+    
+    <!-- Script para atualización de likes y favoritos -->
+    <script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

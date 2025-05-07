@@ -22,13 +22,25 @@
 
   <style>
     /* Settings page specific styles */
+    body {
+      min-height: 100vh;
+      overflow: hidden; /* Evita scroll en el body */
+    }
+    
+    main {
+      display: flex;
+      height: 100vh; /* Altura fija al 100% de la ventana */
+      overflow: hidden; /* Sin scroll en el contenedor principal */
+    }
+    
     .content-wrapper {
       flex: 1;
-      margin-left: 0;
-      width: calc(100% - 280px);
-      overflow-y: auto;
+      width: 100%;
+      overflow-y: auto; /* Solo aquí permitimos scroll */
       padding: 0;
       background-color: #f8f9fa;
+      margin: 0 auto;
+      height: 100vh; /* Altura igual a la ventana */
     }
 
     .container {
@@ -62,6 +74,13 @@
       bottom: 0;
       z-index: 100;
       width: 280px;
+      overflow-y: auto;
+    }
+    
+    /* Ajuste para el contenedor de contenido */
+    .container-fluid {
+      padding: 0;
+      height: 100%;
     }
 
   </style>
