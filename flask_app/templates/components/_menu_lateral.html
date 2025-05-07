@@ -7,7 +7,7 @@
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="/" class="nav-link active" aria-current="page">
+      <a href="/" class="nav-link {{ 'active' if request.path == '/' else 'text-white' }}" aria-current="page">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#home"/>
         </svg>
@@ -15,7 +15,7 @@
       </a>
     </li>
     <li>
-      <a href="/noticias" class="nav-link text-white">
+      <a href="/noticias" class="nav-link {{ 'active' if request.path == '/noticias' else 'text-white' }}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#collection" />
         </svg>
@@ -23,7 +23,7 @@
       </a>
     </li>
     <li>
-      <a href="/favoritos" class="nav-link text-white">
+      <a href="/favoritos" class="nav-link {{ 'active' if request.path == '/favoritos' else 'text-white' }}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#star" />
         </svg>
@@ -31,7 +31,7 @@
       </a>
     </li>
     <li>
-      <a href="/adicionar_noticia" class="nav-link text-white">
+      <a href="/adicionar_noticia" class="nav-link {{ 'active' if request.path == '/adicionar_noticia' else 'text-white' }}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#plus-circle" />
         </svg>
@@ -39,7 +39,7 @@
       </a>
     </li>
     <li>
-      <a href="/settings" class="nav-link text-white">
+      <a href="/settings" class="nav-link {{ 'active' if request.path == '/settings' else 'text-white' }}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#gear" />
         </svg>
@@ -48,7 +48,7 @@
     </li>
     {% if role == "admin" %}
     <li>
-      <a href="/administrar_usuarios" class="nav-link text-white">
+      <a href="/administrar_usuarios" class="nav-link {{ 'active' if request.path == '/administrar_usuarios' else 'text-white' }}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#gear" />
         </svg>
