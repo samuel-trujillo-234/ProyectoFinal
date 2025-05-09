@@ -2,7 +2,8 @@
 ## Final project
 ## Wavely
 
-from flask_app import app
+
+from flask import Blueprint
 from flask import render_template, request, redirect, session, jsonify
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.like_noticia_model import VotoNoticia
@@ -10,8 +11,9 @@ from datetime import date
 from flask_app.utils.decoradores import login_required
 
 
+likes_noticias = Blueprint('likes_noticias', __name__)
 
-@app.route("/upvote/<int:noticia_id>", methods=['POST'])
+@likes_noticias.route("/upvote/<int:noticia_id>", methods=['POST'])
 @login_required
 def upvote_noticia(noticia_id):
     usuario_id = session['id']
@@ -35,7 +37,7 @@ def upvote_noticia(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/downvote/<int:noticia_id>", methods=['POST'])
+@likes_noticias.route("/downvote/<int:noticia_id>", methods=['POST'])
 @login_required
 def downvote_noticia(noticia_id):
     usuario_id = session['id']
@@ -59,7 +61,7 @@ def downvote_noticia(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/delete_vote/<int:noticia_id>", methods=['POST'])
+@likes_noticias.route("/delete_vote/<int:noticia_id>", methods=['POST'])
 @login_required
 def delete_vote(noticia_id):
     usuario_id = session['id']

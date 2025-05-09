@@ -1,0 +1,117 @@
+<!-- Modal para mostrar el análisis de sesgo de noticias -->
+<div class="modal fade" id="sesgoModal" tabindex="-1" aria-labelledby="sesgoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sesgoModalLabel">Análisis de sesgo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Content container -->
+        <div id="sesgo-content">
+          <!-- Resumen -->
+          <div class="mb-4 bias-highlight">
+            <h5 class="mb-3">Resumen del análisis</h5>
+            <p class="text-muted mb-2">{{ noticia.sesgo.summary }}</p>
+          </div>
+
+          <!-- Categorías de sesgo -->
+          <div class="row mb-4">
+            {% set categorias = [
+            {'tipo': 'cultural', 'nombre': 'Cultural', 'icono': 'globe', 'color': 'primary'},
+            {'tipo': 'economic', 'nombre': 'Económico', 'icono': 'cash-coin', 'color': 'success'},
+            {'tipo': 'institutional', 'nombre': 'Institucional', 'icono': 'building', 'color': 'warning'}
+            ] %}
+
+            {% for categoria in categorias %}
+            <div class="col-md-4">
+              <div class="card shadow-sm bias-card h-100">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">
+                    <svg class="bi me-1" width="20" height="20">
+                      <use xlink:href="#{{ categoria.icono }}" />
+                    </svg>
+                    Sesgo {{ categoria.nombre }}
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <div class="bias-info">
+                    {% set sesgo = noticia.sesgo[categoria.tipo] %}
+                    <p><strong>Clasificación:</strong>
+                      <span
+                        class="badge {% if sesgo.label == 'neutral' %}bg-success{% elif sesgo.label == 'conservative' %}bg-danger{% else %}bg-primary{% endif %}">
+                        {{ sesgo.label }}
+                      </span>
+                    </p>
+
+                    <!-- Barra de progreso -->
+                    <div class="progress mb-3" style="height: 10px;">
+                      <div
+                        class="progress-bar {% if sesgo.label == 'neutral' %}bg-success{% elif sesgo.label == 'conservative' %}bg-danger{% else %}bg-primary{% endif %}"
+                        role="progressbar" style="width: {{ sesgo.confidence * 100 }}%;"
+                        aria-valuenow="{{ sesgo.confidence * 100 }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ sesgo.confidence * 100 }}%
+                      </div>
+                    </div>
+
+                    <p><strong>Puntuación:</strong> {{ sesgo.score }}</p>
+                    <p><strong>Confianza:</strong> {{ sesgo.confidence * 100 }}%</p>
+
+                    {% if sesgo.features and sesgo.features|length > 0 %}
+                    <div>
+                      <strong>Características:</strong>
+                      <ul class="list-unstyled">
+                        {% for feature in sesgo.features %}
+                        <li><span class="badge bg-light text-dark">{{ feature }}</span></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% else %}
+                    <p><strong>Características:</strong> Ninguna</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bias-highlight {
+    background-color: rgba(13, 110, 253, 0.15);
+    border-left: 3px solid #0d6efd;
+    padding: 1rem;
+  }
+
+  .bias-card {
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .bias-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .bias-info {
+    font-size: 0.95rem;
+  }
+
+  .bias-info .progress {
+    height: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .bias-info .badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+  }
+</style>

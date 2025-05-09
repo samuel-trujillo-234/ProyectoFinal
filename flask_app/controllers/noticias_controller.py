@@ -3,20 +3,25 @@
 ## Wavely
 
 
-from flask_app import app
-from flask import render_template, request, redirect, session, flash
+from flask import Blueprint
+from flask import render_template, request, redirect, session, flash, jsonify
 from functools import wraps
 from flask_app.models.noticia_model import Noticia
 from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.report_noticia_model import ReportNoticia
-from datetime import date
 from flask_app.utils.decoradores import login_required
+from flask_app.tasks.analisis_noticia import analisis_noticia_task
+from flask_app.tasks.analisis_sesgo import analisis_sesgo_task
+from datetime import date
 import os
 import uuid
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
+
+
+noticias = Blueprint('noticias', __name__)
 
 # Cargar variables de entorno
 load_dotenv()
@@ -42,7 +47,7 @@ def allowed_file(filename):
     return False
 
 
-@app.route('/noticias')
+@noticias.route('/noticias')
 @login_required
 def mostrar_noticias():
     if 'email' not in session:
@@ -57,7 +62,7 @@ def mostrar_noticias():
                             id=session['id'], noticias=noticias, today=today)
 
 
-@app.route("/adicionar_noticia")
+@noticias.route("/adicionar_noticia")
 @login_required
 def adicionar_noticia():
     if 'email' not in session:
@@ -67,11 +72,12 @@ def adicionar_noticia():
     return render_template("/adicionar_noticia.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], usuarios=usuarios, noticia="")
 
 
-@app.route("/crear_noticia", methods=['POST'])
+@noticias.route("/crear_noticia", methods=['POST'])
 @login_required
 def criar_noticia():
-    hechos = ""
-    sesgo = ""
+    analisis = ""
+    sesgo = {}
+    tipo = ""
     file_path = ""
     if 'archivo_multimedia' in request.files:
         file = request.files['archivo_multimedia']
@@ -91,19 +97,22 @@ def criar_noticia():
         'tags': request.form['tags'],
         'revisada': request.form.get('revisada', 0),
         'keywords': request.form['keywords'],
-        'hechos': hechos,
+        'tipo': tipo,
+        'analisis': analisis,
         'sesgo': sesgo,
         'usuario_id': session['id']
     }
     if Noticia.validar_noticia(data, 0) != True:
         return redirect ("/adicionar_noticia")
-    Noticia.save(data)   
+    noticia_id = Noticia.save(data)
     flash(f'Nueva noticia añadida con éxito: "{data["titulo"]}".', "success")
     session['noticia']=""
+    analisis_noticia_task.delay(noticia_id, data['noticia'], session['id'])
+    analisis_sesgo_task.delay(noticia_id, data['noticia'], session['id'])
     return redirect("/noticias")
 
 
-@app.route("/editar_noticia/<int:id>")
+@noticias.route("/editar_noticia/<int:id>")
 @login_required
 def editar_noticia(id):
     noticia=Noticia.get_one(id)
@@ -115,11 +124,12 @@ def editar_noticia(id):
     return redirect("/noticias")
 
 
-@app.route("/update_noticia", methods=['POST'])
+@noticias.route("/update_noticia", methods=['POST'])
 @login_required
 def atualizar_noticia():
-    hechos = ""
-    sesgo = ""
+    analisis = ""
+    tipo = ""
+    sesgo = {}
     file_path = ""
     # Manejar la subida de archivo si existe
     if 'archivo_multimedia' in request.files:
@@ -141,10 +151,12 @@ def atualizar_noticia():
         'tags': request.form['tags'],
         'revisada': request.form.get('revisada', 0),
         'keywords': request.form['keywords'],
-        'hechos': hechos,
+        'tipo': tipo,
+        'analisis': analisis,
         'sesgo': sesgo,
         'usuario_id': session['id']
     }
+
     if Noticia.validar_noticia(data, request.form['id']) != True:
         return redirect (f"/editar_noticia/{data['id']}")
     Noticia.update(data)
@@ -153,7 +165,7 @@ def atualizar_noticia():
     return redirect("/noticias")
 
 
-@app.route("/eliminar_noticia/<int:id>")
+@noticias.route("/eliminar_noticia/<int:id>")
 @login_required
 def eliminar_noticia(id):
     Noticia.delete(id)
@@ -161,7 +173,7 @@ def eliminar_noticia(id):
     return redirect ('/noticias')
 
 
-@app.route("/noticia/<int:id>")
+@noticias.route("/noticia/<int:id>")
 @login_required
 def mostrar_noticia(id):
     usuarios=Usuario.get_all()
@@ -185,7 +197,7 @@ def mostrar_noticia(id):
                           )
 
 
-@app.route('/favoritos')
+@noticias.route('/favoritos')
 @login_required
 def favoritos():
     if 'email' not in session:
@@ -193,3 +205,21 @@ def favoritos():
         return redirect("/")
     noticias=Noticia.get_favoritas()
     return render_template("/favoritos.html", nombre=session['nombre'], apellido=session['apellido'], id=session['id'], noticias=noticias, today=today)
+
+@noticias.route("/noticia/sesgo/<int:id>")
+def mostrar_sesgo(id):
+    noticia = Noticia.get_one(id)
+    
+    return render_template("/sesgo_noticia.html", 
+                          nombre=session['nombre'], 
+                          apellido=session['apellido'], 
+                          id=session['id'], 
+                          noticia=noticia)
+
+
+@noticias.route("/noticia/analisis/<int:id>")
+def mostrar_analisis(id):
+    noticia = Noticia.get_one(id)  
+    return render_template ("/modals/analisis_modal.html", noticia=noticia)
+
+

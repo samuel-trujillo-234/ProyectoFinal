@@ -105,69 +105,6 @@
       </div>
     </div>
 
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="/login" method="POST">
-              <div class="mb-3">
-                <label for="email_login" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email_login" name="email" required>
-              </div>
-              <div class="mb-3">
-                <label for="password_login" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password_login" name="password" required>
-              </div>
-              <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal de Registro -->
-    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registroModalLabel">Registro</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="/registro" method="POST">
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
-              </div>
-              <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" required>
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-              </div>
-              <div class="mb-3">
-                <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-              </div>
-              <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
     <!-- Script principal -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 

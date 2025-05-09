@@ -2,18 +2,8 @@
 ## Proyecto final
 ## Wavely
 
-
-from flask import Flask, render_template
 from flask_app import app
+import os
 
-from flask_app.controllers import usuarios_controller
-from flask_app.controllers import autentication_controller
-from flask_app.controllers import administrador_controller
-from flask_app.controllers import noticias_controller
-from flask_app.controllers import comentarios_controller
-from flask_app.controllers import favoritos_controller
-from flask_app.controllers import report_noticias_controller
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=os.getenv("DEBUG"), port=os.getenv("PORT"))

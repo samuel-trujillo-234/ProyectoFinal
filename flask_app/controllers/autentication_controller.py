@@ -2,18 +2,15 @@
 ## Final project
 ## Wavely
 
-
-from flask_app import app
-from flask import render_template,redirect,request,session,flash
+from flask import Blueprint, render_template, redirect, request, session, flash
 from flask_app.models.usuario_model import Usuario
 from flask_app.utils.decoradores import login_required
-from flask_bcrypt import Bcrypt
+from flask_app.extensions import bcrypt
 import os 
-bcrypt = Bcrypt(app) 
-app.secret_key = os.getenv("SECRET_KEY")
 
+autentication = Blueprint('autentication', __name__)
 
-@app.route('/iniciar_sessao', methods=['POST'])
+@autentication.route('/iniciar_sessao', methods=['POST'])
 def login_usuario():
     usuario = Usuario.get_by_email(request.form['email'])
     if not usuario:
@@ -30,7 +27,7 @@ def login_usuario():
     session['categoria'] = usuario.categoria
     return redirect("/")
 
-@app.route('/close_session')
+@autentication.route('/close_session')
 def close_session():
     if 'email' in session:
         session.clear()

@@ -2,16 +2,16 @@
 ## Proyecto final
 ## Wavely
 
-from flask_app import app
+from flask import Blueprint
 from flask import render_template, request, redirect, session, jsonify
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.report_noticia_model import ReportNoticia
 from datetime import date
 from flask_app.utils.decoradores import login_required
 
+report_noticias = Blueprint('report_noticias', __name__)
 
-
-@app.route("/reportar_noticia/<int:noticia_id>", methods=['POST'])
+@report_noticias.route("/reportar_noticia/<int:noticia_id>", methods=['POST'])
 @login_required
 def reportar_noticia(noticia_id):
     usuario_id = session['id']
@@ -24,7 +24,7 @@ def reportar_noticia(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/cancelar_report/<int:noticia_id>", methods=['POST'])
+@report_noticias.route("/cancelar_report/<int:noticia_id>", methods=['POST'])
 @login_required
 def cancelar_report(noticia_id):
     usuario_id = session['id']
@@ -37,7 +37,7 @@ def cancelar_report(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/admin/reports")
+@report_noticias.route("/admin/reports")
 @login_required
 def listar_reports():
     # Aquí podrías agregar una verificación de que el usuario es administrador
