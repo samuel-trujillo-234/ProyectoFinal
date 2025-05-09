@@ -1,54 +1,54 @@
-## Coding Dojo - Python Bootcamp Jan 2025
-## Roberto Alvarez, 2025
+## Coding Dojo - Python Bootcamp Ene 2025
+## Proyecto final
+## Wavely
 
 from flask_app.config.celery_worker import celery
 from flask_app.utils.openai_helper import call_openai_with_tool
 from flask_app.models.noticia_model import Noticia
 
 @celery.task
-def avaliar_texto_task(noticia_id, texto, usuario_id):
+def analisis_noticia_task(noticia_id, texto, usuario_id):
     """
-    Celery background task to evaluate if a news text is factual or opinion-based.
-    Updates the 'noticia' entry with the score and explanation.
+    Tarea en segundo plano de Celery para evaluar si un texto de noticia es factual u opinión.
+    Actualiza la entrada 'noticia' con la puntuación y explicación.
     """
 
-    # 🧠 Tool/function schema to classify text
+    # Esquema de función para OpenAI API v0.28.1 (formato antiguo)
     fact_vs_opinion_schema = [
         {
-            "type": "function",
-            "function": {
-                "name": "assess_fact_opinion",
-                "description": "Evaluate whether the text is a factual news report or an opinion piece.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "score": {
-                            "type": "integer",
-                            "description": "-1 for opinion piece, +1 for factual article"
-                        },
-                        "explanation": {
-                            "type": "string",
-                            "description": "Brief explanation of why the text was classified this way"
-                        }
+            "name": "assess_fact_opinion",
+            "description": "Evaluate whether the text is a factual news report or an opinion piece.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "score": {
+                        "type": "integer",
+                        "description": "-1 for opinion piece, +1 for factual article"
                     },
-                    "required": ["score", "explanation"]
-                }
+                    "explanation": {
+                        "type": "string",
+                        "description": "Brief explanation of why the text was classified this way"
+                    }
+                },
+                "required": ["score", "explanation"]
             }
         }
     ]
 
     # 🧾 Prompt
     prompt = f"""
-You are an assistant that classifies texts as either factual reports or opinion pieces.
+Eres un asistente que clasifica textos como reportes objetivos o artículos de opinión.
 
-Evaluate the text below and assign a score:
-- Use +1 if the text is clearly and fully a factual, data-based news article.
-- Use -1 if the text is fully an opinion or commentary.
-- Use values in between -1 and 1 accordingly.
+Evalúa el texto a continuación y asigna una puntuación:
+- Usa +1 si el texto es claramente y completamente un artículo de noticias objetivo, basado en datos.
+- Usa -1 si el texto es completamente una opinión o comentario.
+- Usa valores entre -1 y 1 según corresponda.
 
-Also return a short explanation of your reasoning.
+También proporciona una breve explicación de tu razonamiento.
 
-Text:
+IMPORTANTE: Tu respuesta DEBE ser en español. Proporciona la explicación completamente en español.
+
+Texto:
 \"\"\"
 {texto}
 \"\"\"
@@ -63,15 +63,10 @@ Text:
 
     assessment = result["result"]
 
-    # 🗃️ Build and update the Noticia object
-    noticia_obj = Noticia({
+    data = {
         "id": noticia_id,
-        "news": texto,
-        "type": assessment["score"],
-        "explanation": assessment["explanation"],
-        "created_at": None,
-        "updated_at": None,
-        "usuario_id": usuario_id
-    })
-
-    Noticia.update(noticia_obj)
+        "tipo": assessment["score"],
+        "analisis": assessment["explanation"]
+    }
+    
+    Noticia.update_tipo(data)

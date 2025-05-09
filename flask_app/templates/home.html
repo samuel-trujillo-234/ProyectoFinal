@@ -2,116 +2,100 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- Toaster -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Toaster -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr.min.css') }}" />
 </head>
 
 <body>
 
 
-  <!-- Include SVG Icons Component -->
-  {% include 'components/_svg_icons.html' %}
+    <!-- Include SVG Icons Component -->
+    {% include 'components/_svg_icons.html' %}
 
-  <main>
+    <main>
 
-    <!-- Include Menu Lateral -->
-    {% include 'components/_menu_lateral.html' %}
+        <!-- Include Menu Lateral -->
+        {% include 'components/_menu_lateral.html' %}
 
-    <div class="b-example-divider"></div>
-    
-    <!-- Contenido principal -->
-    <div class="container-fluid p-3">
-        <h1 class="mb-4 text-center main-title">Últimas Noticias</h1>
-        
-        <div class="news-container" style="height: calc(100vh - 100px); overflow-y: auto;">
+        <div class="b-example-divider"></div>
 
-            <!-- Noticia Individual -->
-            <div class="card mb-4">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded" alt="Noticia periodismo">
-                        <div class="action-buttons">
-                            <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                                <i class="fas fa-heart"></i>
-                                Like
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn favorite" onclick="updateCounter(this, 'favorite')">
-                                <i class="fas fa-star"></i>
-                                Favoritos
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                                <i class="fas fa-heart-broken"></i>
-                                Dislike
-                                <span class="counter">0</span>
-                            </button>
-                            <button class="action-btn report">
-                                <i class="fas fa-flag"></i>
-                                Report
-                            </button>
-                            <button class="action-btn bubble">
-                                <i class="fas fa-comment-dots"></i>
-                                Rompe burbujas
-                            </button>
-                            <button class="action-btn voices">
-                                <i class="fas fa-microphone-alt"></i>
-                                Múltiples voces
-                            </button>
+        <!-- Contenido principal -->
+        <div class="container-fluid p-3">
+            <h1 class="mb-4 text-center main-title">Última Noticia</h1>
+
+            <div class="news-container" style="height: calc(100vh - 100px); overflow-y: auto;">
+
+                <!-- Noticia Individual -->
+                <div class="card mb-4">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            {% if noticia.foto_video %}
+                            <img src="{{ noticia.foto_video }}" class="img-fluid rounded" style="margin-top: 50px;" alt="Noticia periodismo">
+                            {% else %}
+                          <img src="{{ url_for('static', filename='img/wavely.png') }}" class="img-fluid rounded" style="margin-top: 50px;" alt="Wavely Logo">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h2 class="card-title news-title">{{noticia.titulo}}</h2>
+                                {% if noticia.tags and noticia.tags.strip() %}
+                                <div class="mb-4">
+                                    {% set tags = noticia.tags.split(',') %}
+                                    {% for tag in tags %}
+                                    {% if tag.strip() %}
+                                    <span class="tag-btn text-white">{{ tag.strip() }}</span>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                <div class="reading-time mb-3">
+                                    <i class="fas fa-user"></i>
+                                    <span>{{noticia.nombre_usuario}}</span>
+                                </div>
+                                <p class="card-text news-content">{{noticia.noticia}}</p>
+                                <p class="card-text"><small class="text-muted news-meta">Publicado el {{
+                                        noticia.created_at.strftime('%d/%m/%Y') }}</small></p>
+
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h2 class="card-title news-title">Título de la Noticia</h2>
-                            <div class="tags-container mb-3">
-                                <span class="tag">Política</span>
-                                <span class="tag">Internacional</span>
-                                <span class="tag">Economía</span>
-                            </div>
-                            <div class="reading-time mb-3">
-                                <i class="fas fa-user"></i>
-                                <span>Por Juan Pérez</span>
-                            </div>
-                            <p class="card-text news-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p class="card-text"><small class="text-muted news-meta">Última actualización hace 3 minutos</small></p>
-                            
-                        </div>
-                    </div>
+
                 </div>
-
+            </div>
         </div>
-    </div>
-  </main>
+    </main>
 
 
-  <!-- Include Toastr Messages Component -->
-  {% include 'components/_toastr_messages.html' %}
+    <!-- Include Toastr Messages Component -->
+    {% include 'components/_toastr_messages.html' %}
 
-  <!-- Registro Modal -->
-  {% include 'modals/registro_modal.html' %}
-  
-  <!-- Login Modal -->
-  {% include 'modals/login_modal.html' %}
+    <!-- Registro Modal -->
+    {% include 'modals/registro_modal.html' %}
 
-  <!-- Script principal -->
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  
-  <!-- Script para atualización de likes y favoritos -->
-  <script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
+    <!-- Login Modal -->
+    {% include 'modals/login_modal.html' %}
 
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script principal -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- Script para atualización de likes y favoritos -->
+    <script src="{{ url_for('static', filename='js/atualizar_likes_favoritos.js') }}"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

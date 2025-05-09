@@ -2,17 +2,17 @@
 ## Proyecto final
 ## Wavely
 
-from flask_app import app
-from flask import render_template, request, redirect, session, jsonify
+from flask import Blueprint, render_template, request, redirect, session, jsonify
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.like_noticia_model import VotoNoticia
 from flask_app.models.like_comentario_model import VotoComentario
 from datetime import date
 from flask_app.utils.decoradores import login_required
 
+likes_comentarios = Blueprint('likes_comentarios', __name__)
 
 # Rutas de Votos para Noticias
-@app.route("/upvote/<int:noticia_id>", methods=['POST'])
+@likes_comentarios.route("/upvote/<int:noticia_id>", methods=['POST'])
 @login_required
 def upvote_noticia(noticia_id):
     usuario_id = session['id']
@@ -36,7 +36,7 @@ def upvote_noticia(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/downvote/<int:noticia_id>", methods=['POST'])
+@likes_comentarios.route("/downvote/<int:noticia_id>", methods=['POST'])
 @login_required
 def downvote_noticia(noticia_id):
     usuario_id = session['id']
@@ -60,7 +60,7 @@ def downvote_noticia(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/delete_vote/<int:noticia_id>", methods=['POST'])
+@likes_comentarios.route("/delete_vote/<int:noticia_id>", methods=['POST'])
 @login_required
 def delete_vote(noticia_id):
     usuario_id = session['id']
@@ -80,7 +80,7 @@ def delete_vote(noticia_id):
 
 
 # Rutas de Votos para Comentarios
-@app.route("/upvote_comentario/<int:comentario_id>", methods=['POST'])
+@likes_comentarios.route("/upvote_comentario/<int:comentario_id>", methods=['POST'])
 @login_required
 def upvote_comentario(comentario_id):
     usuario_id = session['id']
@@ -107,7 +107,7 @@ def upvote_comentario(comentario_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/downvote_comentario/<int:comentario_id>", methods=['POST'])
+@likes_comentarios.route("/downvote_comentario/<int:comentario_id>", methods=['POST'])
 @login_required
 def downvote_comentario(comentario_id):
     usuario_id = session['id']
@@ -134,7 +134,7 @@ def downvote_comentario(comentario_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/delete_vote_comentario/<int:comentario_id>", methods=['POST'])
+@likes_comentarios.route("/delete_vote_comentario/<int:comentario_id>", methods=['POST'])
 @login_required
 def delete_vote_comentario(comentario_id):
     usuario_id = session['id']

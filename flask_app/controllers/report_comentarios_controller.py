@@ -2,16 +2,16 @@
 ## Proyecto final
 ## Wavely
 
-from flask_app import app
+from flask import Blueprint
 from flask import render_template, request, redirect, session, jsonify
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.report_comentario_model import ReportComentario
 from datetime import date
 from flask_app.utils.decoradores import login_required
 
+report_comentarios = Blueprint('report_comentarios', __name__)
 
-
-@app.route("/reportar_comentario/<int:comentario_id>", methods=['POST'])
+@report_comentarios.route("/reportar_comentario/<int:comentario_id>", methods=['POST'])
 @login_required
 def reportar_comentario(comentario_id):
     usuario_id = session['id']
@@ -24,7 +24,7 @@ def reportar_comentario(comentario_id):
     return redirect(request.referrer or "/")
 
 
-@app.route("/cancelar_report_comentario/<int:comentario_id>", methods=['POST'])
+@report_comentarios.route("/cancelar_report_comentario/<int:comentario_id>", methods=['POST'])
 @login_required
 def cancelar_report_comentario(comentario_id):
     usuario_id = session['id']
@@ -37,7 +37,7 @@ def cancelar_report_comentario(comentario_id):
     return redirect(request.referrer or "/")
 
 
-@app.route("/admin/reports_comentarios")
+@report_comentarios.route("/admin/reports_comentarios")
 @login_required
 def listar_reports_comentarios():
     # Aquí podrías agregar una verificación de que el usuario es administrador

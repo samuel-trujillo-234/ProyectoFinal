@@ -2,14 +2,15 @@
 ## Final project
 ## Wavely - Administrador Controller
 
-from flask_app import app
-from flask import render_template, redirect, request, session, flash, jsonify
+
+from flask import Blueprint, render_template, redirect, request, session, flash, jsonify
 from flask_app.models.usuario_model import Usuario
 from flask_app.utils.decoradores import login_required
 
+administrador = Blueprint('administrador', __name__)
+
 # Function para verificar se es administrador
 # Retorna True if admin, False otherwise
-
 
 def verificar_admin():
     if 'categoria' not in session or session['categoria'] != 'admin':
@@ -18,7 +19,7 @@ def verificar_admin():
     return True
 
 
-@app.route('/administrar_usuarios')
+@administrador.route('/administrar_usuarios')
 @login_required
 def admin_usuarios():
     if not verificar_admin():
@@ -27,7 +28,7 @@ def admin_usuarios():
     return render_template('administracion_usuarios.html', usuarios=usuarios, usuario=session['nombre'], id_usuario=session['id'])
 
 
-@app.route('/update_user_categoria', methods=['POST'])
+@administrador.route('/update_user_categoria', methods=['POST'])
 @login_required
 def update_user_categoria():
     if not verificar_admin():
@@ -39,7 +40,7 @@ def update_user_categoria():
     return redirect('/administrar_usuarios')
 
 
-@app.route('/delete_user', methods=['POST'])
+@administrador.route('/delete_user', methods=['POST'])
 @login_required
 def delete_user():
     if not verificar_admin():

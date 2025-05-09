@@ -2,25 +2,26 @@
 ## Final project
 ## Wavely
 
-
-from flask_app import app
+from flask import Blueprint
 from flask import render_template, request, redirect, session, flash
 from flask_app.models.usuario_model import Usuario
+from flask_app.models.noticia_model import Noticia
 from flask_app.utils.decoradores import login_required
 from datetime import date
-from flask_bcrypt import Bcrypt
+from flask_app.extensions import bcrypt
 import os
 
-bcrypt = Bcrypt(app)
+usuarios = Blueprint('usuarios', __name__)
+
 today = date.today()
 
-
-@app.route('/')
+@usuarios.route('/')
 def home():
-    return render_template('home.html')
+    noticia = Noticia.get_latest()
+    return render_template('home.html', noticia=noticia)
 
 
-@app.route('/registrar_usuario', methods=['POST'])
+@usuarios.route('/registrar_usuario', methods=['POST'])
 def registrar_usuario():
     lista_admin = os.getenv("ADMINS")
     if request.form['email'] in lista_admin:
@@ -44,7 +45,7 @@ def registrar_usuario():
     return redirect("/")
 
 
-@app.route('/actualizar_perfil', methods=['POST'])
+@usuarios.route('/actualizar_perfil', methods=['POST'])
 @login_required
 def actualizar_perfil():
     if 'id' not in session:
@@ -67,7 +68,7 @@ def actualizar_perfil():
     return redirect('/settings')
 
 
-@app.route('/cambiar_password', methods=['POST'])
+@usuarios.route('/cambiar_password', methods=['POST'])
 @login_required
 def cambiar_password():
     if 'id' not in session:
@@ -95,7 +96,7 @@ def cambiar_password():
     return redirect('/settings')
 
 
-@app.route('/actualizar_notificaciones', methods=['POST'])
+@usuarios.route('/actualizar_notificaciones', methods=['POST'])
 @login_required
 def actualizar_notificaciones():
     if 'id' not in session:
@@ -105,7 +106,7 @@ def actualizar_notificaciones():
     return redirect('/settings')
 
 
-@app.route('/actualizar_privacidad', methods=['POST'])
+@usuarios.route('/actualizar_privacidad', methods=['POST'])
 @login_required
 def actualizar_privacidad():
     if 'id' not in session:
@@ -115,7 +116,7 @@ def actualizar_privacidad():
     return redirect('/settings')
 
 
-@app.route('/actualizar_tema', methods=['POST'])
+@usuarios.route('/actualizar_tema', methods=['POST'])
 @login_required
 def actualizar_tema():
     if 'id' not in session:
@@ -125,7 +126,7 @@ def actualizar_tema():
     return redirect('/settings')
 
 
-@app.route('/desactivar_cuenta', methods=['POST'])
+@usuarios.route('/desactivar_cuenta', methods=['POST'])
 @login_required
 def desactivar_cuenta():
     if 'id' not in session:
@@ -136,7 +137,7 @@ def desactivar_cuenta():
     return redirect('/')
 
 
-@app.route('/eliminar_cuenta', methods=['POST'])
+@usuarios.route('/eliminar_cuenta', methods=['POST'])
 @login_required
 def eliminar_cuenta():
     if 'id' not in session:
@@ -149,7 +150,7 @@ def eliminar_cuenta():
     return redirect('/')
 
 
-@app.route('/settings')
+@usuarios.route('/settings')
 @login_required
 def settings():
     return render_template('settings.html')

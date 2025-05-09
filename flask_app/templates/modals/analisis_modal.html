@@ -1,0 +1,69 @@
+<!-- Modal para mostrar el análisis de noticias -->
+<div class="modal fade" id="analisisModal" tabindex="-1" aria-labelledby="analisisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="analisisModalLabel">Análisis de contenido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content container -->
+                <div id="analisis-content">
+                    <!-- Título de la noticia -->
+                    <div class="mb-4 analysis-highlight">
+                        <h2 class="mb-3">{{ noticia.titulo }}</h2>
+                    </div>
+
+                    <!-- Secciones de análisis -->
+                    <div class="row mb-4">
+                        <!-- Tipo de contenido -->
+                        <div class="col-12 mb-3">
+                            <div class="card shadow-sm analysis-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tipo de contenido</h5>
+                                    <p class="card-text">{{ noticia.tipo }}</p>
+                                    <p style="color: red">Entenda el tipo | Artículos de opinión: -1 | Notícias sin opiniones: 1</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Análisis -->
+                        <div class="col-12 mb-3">
+                            <div class="card shadow-sm analysis-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Análisis</h5>
+                                    <p class="card-text">{{ noticia.analisis }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .analysis-highlight {
+        background-color: rgba(13, 110, 253, 0.05);
+        border-left: 3px solid #0d6efd;
+        padding: 1rem;
+    }
+
+    .analysis-card {
+        transition: all 0.3s ease;
+    }
+
+    .analysis-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .modal-body h5 {
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+</style>

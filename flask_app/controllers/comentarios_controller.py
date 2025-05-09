@@ -2,7 +2,7 @@
 ## Final project
 ## Wavely
 
-from flask_app import app
+from flask import Blueprint
 from flask import render_template, request, redirect, session, flash, url_for
 from flask_app.models.usuario_model import Usuario
 from flask_app.models.noticia_model import Noticia
@@ -11,7 +11,9 @@ from datetime import date
 from flask_app.utils.decoradores import login_required
 
 
-@app.route("/crear_comentario", methods=['POST'])
+comentarios = Blueprint('comentarios', __name__)
+
+@comentarios.route("/crear_comentario", methods=['POST'])
 @login_required
 def crear_comentario():
     data = {
@@ -29,7 +31,7 @@ def crear_comentario():
     return redirect(f"/noticia/{request.form['noticia_id']}")
 
 
-@app.route("/eliminar_comentario/<int:noticia_id>/<int:id>")
+@comentarios.route("/eliminar_comentario/<int:noticia_id>/<int:id>")
 @login_required
 def deletar_comentario(noticia_id, id):
     Comentario.delete(id)
@@ -37,14 +39,14 @@ def deletar_comentario(noticia_id, id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/editar_comentario/<int:id>")
+@comentarios.route("/editar_comentario/<int:id>")
 @login_required
 def editar_comentario(id):
     comentario = Comentario.get_one(id)
     return render_template("editar_comentario.html", comentario=comentario)
 
 
-@app.route("/atualizar_comentario", methods=['POST'])
+@comentarios.route("/atualizar_comentario", methods=['POST'])
 @login_required
 def atualizar_comentario():
     data = {

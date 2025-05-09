@@ -50,7 +50,9 @@
               <a href="/editar_noticia/{{noticia.id}}" class="btn btn-outline-dark btn-sm me-2"><i
                   class="fas fa-edit me-1"></i> Editar</a>
               <button type="button" class="btn btn-sm btn-outline-danger delete-btn" data-id="{{noticia.id}}">
-                <svg class="bi me-1" width="16" height="16"><use xlink:href="#trash"/></svg> Eliminar
+                <svg class="bi me-1" width="16" height="16">
+                  <use xlink:href="#trash" />
+                </svg> Eliminar
               </button>
             </div>
             {% endif %}
@@ -72,24 +74,47 @@
               <!-- Botones de acción -->
               <div class="action-buttons">
                 <button class="action-btn like" onclick="updateCounter(this, 'like')">
-                  <svg class="bi me-1" width="16" height="16"><use xlink:href="#heart"/></svg>
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#heart" />
+                  </svg>
                   Like
                   <span class="counter">0</span>
                 </button>
                 <button class="action-btn dislike" onclick="updateCounter(this, 'dislike')">
-                  <svg class="bi me-1" width="16" height="16"><use xlink:href="#heart-broken"/></svg>
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#heart-broken" />
+                  </svg>
                   Dislike
                   <span class="counter">0</span>
                 </button>
-                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}" data-id="{{noticia.id}}">
-                  <svg class="bi me-1" width="16" height="16"><use xlink:href="#star" {% if usuario_ha_favorito %}style="color: #ffd700;"{% endif %}/></svg>
+                <button class="action-btn favorite {% if usuario_ha_favorito %}active{% endif %}"
+                  data-id="{{noticia.id}}">
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#star" {% if usuario_ha_favorito %}style="color: #ffd700;" {% endif %} />
+                  </svg>
                   Favoritos
                   <span class="counter">{{ favoritos_count if favoritos_count else 0 }}</span>
                 </button>
-                <button class="action-btn report {% if usuario_ha_reportado %}active{% endif %}" data-id="{{noticia.id}}">
-                  <svg class="bi me-1" width="16" height="16"><use xlink:href="#flag" {% if usuario_ha_reportado %}style="color: #ff4136;"{% endif %}/></svg>
+                <button class="action-btn report {% if usuario_ha_reportado %}active{% endif %}"
+                  data-id="{{noticia.id}}">
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#flag" {% if usuario_ha_reportado %}style="color: #ff4136;" {% endif %} />
+                  </svg>
                   Report
                   <span class="counter">{{ reports_count if reports_count else 0 }}</span>
+                </button>
+                <button class="action-btn" data-id="{{noticia.id}}" data-bs-toggle="modal"
+                  data-bs-target="#analisisModal">
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#cpu-fill" />
+                  </svg>
+                  Analisis
+                </button>
+                <button class="action-btn" data-id="{{noticia.id}}" data-bs-toggle="modal" data-bs-target="#sesgoModal">
+                  <svg class="bi me-1" width="16" height="16">
+                    <use xlink:href="#toggles2" />
+                  </svg>
+                  Sesgo
                 </button>
               </div>
 
@@ -170,26 +195,40 @@
                       <div class="col-md-4">
                         <div class="d-flex justify-content-between align-items-center h-100">
                           <div class="btn-group comment-actions">
-                            <button class="btn btn-sm btn-light comment-like" title="Me gusta" data-comment-id="{{ comentario.id }}">
-                              <svg class="bi me-1" width="16" height="16"><use xlink:href="#thumbs-up"/></svg>
+                            <button class="btn btn-sm btn-light comment-like" title="Me gusta"
+                              data-comment-id="{{ comentario.id }}">
+                              <svg class="bi me-1" width="16" height="16">
+                                <use xlink:href="#thumbs-up" />
+                              </svg>
                               <span class="like-count">0</span>
                             </button>
-                            <button class="btn btn-sm btn-light comment-dislike" title="No me gusta" data-comment-id="{{ comentario.id }}">
-                              <svg class="bi me-1" width="16" height="16"><use xlink:href="#thumbs-down"/></svg>
+                            <button class="btn btn-sm btn-light comment-dislike" title="No me gusta"
+                              data-comment-id="{{ comentario.id }}">
+                              <svg class="bi me-1" width="16" height="16">
+                                <use xlink:href="#thumbs-down" />
+                              </svg>
                               <span class="dislike-count">0</span>
                             </button>
                             {% if comentario.usuario_id == id %}
-                            <a href="/eliminar_comentario/{{noticia.id}}/{{comentario.id}}" class="btn btn-sm delete-comment-btn" style="color: red" title="Eliminar" data-comment-id="{{ comentario.id }}">
-                              <svg class="bi me-1" width="16" height="16"><use xlink:href="#trash"/></svg>
+                            <a href="/eliminar_comentario/{{noticia.id}}/{{comentario.id}}"
+                              class="btn btn-sm delete-comment-btn" style="color: red" title="Eliminar"
+                              data-comment-id="{{ comentario.id }}">
+                              <svg class="bi me-1" width="16" height="16">
+                                <use xlink:href="#trash" />
+                              </svg>
                             </a>
                             {% endif %}
                             {% if comentario.usuario_id != id %}
-                            <button class="btn btn-sm delete-comment-btn" style="color: rgb(196, 196, 196)" title="Eliminar" data-comment-id="{{ comentario.id }}">
-                              <svg class="bi me-1" width="16" height="16"><use xlink:href="#trash"/></svg>
+                            <button class="btn btn-sm delete-comment-btn" style="color: rgb(196, 196, 196)"
+                              title="Eliminar" data-comment-id="{{ comentario.id }}">
+                              <svg class="bi me-1" width="16" height="16">
+                                <use xlink:href="#trash" />
+                              </svg>
                             </button>
                             {% endif %}
                           </div>
-                          <small class="text-muted ms-auto">{{ comentario.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                          <small class="text-muted ms-auto">{{ comentario.created_at.strftime('%d/%m/%Y %H:%M')
+                            }}</small>
                         </div>
                       </div>
                     </div>
@@ -214,6 +253,10 @@
   <!-- Include Delete Confirmation Modal -->
   {% include 'modals/confirmacion_eliminacion_noticia_modal.html' %}
 
+  <!-- Include Analysis and Bias Modals -->
+  {% include 'modals/analisis_modal.html' %}
+  {% include 'modals/sesgo_modal.html' %}
+
   <!-- Include Toastr Messages Component -->
   {% include 'components/_toastr_messages.html' %}
 
@@ -234,6 +277,9 @@
 
   <!-- Script para manejar reportes de noticias -->
   <script src="{{ url_for('static', filename='js/atualizar_reports.js') }}"></script>
+
+  <!-- Script para manejar análisis y sesgo de noticias -->
+  <script src="{{ url_for('static', filename='js/analisis_sesgo.js') }}"></script>
 
 </body>
 

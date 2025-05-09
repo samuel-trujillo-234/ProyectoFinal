@@ -10,6 +10,7 @@ from flask_app.models.usuario_model import Usuario
 from flask_app.models.comentario_model import Comentario
 from flask_app.models.favorito_model import Favorito
 from flask_app.models.report_noticia_model import ReportNoticia
+import json 
 
 today = date.today()
 
@@ -23,8 +24,9 @@ class Noticia:
         self.tags = data['tags']
         self.revisada = data['revisada']
         self.keywords = data['keywords']
-        self.hechos = data['hechos']
-        self.sesgo = data['sesgo']
+        self.tipo = data ['tipo']
+        self.analisis = data['analisis']
+        self.sesgo = json.loads(data['sesgo']) if isinstance(data['sesgo'], str) else data['sesgo']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.usuario_id = data['usuario_id']
@@ -35,7 +37,7 @@ class Noticia:
     def get_all(cls):
         query = """
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
-               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
+               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.tipo AS tipo, noticias.analisis AS analisis,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
                noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
                COUNT(comentarios.id) AS comentarios_count
@@ -54,7 +56,7 @@ class Noticia:
     def get_one(cls, id):
         query = """
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
-               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
+               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.tipo AS tipo, noticias.analisis AS analisis,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
                noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
                COUNT(comentarios.id) AS comentarios_count
@@ -68,12 +70,29 @@ class Noticia:
         result = connectToMySQL().query_db(query, data)
         return cls(result[0]) if result else None
 
+    @classmethod
+    def get_latest(cls):
+        query = """
+        SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
+               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.tipo AS tipo, noticias.analisis AS analisis,
+               noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
+               noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
+               COUNT(comentarios.id) AS comentarios_count
+        FROM noticias
+        LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
+        LEFT JOIN comentarios ON noticias.id = comentarios.noticia_id
+        GROUP BY noticias.id
+        ORDER BY noticias.created_at DESC
+        LIMIT 1;
+        """
+        result = connectToMySQL().query_db(query)
+        return cls(result[0]) if result else None
 
     @classmethod
     def get_favoritas(cls):
         query = """
         SELECT noticias.id AS id, noticias.titulo AS titulo, noticias.noticia AS noticia, noticias.foto_video AS foto_video,
-               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.hechos AS hechos,
+               noticias.tags AS tags, noticias.revisada AS revisada, noticias.keywords AS keywords, noticias.tipo AS tipo, noticias.analisis AS analisis,
                noticias.sesgo AS sesgo, noticias.created_at AS created_at, noticias.updated_at AS updated_at,
                noticias.usuario_id AS usuario_id, usuarios.nombre AS nombre_usuario,
                COUNT(comentarios.id) AS comentarios_count
@@ -94,16 +113,11 @@ class Noticia:
     @classmethod
     def save(cls, data):
         query = """
-        INSERT INTO noticias (titulo, noticia, foto_video, tags, revisada, keywords, hechos, sesgo, created_at, updated_at, usuario_id)
-        VALUES (%(titulo)s, %(noticia)s, %(foto_video)s, %(tags)s, %(revisada)s, %(keywords)s, %(hechos)s, %(sesgo)s, %(created_at)s, %(updated_at)s, %(usuario_id)s);
+        INSERT INTO noticias (titulo, noticia, foto_video, tags, revisada, keywords, tipo, analisis, sesgo, created_at, updated_at, usuario_id)
+        VALUES (%(titulo)s, %(noticia)s, %(foto_video)s, %(tags)s, %(revisada)s, %(keywords)s, %(tipo)s, %(analisis)s, %(sesgo)s, NOW(), NOW(), %(usuario_id)s);
         """
-        # Añadir marca de tiempo actual para created_at y updated_at
-        data_with_dates = data.copy()
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        data_with_dates['created_at'] = current_time
-        data_with_dates['updated_at'] = current_time
-        
-        return connectToMySQL().query_db(query, data_with_dates)
+        data['sesgo'] = json.dumps(data['sesgo'])
+        return connectToMySQL().query_db(query, data)
 
     @classmethod
     def delete(cls, id):
@@ -119,10 +133,36 @@ class Noticia:
         query = """
         UPDATE noticias
         SET titulo = %(titulo)s, noticia = %(noticia)s, foto_video = %(foto_video)s, tags = %(tags)s, revisada = %(revisada)s,
-            keywords = %(keywords)s, hechos = %(hechos)s, sesgo = %(sesgo)s, updated_at = NOW()
+            keywords = %(keywords)s, tipo = %(tipo)s, analisis = %(analisis)s, sesgo = %(sesgo)s, updated_at = NOW()
+        WHERE id = %(id)s;
+        """
+        # Always convert sesgo to JSON string
+        data_copy = data.copy()
+        data_copy['sesgo'] = json.dumps(data_copy['sesgo'])
+        
+        return connectToMySQL().query_db(query, data_copy)
+
+    @classmethod
+    def update_tipo(cls, data):
+        query = """
+        UPDATE noticias
+        SET analisis = %(analisis)s, tipo = %(tipo)s, updated_at = NOW()
         WHERE id = %(id)s;
         """
         return connectToMySQL().query_db(query, data)
+
+    @classmethod
+    def update_sesgo(cls, data):
+        query = """
+        UPDATE noticias
+        SET sesgo = %(sesgo)s, updated_at = NOW()
+        WHERE id = %(id)s;
+        """
+        # Always convert sesgo to JSON string
+        data_copy = data.copy()
+        data_copy['sesgo'] = json.dumps(data_copy['sesgo'])
+        
+        return connectToMySQL().query_db(query, data_copy)
 
     @classmethod
     def check_titulo_noticia(cls, titulo, noticia_id):
@@ -148,7 +188,7 @@ class Noticia:
         if len(noticia['noticia']) <= 3:
             flash("El contenido de la noticia debe tener más de dos caracteres.", "error")
             valido = False
-        if len(noticia['noticia']) > 5000:
+        if len(noticia['noticia']) > 10000:
             flash("El tamaño máximo del contenido es de 5000 caracteres. Ajuste el texto e intente nuevamente.", "error")
             valido = False
         if Noticia.check_titulo_noticia(noticia['titulo'], noticia_id) == False:

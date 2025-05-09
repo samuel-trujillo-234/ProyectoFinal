@@ -2,14 +2,15 @@
 ## Final project
 ## Wavely
 
-from flask_app import app
+from flask import Blueprint
 from flask import render_template, request, redirect, session, jsonify
 from flask_app.models.favorito_model import Favorito
 from datetime import date
 from flask_app.utils.decoradores import login_required
 
+favoritos = Blueprint('favoritos', __name__)
 
-@app.route("/crear_favorito/<int:noticia_id>", methods=['POST'])
+@favoritos.route("/crear_favorito/<int:noticia_id>", methods=['POST'])
 @login_required
 def crear_favorito(noticia_id):
     usuario_id = session['id']
@@ -23,7 +24,7 @@ def crear_favorito(noticia_id):
     return redirect(f"/noticia/{noticia_id}")
 
 
-@app.route("/eliminar_favorito/<int:noticia_id>", methods=['POST'])
+@favoritos.route("/eliminar_favorito/<int:noticia_id>", methods=['POST'])
 @login_required
 def eliminar_favorito(noticia_id):
     usuario_id = session['id']
