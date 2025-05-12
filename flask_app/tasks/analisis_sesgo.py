@@ -109,11 +109,57 @@ def analisis_sesgo_task(noticia_id, texto, usuario_id):
     \"\"\"
     """
 
-    # 🚀 Call OpenAI through the centralized helper
-    result = call_openai_with_tool(prompt, narrative_bias_schema, "score_bias")
-
-    if "error" in result:
-        print(f"[Celery Task] Error processing submission {noticia_id}: {result['error']}")
+    retorno = False
+    max_intentos = 3
+    intentos = 0
+    
+    # Inicializar result con un valor predeterminado
+    default_result = {
+        "economic": {
+            "score": 0,
+            "label": "No determinado",
+            "confidence": 0,
+            "features": ["No se pudo analizar el sesgo económico"]
+        },
+        "cultural": {
+            "score": 0,
+            "label": "No determinado",
+            "confidence": 0,
+            "features": ["No se pudo analizar el sesgo cultural"]
+        },
+        "institutional": {
+            "score": 0,
+            "label": "No determinado",
+            "confidence": 0,
+            "features": ["No se pudo analizar el sesgo institucional"]
+        },
+        "summary": "No se pudo realizar el análisis de sesgo para este texto."
+    }
+    
+    result = {"result": default_result}
+    
+    while retorno == False and intentos < max_intentos:
+        intentos += 1
+        # 🚀 Call OpenAI through the centralized helper
+        result = call_openai_with_tool(prompt, narrative_bias_schema, "score_bias")
+        
+        if result and "error" not in result and "result" in result:
+            retorno = True
+        elif "error" in result:
+            print(f"[Celery Task] Error en intento {intentos}/{max_intentos} para submission {noticia_id}: {result['error']}")
+            # Asignar valores predeterminados cuando hay error
+            result["result"] = default_result.copy()
+            if intentos >= max_intentos:
+                print(f"[Celery Task] Se alcanzó el máximo de intentos ({max_intentos}) para submission {noticia_id}")
+                return
+        else:
+            print(f"[Celery Task] Respuesta inesperada en intento {intentos}/{max_intentos} para submission {noticia_id}")
+            # Asignar valores predeterminados cuando hay respuesta inesperada
+            result["result"] = default_result.copy()
+    
+    # Si llegamos aquí sin retorno válido después de todos los intentos
+    if not retorno:
+        print(f"[Celery Task] No se pudo obtener un resultado válido para submission {noticia_id} después de {max_intentos} intentos")
         return
 
     data = {
