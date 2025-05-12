@@ -2,9 +2,15 @@
 ## Proyecto final
 ## Wavely
 
+from flask import flash
 from flask_app.config.celery_worker import celery
 from flask_app.utils.openai_helper import call_openai_with_tool
 from flask_app.models.noticia_model import Noticia
+import sys
+import logging
+
+# Configure logging for this module
+logger = logging.getLogger(__name__)
 
 @celery.task
 def analisis_noticia_task(noticia_id, texto, usuario_id):
@@ -54,11 +60,44 @@ Texto:
 \"\"\"
 """
 
-    # 🚀 Call OpenAI through the centralized helper
-    result = call_openai_with_tool(prompt, fact_vs_opinion_schema, "assess_fact_opinion")
+    retorno = False
+    max_intentos = 3
+    intentos = 0
+    case = 0
+    
+    # Inicializar result con un valor predeterminado
+    default_result = {
+        "score": 0, 
+        "explanation": "No se pudo analizar el texto"
+    }
+    
+    result = {"result": default_result}
 
-    if "error" in result:
-        print(f"[Celery Task] Error processing submission {noticia_id}: {result['error']}")
+    # Force stdout flush to ensure prints are displayed immediately
+    sys.stdout.flush()
+
+    while retorno == False and intentos < max_intentos:
+        intentos += 1
+        result = call_openai_with_tool(prompt, fact_vs_opinion_schema, "assess_fact_opinion")
+        if result and "error" not in result and "result" in result:
+            retorno = True
+            case = 1
+        elif "error" in result:
+            logger.error(f"[Celery Task] Error en intento {intentos}/{max_intentos} para submission {noticia_id}: {result['error']}")
+            result["result"] = default_result.copy()
+            result["result"]["explanation"] = f"Error en análisis: {result.get('error', 'Error desconocido')}"
+            case = 2
+        else:            
+            logger.error(f"[Celery Task] Respuesta inesperada en intento {intentos}/{max_intentos} para submission {noticia_id}")
+            result["result"] = default_result.copy()
+            result["result"]["explanation"] = "Respuesta inesperada del servicio de análisis"
+            case = 3
+        if intentos >= max_intentos and not retorno:
+            case = 4
+            return
+    
+    if not retorno:
+        case = 5
         return
 
     assessment = result["result"]
@@ -66,7 +105,8 @@ Texto:
     data = {
         "id": noticia_id,
         "tipo": assessment["score"],
-        "analisis": assessment["explanation"]
+        "analisis": assessment["explanation"],
+        "revisada": case
     }
     
     Noticia.update_tipo(data)

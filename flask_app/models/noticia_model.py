@@ -146,7 +146,7 @@ class Noticia:
     def update_tipo(cls, data):
         query = """
         UPDATE noticias
-        SET analisis = %(analisis)s, tipo = %(tipo)s, updated_at = NOW()
+        SET analisis = %(analisis)s, tipo = %(tipo)s, revisada = %(revisada)s, updated_at = NOW()
         WHERE id = %(id)s;
         """
         return connectToMySQL().query_db(query, data)

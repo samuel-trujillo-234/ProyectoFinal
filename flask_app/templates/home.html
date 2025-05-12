@@ -40,16 +40,9 @@
 
                 <!-- Noticia Individual -->
                 <div class="card mb-4">
-                    <div class="row g-0">
-                        <div class="col-md-6">
-                            {% if noticia.foto_video %}
-                            <img src="{{ noticia.foto_video }}" class="img-fluid rounded" style="margin-top: 50px;" alt="Noticia periodismo">
-                            {% else %}
-                          <img src="{{ url_for('static', filename='img/wavely.png') }}" class="img-fluid rounded" style="margin-top: 50px;" alt="Wavely Logo">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-body">
+                    <div class="card-body">
+                        <div class="row g-0">
+                            <div class="col-12">
                                 <h2 class="card-title news-title">{{noticia.titulo}}</h2>
                                 {% if noticia.tags and noticia.tags.strip() %}
                                 <div class="mb-4">
@@ -65,14 +58,23 @@
                                     <i class="fas fa-user"></i>
                                     <span>{{noticia.nombre_usuario}}</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row g-0 mt-3">
+                            <div class="col-md-6 pe-md-3">
+                                {% if noticia.foto_video %}
+                                <img src="{{ noticia.foto_video }}" class="img-fluid rounded" alt="Noticia periodismo">
+                                {% else %}
+                                <img src="{{ url_for('static', filename='img/wavely.png') }}" class="img-fluid rounded" alt="Wavely Logo">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
                                 <p class="card-text news-content">{{noticia.noticia}}</p>
                                 <p class="card-text"><small class="text-muted news-meta">Publicado el {{
                                         noticia.created_at.strftime('%d/%m/%Y') }}</small></p>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
